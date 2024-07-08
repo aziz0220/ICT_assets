@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('asset_categories', function (Blueprint $table) {
             $table->id();
+            $table->text('category_name');
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->foreign('created_by')->references('id')->on('users');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

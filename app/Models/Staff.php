@@ -12,7 +12,7 @@ class Staff extends User
 
     public function asset()
     {
-        return $this->belongsTo(Asset::class);
+        return $this->belongsToMany(Asset::class);
     }
 
     public function office()

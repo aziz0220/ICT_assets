@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AssetController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RolesAndPermissionController;
 use Illuminate\Support\Facades\Route;
@@ -29,3 +30,18 @@ Route::get('/test', function () {
 });
 
 Route::get('/add-permission', [RolesAndPermissionController::class, 'addPermission'])->name('add.permission');
+
+
+Route::get('/assets', function() {
+    $assets = \App\Models\Asset::with('vendor')->simplePaginate(3);
+    return view('assets.index1', [
+        'assets' => $assets
+    ]);
+
+
+Route::get('/assets/{asset}/edit', [AssetController::class, 'edit'])->name('assets.edit');
+
+
+Route::resource('/asset', AssetController::class);
+Route::post('/import',[AssetController::class,'import'])->name('import');
+});

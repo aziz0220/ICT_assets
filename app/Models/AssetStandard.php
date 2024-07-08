@@ -15,4 +15,9 @@ class AssetStandard extends Model
     {
         return $this->belongsTo(AssetCategory::class);
     }
+
+    public function asset()
+    {
+        return $this->hasMany(Asset::class);
+    }
 }

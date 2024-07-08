@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('asset_standards', function (Blueprint $table) {
             $table->id();
+            $table->text('item_name');
+            $table->unsignedBigInteger('created_by')->nullable(); // User who created the asset
+            $table->foreign('created_by')->references('id')->on('users'); // Foreign key constraint
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

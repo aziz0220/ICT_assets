@@ -8,15 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Asset extends Model
 {
     use HasFactory;
-    use SoftDeletes;
+
+    public $table = 'assets';
     protected $fillable = ['asset_name', 'purchased_date','end_of_life','warrant','quantity'];
     protected $guarded = ['created_by','created_at', 'updated_at','deleted_at'];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-
-    }
     public function category()
     {
         return $this->belongsTo(AssetCategory::class);
@@ -32,6 +27,11 @@ class Asset extends Model
     public function vendor()
     {
         return $this->belongsTo(Vendor::class);
+    }
+
+    public function staff()
+    {
+        return $this->belongsToMany(Staff::class);
     }
 
 

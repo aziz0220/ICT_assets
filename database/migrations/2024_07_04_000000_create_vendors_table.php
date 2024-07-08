@@ -13,7 +13,12 @@ return new class extends Migration
     {
         Schema::create('vendors', function (Blueprint $table) {
             $table->id();
+            $table->text('vendor_name');
+            $table->integer('vendor_shortname');
+            $table->unsignedBigInteger('created_by')->nullable(); // User who created the asset
+            $table->foreign('created_by')->references('id')->on('users'); // Foreign key constraint
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

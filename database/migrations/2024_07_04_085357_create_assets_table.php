@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,15 +14,33 @@ return new class extends Migration
     {
         Schema::create('assets', function (Blueprint $table) {
             $table->id();
+            $table->string('asset_name');
+            $table->date('purchased_date');
+            $table->date('end_of_life');
+            $table->text('warrant');
+            $table->integer('quantity');
+            $table->unsignedBigInteger('vendor_id');
+            $table->foreign('vendor_id')->references('id')->on('vendors');
+            $table->unsignedBigInteger('created_by')->nullable(); // User who created the asset
+            $table->foreign('created_by')->references('id')->on('users'); // Foreign key constraint
             $table->timestamps();
+            $table->softDeletes();
         });
+//        Schema::create('asset_vendor', function (Blueprint $table) {
+//            $table->id();
+//            $table->foreignIdFor(\App\Models\Asset::class)->constrained()->cascadeOnDelete();
+//            $table->foreignIdFor(\App\Models\Vendor::class)->constrained()->cascadeOnDelete();
+//            $table->timestamps();
+//        });
     }
 
     /**
      * Reverse the migrations.
      */
+
     public function down(): void
     {
         Schema::dropIfExists('assets');
+//        Schema::dropIfExists('asset_vendor');
     }
 };
