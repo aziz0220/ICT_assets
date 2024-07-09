@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Staff extends User
 {
     use HasFactory;
-
+    protected $guard_name = "web";
 
     public function asset()
     {

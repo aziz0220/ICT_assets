@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class SystemAdmin extends Staff
 {
     use HasFactory;
-
+    protected $guard_name = "web";
     public function blockStaff ()
     {
 

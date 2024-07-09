@@ -12,21 +12,21 @@ class RolesAndPermissionController extends Controller
     //
     public function addPermission(Request $request)
     {
-        $permissions = [
-            'Request New Asset',
-            'Request Asset Change',
-            'Request Asset Problem',
-            'Request Asset Maintainance',
-            'Manage Asset Standards',
-            'Manage Asset Vendor',
-            'Register New Asset',
-            'Manage Asset Categories',
-            'Manage Asset Status',
-            'Generate Custom Report',
-            'Manage Role',
-            'Manage Permission',
-            'Block Staff'
-        ];
+    $permissions = [
+        'Request-New-Asset',
+        'Request-Asset-Change',
+        'Request-Asset-Problem',
+        'Request-Asset-Maintainance',
+        'Manage-Asset-Standards',
+        'Manage-Asset-Vendor',
+        'Register-New-Asset',
+        'Manage-Asset-Categories',
+        'Manage-Asset-Status',
+        'Generate-Custom-Report',
+        'Manage-Role',
+        'Manage-Permission',
+        'Block-Staff'
+    ];
         // $permission = Permission::create(['name' => $request->name]);
         foreach ($permissions as $permission){
             $permission = Permission::create(['name' => $permission]);

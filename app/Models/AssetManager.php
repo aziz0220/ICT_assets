@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class   AssetManager extends Staff
 {
+
+    protected $guard_name = "web";
     use HasFactory;
     public function registerNewAsset(array $data)
     {
