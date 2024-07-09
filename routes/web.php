@@ -33,15 +33,16 @@ Route::get('/add-permission', [RolesAndPermissionController::class, 'addPermissi
 
 
 Route::get('/assets', function() {
-    $assets = \App\Models\Asset::with('vendor')->simplePaginate(3);
+    $assets = \App\Models\Asset::with('vendor')->simplePaginate(10);
     return view('assets.index1', [
         'assets' => $assets
     ]);
-
-
-Route::get('/assets/{asset}/edit', [AssetController::class, 'edit'])->name('assets.edit');
-
-
-Route::resource('/asset', AssetController::class);
-Route::post('/import',[AssetController::class,'import'])->name('import');
 });
+Route::get('/asset/{asset}/', [AssetController::class, 'show'])->name('assets.show');
+Route::get('/asset/{asset}/edit/', [AssetController::class, 'edit'])->name('assets.edit');
+Route::get('/asset/{asset}/delete/', [AssetController::class, 'destroy'])->name('assets.delete');
+Route::get('/asset/new/', [AssetController::class, 'create'])->name('assets.create');
+//Route::post('/assets/', [AssetController::class, 'edit'])->name('assets.edit');
+
+Route::resource('/asset/', AssetController::class);
+Route::post('/import/',[AssetController::class,'import'])->name('import');

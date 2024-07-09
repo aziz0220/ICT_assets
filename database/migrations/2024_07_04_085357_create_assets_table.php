@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('quantity');
             $table->unsignedBigInteger('vendor_id');
             $table->foreign('vendor_id')->references('id')->on('vendors');
-            $table->unsignedBigInteger('created_by')->nullable(); // User who created the asset
+            $table->unsignedBigInteger('created_by'); // User who created the asset
             $table->foreign('created_by')->references('id')->on('users'); // Foreign key constraint
             $table->timestamps();
             $table->softDeletes();

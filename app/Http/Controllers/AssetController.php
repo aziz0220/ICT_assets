@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Asset;
+use App\Models\User;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,48 +13,54 @@ class AssetController extends Controller
 
     public function index(Request $request, $id = null)
     {
-        $assets = Asset::where('asset_no', 'LIKE', '%'.$request->search.'%')
+
+
+
+        $assets = \App\Models\Asset::with('vendor','LIKE','%'.$request->search.'%')->simplePaginate(10);
+        return view('assets.index1', [
+            'assets' => $assets
+        ]);
+
+        $assets = Asset::where('vendor', 'LIKE', '%'.$request->search.'%')
             ->orWhere('serial_no', 'LIKE', '%' .$request->search. '%')
             ->orWhere('assigned_to', 'LIKE', '%' .$request->search. '%')
             ->orWhere('location', 'LIKE', '%' .$request->search. '%')
-
             ->paginate(50);
-
-        return view('asset.index',compact('assets','depart','id','devices',));
+        return view('assets.index',compact('assets','created_by','id',));
     }
 
-    public function department(Request $request, $id)
-    {
-
-
-        $assets = Asset::where('department_id', $id)->where(function($query) use($request) {
-            $query->where('asset_no', 'LIKE', '%'.$request->search.'%')
-                ->orWhere('serial_no', 'LIKE', '%' .$request->search. '%')
-                ->orWhere('assigned_to', 'LIKE', '%' .$request->search. '%')
-                ->orWhere('location', 'LIKE', '%' .$request->search. '%');
-        })->paginate(1000);
-
-
-        return view('asset.index', compact('assets','depart','id','devices'));
-
-    }
-
-    public function device(Request $request, $id)
-    {
-        $devices = Device::all();
-        $depart = Department::all();
-
-        $assets = Asset::where('device_id', $id)->where(function($query) use($request) {
-            $query->where('asset_no', 'LIKE', '%'.$request->search.'%')
-                ->orWhere('serial_no', 'LIKE', '%' .$request->search. '%')
-                ->orWhere('assigned_to', 'LIKE', '%' .$request->search. '%')
-                ->orWhere('location', 'LIKE', '%' .$request->search. '%');
-        })->paginate(1000);
-
-
-        return view('asset.index', compact('assets','devices','id','depart'));
-
-    }
+//    public function department(Request $request, $id)
+//    {
+//
+//
+//        $assets = Asset::where('department_id', $id)->where(function($query) use($request) {
+//            $query->where('asset_no', 'LIKE', '%'.$request->search.'%')
+//                ->orWhere('serial_no', 'LIKE', '%' .$request->search. '%')
+//                ->orWhere('assigned_to', 'LIKE', '%' .$request->search. '%')
+//                ->orWhere('location', 'LIKE', '%' .$request->search. '%');
+//        })->paginate(1000);
+//
+//
+//        return view('asset.index', compact('assets','depart','id','devices'));
+//
+//    }
+//
+//    public function device(Request $request, $id)
+//    {
+//        $devices = Device::all();
+//        $depart = Department::all();
+//
+//        $assets = Asset::where('device_id', $id)->where(function($query) use($request) {
+//            $query->where('asset_no', 'LIKE', '%'.$request->search.'%')
+//                ->orWhere('serial_no', 'LIKE', '%' .$request->search. '%')
+//                ->orWhere('assigned_to', 'LIKE', '%' .$request->search. '%')
+//                ->orWhere('location', 'LIKE', '%' .$request->search. '%');
+//        })->paginate(1000);
+//
+//
+//        return view('asset.index', compact('assets','devices','id','depart'));
+//
+//    }
 
     public function downloadPdf()
     {
@@ -74,13 +81,10 @@ class AssetController extends Controller
      */
     public function create()
     {
-
-        $users = User::pluck('name', 'id');
         $vendors = Vendor::pluck('vendor_name','id');
-//        $devices = Device::pluck('device_name', 'id');
-//        $brands = Brand::pluck('brand_name', 'id');
 
-        return view('asset.create', compact('users','vendors'));
+
+        return view('assets.create', compact('vendors'));
     }
 
 
@@ -93,22 +97,21 @@ class AssetController extends Controller
      */
     public function store(Request $request)
     {
-        Asset::create([
-            'asset_no' => $request->asset_no,
-            'serial_no' => $request->serial_no,
-            'purchase_year' =>$request->purchase_year,
-            'device_id' => $request->device_id,
-            'brand_id' => $request->brand_id,
-            'assigned_to' => $request->assigned_to,
-            'department_id' => $request->department_id,
-            'location' => $request->location,
-            'updated_at' => $request->updated_at,
-            'user_id' => Auth::User()->id,
-
+        $validatedData = $request->validate([
+            'vendor_id' => 'required|integer',
         ]);
-
+        Asset::create([
+            'asset_name' => $request->asset_name,
+            'purchased_date' => $request->purchased_date,
+            'end_of_life' => $request->end_of_life,
+            'warrant' => $request->warrant,
+            'quantity' =>$request->quantity,
+            'vendor_id' => $request->vendor_id,
+            'created_by' => fake()->numberBetween(1, 100),
+//            'created_by' => Auth::User()->id,
+        ]);
         return redirect()->route('asset.index')
-            ->with('success','Data Aset Telah Disimpan.');
+            ->with('success','Asset Added Successfully.');
     }
 
     /**
@@ -119,7 +122,7 @@ class AssetController extends Controller
      */
     public function show(Asset $asset)
     {
-        return view('asset.show',compact('asset'));
+        return view('assets.show',compact('asset'));
     }
 
     /**
@@ -146,17 +149,12 @@ class AssetController extends Controller
     public function update(Request $request, Asset $asset)
     {
         $asset->update([
-            'asset_no' => $request->asset_no,
-            'serial_no' => $request->serial_no,
-            'purchase_year' =>$request->purchase_year,
-            'device_id' => $request->device_id,
-            'brand_id' => $request->brand_id,
-            'assigned_to' => $request->assigned_to,
-            'department_id' => $request->department_id,
-            'location' => $request->location,
-            'user_id' => Auth::User()->id,
-
-
+            'asset_name' => $request->asset_name,
+            'purchased_date' => $request->purchased_date,
+            'end_of_life' => $request->end_of_life,
+            'warrant' => $request->warrant,
+            'quantity' =>$request->quantity,
+            'vendor_id' => $request->vendor_id,
         ]);
 
         return redirect()->route('asset.index')
@@ -173,7 +171,7 @@ class AssetController extends Controller
     {
         $asset->delete();
 
-        return redirect()->back()->with('success','Aset Telah Dikemaskini');
+        return redirect()->back()->with('success','Asset Deleted Successfully.');
     }
 
     public function importView(Request $request){

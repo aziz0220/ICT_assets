@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-12">
 
-        <h2>Senarai Aset</h2>
+        <h2>All Assets</h2>
 
 {{--        <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data" class="form-inline">--}}
 {{--            @csrf--}}
@@ -20,8 +20,7 @@
                 <div class="card card-primary card-outline collapsed-card">
                     <div class="card-header">
                         @foreach ($assets as $t)
-
-{{--                            <h3 class="card-title">{{$t->department->deptname}}</h3>--}}
+{{--<h3 class="card-title">{{$t->department->deptname}}</h3>--}}
                             @break
                         @endforeach
 
@@ -51,11 +50,9 @@
                 <div class="card card-primary card-outline collapsed-card">
                     <div class="card-header">
                         @foreach ($assets as $t)
-
                             <h3 class="card-title">{{$t->asset_name}}</h3>
                             @break
                         @endforeach
-
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
                             </button>
@@ -94,7 +91,6 @@
 <div class="card col-md-12">
     <div class="card-header">
         <a class="btn btn-success" href="{{ route('asset.create') }}"> Tambah Inventori Asset</a>
-
         <br><br>
         <form action="" class="form-inline">
             <div class="input-group ">
@@ -131,16 +127,12 @@
                 @foreach ($assets as $t)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $t->asset_no }}</td>
-                        <td>{{ $t->serial_no }}</td>
-                        <td>{{ $t->purchase_year}}</td>
-                        <td>{{ $t->assigned_to}} </td>
-                        <td>{{ $t->device->device_name}} </td>
-                        <td>{{ $t->brand->brand_name}}</td>
-                        <td>{{ $t->department->deptname}}</td>
-                        <td>{{ $t->department->pic->name}}</td>
-                        <td>{{ $t->location}}</td>
-                        <td>{{ $t->user->name}} </td>
+                        <td>{{ $t->asset_name }}</td>
+                        <td>{{ $t->purchased_date }}</td>
+                        <td>{{ $t->end_of_life}}</td>
+                        <td>{{ $t->warrant}} </td>
+                        <td>{{ $t->vendor->vendor_name}} </td>
+                        <td>{{ $t->user->name}}</td>
                         <td>{{ $t->updated_at}}</td>
                         <td>
 {{--                            <form action="{{ route('asset.destroy',$t->id) }}" method="POST">--}}

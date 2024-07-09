@@ -10,8 +10,12 @@ class Asset extends Model
     use HasFactory;
 
     public $table = 'assets';
-    protected $fillable = ['asset_name', 'purchased_date','end_of_life','warrant','quantity'];
-    protected $guarded = ['created_by','created_at', 'updated_at','deleted_at'];
+    protected $fillable = ['asset_name', 'purchased_date','end_of_life','warrant','quantity','vendor_id','created_by'];
+    protected $guarded = [
+        'created_at',
+        'updated_at',
+        'deleted_at'
+    ];
     public function category()
     {
         return $this->belongsTo(AssetCategory::class);
@@ -24,6 +28,7 @@ class Asset extends Model
     {
         return $this->belongsTo(AssetStatus::class);
     }
+
     public function vendor()
     {
         return $this->belongsTo(Vendor::class);
@@ -34,5 +39,9 @@ class Asset extends Model
         return $this->belongsToMany(Staff::class);
     }
 
+    public function creator()
+    {
+        return $this->belongsTo(User::class,'created_by');
+    }
 
 }
