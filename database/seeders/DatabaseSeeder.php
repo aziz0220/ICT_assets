@@ -50,10 +50,22 @@ class DatabaseSeeder extends Seeder
     ];
 
     private $assetManagerPermissions = [
-        'Request-New-Asset',
         'Manage-Asset-Standards',
         'Manage-Asset-Vendor',
         'Register-New-Asset',
+        'Manage-Asset-Categories',
+        'Manage-Asset-Status',
+        'Generate-Custom-Report',
+    ];
+
+    private $executiveManagerPermissions = [
+        'Generate-Custom-Report',
+    ];
+
+    private $systemAdminPermissions = [
+        'Manage-Role',
+        'Manage-Permission',
+        'Block-Staff'
     ];
 
     /**
@@ -86,22 +98,18 @@ class DatabaseSeeder extends Seeder
 
         Vendor::factory(100)->create();
         Asset::factory(100)->create();
-        $staff = Staff::factory(15)->create();
-        foreach ($staff as $staffMember) {
-            $staffMember->assignRole($staffRole);
-        }
+
         $assetManagers = AssetManager::factory(2)->create();
         foreach ($assetManagers as $assetManager) {
             $assetManager->assignRole($assetManagerRole);
         }
-
+        $staff = Staff::factory(15)->create();
+        foreach ($staff as $staffMember) {
+            $staffMember->assignRole($staffRole);
+        }
         AssetStatus::factory(5)->create();
         AssetStandard::factory(20)->create();
         AssetCategory::factory(40)->create();
 
-
-
-//        $staff->assignRole($staffRole);
-//        $asset_manager->assignRole($assetManagerRole);
     }
 }

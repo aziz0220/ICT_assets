@@ -10,6 +10,8 @@ class Staff extends User
     use HasFactory;
     protected $guard_name = "web";
 
+    public $table = 'staff';
+
     public function asset()
     {
         return $this->belongsToMany(Asset::class);

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class   AssetManager extends Staff
 {
-
+    public $table = 'asset_managers';
     protected $guard_name = "web";
     use HasFactory;
     public function registerNewAsset(array $data)
@@ -17,7 +17,6 @@ class   AssetManager extends Staff
             'asset_name' => $data['asset_name'],
             'purchased_date' => $data['purchased_date'],
             'end_of_life' => $data['end_of_life'],
-
             'category_id' => $data['category_id'],
             'standard_id' => $data['standard_id'],
             'status_id' => $data['status_id'],

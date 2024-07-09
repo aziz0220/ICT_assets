@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class SystemAdmin extends Staff
 {
     use HasFactory;
+
+    public $table = 'system_admins';
     protected $guard_name = "web";
     public function blockStaff ()
     {
