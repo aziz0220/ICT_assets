@@ -26,6 +26,13 @@ use Spatie\Permission\PermissionRegistrar;
 class DatabaseSeeder extends Seeder
 {
 
+    private $roles = [
+        'Staff',
+        'Asset Manager',
+        'System Admin',
+        'Executive Manager',
+        'Super-Admin'
+    ];
     private $permissions = [
         'Request-New-Asset',
         'Request-Asset-Change',
@@ -68,48 +75,73 @@ class DatabaseSeeder extends Seeder
         'Block-Staff'
     ];
 
+
+
     /**
      * Seed the application's database.
      */
     public function run(): void
     {
-
+        //Reset Permissions
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
         foreach ($this->permissions as $permissionName) {
             Permission::create(['name' => $permissionName]);
         }
 
-        // User::factory(10)->create();
 
-//        User::factory()->create([
-//            'name' => 'Test User',
-//            'email' => 'test@example.com',
+        // ADMIN account
+//        $admin=User::create([
+//            'name' => 'aziz0220',
+//            'email' => 'benamoraziz0220@gmail.com',
+//            'password' => bcrypt('password')
 //        ]);
-        $staffRole = Role::create(['name' => 'Staff']);
-        $staffRole->syncPermissions($this->staffPermissions);
+        $admin = \App\Models\User::factory()->create([
+            'name' => 'admin',
+            'email' => 'admin@example.com',
+            'password' => bcrypt('password')
+        ]);
 
-        $assetManagerRole = Role::create(['name' => 'Asset Manager']);
-        $assetManagerRole->syncPermissions($this->assetManagerPermissions);
-
-        $systemAdminRole = Role::create(['name' => 'System Admin']);
-
-
-        $executiveRole = Role::create(['name' => 'Executive Manager']);
-
+        // Database Seeding
         Vendor::factory(100)->create();
         Asset::factory(100)->create();
-
         $assetManagers = AssetManager::factory(2)->create();
-        foreach ($assetManagers as $assetManager) {
-            $assetManager->assignRole($assetManagerRole);
-        }
-        $staff = Staff::factory(15)->create();
-        foreach ($staff as $staffMember) {
-            $staffMember->assignRole($staffRole);
-        }
         AssetStatus::factory(5)->create();
         AssetStandard::factory(20)->create();
         AssetCategory::factory(40)->create();
+        $staff = Staff::factory(15)->create();
+
+
+        //Creating Roles:
+        $staffRole = Role::create(['name' => 'Staff']);
+        $assetManagerRole = Role::create(['name' => 'Asset Manager']);
+        $systemAdminRole = Role::create(['name' => 'System Admin']);
+        $executiveRole = Role::create(['name' => 'Executive Manager']);
+
+        //Assigning Roles:
+
+
+        foreach ($assetManagers as $assetManager) {
+            $assetManager->assignRole($assetManagerRole);
+        }
+
+        foreach ($staff as $staffMember) {
+            $staffMember->assignRole($staffRole);
+        }
+
+
+        //Sync Permissions to Roles
+        $staffRole->syncPermissions($this->staffPermissions);
+        $assetManagerRole->syncPermissions($this->assetManagerPermissions);
+        $systemAdminRole->syncPermissions($this->systemAdminPermissions);
+
+//        Permission::create(['name' => 'assign roles']);
+//        $role3 = Role::create(['name' => 'Super-Admin']);
+//        $role3->givePermissionTo('assign roles');
+
+//        $admin->hasAllPermissions($this->permissions);
+
+        $admin->assignRole($staffRole);
+
 
     }
 }

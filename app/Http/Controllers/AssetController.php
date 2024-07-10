@@ -22,15 +22,15 @@ class AssetController extends Controller
 //        'Register-New-Asset',
 //        'Manage-Asset-Categories',
 //        'Manage-Asset-Status',
-        $this->middleware(['permission:asset-list|asset-create|asset-edit|asset-delete'], ['only' => ['index', 'show']]);
-        $this->middleware(['permission:asset-create'], ['only' => ['create', 'store']]);
-        $this->middleware(['permission:asset-edit'], ['only' => ['edit', 'update']]);
-        $this->middleware(['permission:asset-delete'], ['only' => ['destroy']]);
+//        $this->middleware(['permission:asset-list|asset-create|asset-edit|asset-delete'], ['only' => ['index', 'show']]);
+        $this->middleware(['permission:Request-New-Asset'], ['only' => ['create', 'store']]);
+        $this->middleware(['permission:Request-Asset-Change'], ['only' => ['edit', 'update']]);
+//        $this->middleware(['permission:asset-delete'], ['only' => ['destroy']]);
     }
 
     public function index(Request $request, $id = null)
     {
-        $assets = Asset::latest()->paginate(50);
+        $assets = Asset::with('vendor')->latest()->paginate(50);
         return view('assets.index', compact('assets'));
 
 
@@ -191,8 +191,6 @@ class AssetController extends Controller
     {
         $asset->delete();
 
-//        return redirect()->route('assets.index')
-//            ->with('success', 'Product deleted successfully');
         return redirect()->back()->with('success','Asset Deleted Successfully.');
     }
 
