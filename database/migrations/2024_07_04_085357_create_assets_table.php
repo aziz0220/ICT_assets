@@ -21,6 +21,12 @@ return new class extends Migration
             $table->integer('quantity');
             $table->unsignedBigInteger('vendor_id');
             $table->foreign('vendor_id')->references('id')->on('vendors');
+            $table->unsignedBigInteger('category_id');
+            $table->foreign('category_id')->references('id')->on('asset_categories');
+            $table->unsignedBigInteger('status_id');
+            $table->foreign('status_id')->references('id')->on('asset_statuses');
+            $table->unsignedBigInteger('standard_id');
+            $table->foreign('standard_id')->references('id')->on('asset_standards');
             $table->unsignedBigInteger('created_by'); // User who created the asset
             $table->foreign('created_by')->references('id')->on('users'); // Foreign key constraint
             $table->timestamps();

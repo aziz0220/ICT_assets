@@ -4,13 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Asset extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     public $table = 'assets';
-    protected $fillable = ['asset_name', 'purchased_date','end_of_life','warrant','quantity','vendor_id','created_by'];
+    protected $fillable = ['asset_name', 'purchased_date','end_of_life','warrant','quantity','vendor_id','status_id','category_id','standard_id','created_by'];
     protected $guarded = [
         'created_at',
         'updated_at',

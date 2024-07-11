@@ -14,8 +14,7 @@ class AssetStandardController extends Controller
      */
     public function index()
     {
-        $assetStandards = AssetStandard::all(); // Fetch all asset standards
-
+        $assetStandards = AssetStandard::with('category')->latest()->paginate(50);
         return view('assetStandards.index', compact('assetStandards')); // Pass data to view
     }
 

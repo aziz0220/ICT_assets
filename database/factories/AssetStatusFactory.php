@@ -7,7 +7,8 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 
-class AssetStatusFactory extends Factory{
+class
+AssetStatusFactory extends Factory{
     protected $model = AssetStatus::class;
 
     public function definition(): array

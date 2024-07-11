@@ -25,7 +25,11 @@ class AssetFactory extends Factory
             'warrant' => fake()->text(10),
             'quantity' => fake()->numberBetween(0, 100),
             'vendor_id' => fake()->numberBetween(1, 100),
-            'created_by' => User::factory(),
+            'category_id' => fake()->numberBetween(1, 10),
+            'status_id' => fake()->numberBetween(1, 5),
+            'standard_id' => fake()->numberBetween(1, 10),
+//            'created_by' => User::factory(),
+            'created_by' => $this->faker->randomElement(User::pluck('id')->toArray()),
         ];
     }
 }

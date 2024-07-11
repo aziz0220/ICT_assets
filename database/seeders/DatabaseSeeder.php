@@ -98,11 +98,11 @@ class DatabaseSeeder extends Seeder
 
         // Database Seeding
         Vendor::factory(100)->create();
+        AssetStatus::factory(5)->create();
+        AssetCategory::factory(40)->create();
+        AssetStandard::factory(20)->create();
         Asset::factory(100)->create();
         $assetManagers = AssetManager::factory(2)->create();
-        AssetStatus::factory(5)->create();
-        AssetStandard::factory(20)->create();
-        AssetCategory::factory(40)->create();
         $staff = Staff::factory(15)->create();
 
 

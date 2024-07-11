@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\AssetStatus;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class AssetStatusController extends Controller
@@ -47,8 +48,10 @@ class AssetStatusController extends Controller
                 ->withInput();
         }
 
-        $assetStatus = AssetStatus::create($request->all());
-
+        $assetStatus = AssetStatus::create([
+            'status_name' => $request->status_name,
+            'created_by' => Auth::id()
+        ]);
         return redirect()->route('asset-status.index')
             ->with('success', 'Asset Status created successfully!');
     }
@@ -86,7 +89,6 @@ class AssetStatusController extends Controller
      */
     public function update(Request $request, string $id)
     {
-//        \Log::info(print_r($request->all(), true));
         $validator = Validator::make($request->all(), [
             'status_name' => 'required|string|max:255|unique:asset_statuses,status_name,'.$id, // Unique validation excluding self
         ]);
@@ -98,11 +100,26 @@ class AssetStatusController extends Controller
         }
 
         $assetStatus = AssetStatus::findOrFail($id);
-        $assetStatus->update($request->all());
-
+        $assetStatus->update(
+            [
+                'status_name' => $request->status_name,
+            ]
+        );
         return redirect()->route('asset-status.index')
             ->with('success', 'Asset Status updated successfully!');
     }
+
+//    public function softDelete(string $id)
+//    {
+//        $assetStatus = AssetStatus::findOrFail($id);
+//        if ($assetStatus->asset->count() > 0) {
+//            return redirect()->route('asset-status.index')
+//                ->with('error', 'Cannot delete asset status with associated assets');
+//        }
+////        $assetStatus->soft
+//        return redirect()->route('asset-status.index')
+//            ->with('success', 'Asset Status soft deleted successfully!');
+//    }
 
     /**
      * Remove the specified asset status from storage.

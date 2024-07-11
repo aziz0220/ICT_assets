@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('asset_standards', function (Blueprint $table) {
             $table->id();
             $table->text('item_name');
+            $table->unsignedBigInteger('category_id')->nullable();
+            $table->foreign('category_id')->references('id')->on('asset_categories');
             $table->unsignedBigInteger('created_by')->nullable(); // User who created the asset
             $table->foreign('created_by')->references('id')->on('users'); // Foreign key constraint
             $table->timestamps();

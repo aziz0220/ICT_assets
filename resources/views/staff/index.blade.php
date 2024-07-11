@@ -1,4 +1,10 @@
-<h1>Staff List</h1>
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Staff List') }}
+        </h2>
+    </x-slot>
+
 
 @if (session('success'))
     <div class="alert alert-success" role="alert">
@@ -37,3 +43,4 @@
 </table>
 
 <a href="{{ route('staff.create') }}" class="btn btn-success">Add Staff Member</a>
+</x-app-layout>
