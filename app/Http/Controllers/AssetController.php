@@ -3,29 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Models\Asset;
+use App\Models\AssetStatus;
 use App\Models\User;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Vtiful\Kernel\Excel;
 
 class AssetController extends Controller
 {
 
     function __construct()
     {
-//        'Request-New-Asset',
-//        'Request-Asset-Change',
 //        'Request-Asset-Problem',
 //        'Request-Asset-Maintainance',
 //        'Manage-Asset-Standards',
 //        'Manage-Asset-Vendor',
-//        'Register-New-Asset',
 //        'Manage-Asset-Categories',
 //        'Manage-Asset-Status',
-//        $this->middleware(['permission:asset-list|asset-create|asset-edit|asset-delete'], ['only' => ['index', 'show']]);
-        $this->middleware(['permission:Request-New-Asset'], ['only' => ['create', 'store']]);
-        $this->middleware(['permission:Request-Asset-Change'], ['only' => ['edit', 'update']]);
-//        $this->middleware(['permission:asset-delete'], ['only' => ['destroy']]);
+//        $this->middleware(['permission:Register-New-Asset|asset-edit|Remove-Registered-Asset|Request-New-Asset|Request-Asset-Change|Request-Asset-Problem|Request-Asset-Maintainance'], ['only' => ['index', 'show']]);
+        $this->middleware(['permission:Request-New-Asset'], ['only' => ['create']]);
+        $this->middleware(['permission:Register-New-Asset'], ['only' => ['create', 'store']]);
+        $this->middleware(['permission:Request-Asset-Change'], ['only' => ['edit']]);
+        $this->middleware(['permission:Update-Asset-details'], ['only' => ['edit', 'update']]);
+        $this->middleware(['permission:Remove-Registered-Asset'], ['only' => ['destroy']]);
     }
 
     public function index(Request $request, $id = null)
@@ -82,7 +83,6 @@ class AssetController extends Controller
 
     public function downloadPdf()
     {
-
         $url = explode('/', url()->current());
         $id = end($url);
 
@@ -100,8 +100,6 @@ class AssetController extends Controller
     public function create()
     {
         $vendors = Vendor::pluck('vendor_name','id');
-
-
         return view('assets.create', compact('vendors'));
     }
 
@@ -178,7 +176,7 @@ class AssetController extends Controller
         $asset->update($request->all());
 
         return redirect()->route('asset.index')
-            ->with('success','Data Aset Telah Disimpan.');
+            ->with('success','Asset updated successfully.');
     }
 
     /**
@@ -207,4 +205,110 @@ class AssetController extends Controller
         return Excel::download(new ExportAsset, 'assets.xlsx');
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function registerNewAsset(array $data)
+    {
+
+        $asset = Asset::create([
+            'asset_name' => $data['asset_name'],
+            'purchased_date' => $data['purchased_date'],
+            'end_of_life' => $data['end_of_life'],
+            'category_id' => $data['category_id'],
+            'standard_id' => $data['standard_id'],
+            'status_id' => $data['status_id'],
+            'vendor_id' => $data['vendor_id'],
+        ]);
+
+        return $asset;
+    }
+
+    public function updateAssetDetails(Asset $asset, array $data)
+    {
+        // Validate data (omitted for brevity)
+
+        $asset->update($data);
+
+        return $asset;
+    }
+
+    public function removeRegisteredAsset(Asset $asset)
+    {
+        // Handle asset removal logic (e.g., soft delete, permanent delete)
+        $asset->delete();
+        return true; // Or appropriate success/failure response
+    }
+
+    public function manageAssetStatus(Asset $asset, string $newStatus)
+    {
+        $status = AssetStatus::where('status_name', $newStatus)->first();
+
+        if (!$status) {
+            throw new \Exception("Invalid asset status: $newStatus");
+        }
+
+        $asset->status()->associate($status);
+        $asset->save();
+
+        return $asset;
+    }
+
+    public function manageAssetStandard(Asset $asset, string $newStandard)
+    {
+        $status = AssetStatus::where('status_name', $newStandard)->first();
+        if (!$status) {
+            throw new \Exception("Invalid asset standard: $newStandard");
+        }
+        $asset->status()->associate($status);
+        $asset->save();
+        return $asset;
+    }
+
+    public function manageAssetCategories(Asset $asset, string $newStandard)
+    {
+        $status = AssetStatus::where('status_name', $newStandard)->first();
+        if (!$status) {
+            throw new \Exception("Invalid asset standard: $newStandard");
+        }
+        $asset->status()->associate($status);
+        $asset->save();
+        return $asset;
+    }
+
+    public function manageAssetVendor(Asset $asset, Vendor $newVendor)
+    {
+        $asset->save();
+        return $asset;
+    }
+
+    public function assignAssetToStaff()
+    {
+    }
+
+    public function generateCustomReport(){
+
+
+    }
 }

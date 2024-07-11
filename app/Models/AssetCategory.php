@@ -9,8 +9,8 @@ class AssetCategory extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['category_name'];
-    protected $guarded = ['created_by','created_at', 'updated_at','deleted_at'];
+    protected $fillable = ['category_name','created_by'];
+    protected $guarded = ['created_at', 'updated_at','deleted_at'];
 
     public function asset(): HasMany
     {

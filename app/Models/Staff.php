@@ -21,17 +21,5 @@ class Staff extends User
     {
         return $this->belongsTo(Office::class);
     }
-    public function requestAssetChange(){
 
-    }
-
-    public function reportAssetProblem(){
-
-    }
-    public function requestAssetMaintainance(){
-
-    }
-    public function requestNewAsset(){
-
-    }
 }

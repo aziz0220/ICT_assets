@@ -9,8 +9,4 @@ class ExecutiveManagement extends Staff
 {
     use HasFactory;
 
-    public function generateCustomReport()
-    {
-
-    }
 }

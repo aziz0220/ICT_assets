@@ -27,7 +27,6 @@ class RolesAndPermissionController extends Controller
         'Manage-Permission',
         'Block-Staff'
     ];
-        // $permission = Permission::create(['name' => $request->name]);
         foreach ($permissions as $permission){
             $permission = Permission::create(['name' => $permission]);
         }

@@ -6,7 +6,7 @@
             <div class="pull-left">
                 <h2>Assets
                     <div class="float-end">
-                        @can('asset-create')
+                        @can('Register-New-Asset')
                             <a class="btn btn-success" href="{{ route('asset.create') }}"> Create New Asset</a>
                         @endcan
                     </div>
@@ -42,13 +42,13 @@
                 <td>
                     <form action="{{ route('asset.destroy',$asset->id) }}" method="POST">
                         <a class="btn btn-info" href="{{ route('asset.show',$asset->id) }}">Show</a>
-                        @can('asset-edit')
+                        @can('Update-Asset-details')
                             <a class="btn btn-primary" href="{{ route('asset.edit',$asset->id) }}">Edit</a>
                         @endcan
 
                         @csrf
                         @method('DELETE')
-                        @can('asset-delete')
+                        @can('Remove-Registered-Asset')
                             <button type="submit" class="btn btn-danger">Delete</button>
                         @endcan
                     </form>

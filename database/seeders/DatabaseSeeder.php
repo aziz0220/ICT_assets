@@ -26,13 +26,13 @@ use Spatie\Permission\PermissionRegistrar;
 class DatabaseSeeder extends Seeder
 {
 
-    private $roles = [
-        'Staff',
-        'Asset Manager',
-        'System Admin',
-        'Executive Manager',
-        'Super-Admin'
-    ];
+//    private $roles = [
+//        'Staff',
+//        'Asset Manager',
+//        'System Admin',
+//        'Executive Manager',
+//        'Super-Admin'
+//    ];
     private $permissions = [
         'Request-New-Asset',
         'Request-Asset-Change',
@@ -55,7 +55,6 @@ class DatabaseSeeder extends Seeder
         'Request-Asset-Problem',
         'Request-Asset-Maintainance',
     ];
-
     private $assetManagerPermissions = [
         'Manage-Asset-Standards',
         'Manage-Asset-Vendor',
@@ -64,18 +63,14 @@ class DatabaseSeeder extends Seeder
         'Manage-Asset-Status',
         'Generate-Custom-Report',
     ];
-
     private $executiveManagerPermissions = [
         'Generate-Custom-Report',
     ];
-
     private $systemAdminPermissions = [
         'Manage-Role',
         'Manage-Permission',
         'Block-Staff'
     ];
-
-
 
     /**
      * Seed the application's database.

@@ -11,24 +11,4 @@ class SystemAdmin extends Staff
 
     public $table = 'system_admins';
     protected $guard_name = "web";
-    public function blockStaff ()
-    {
-
-    }
-
-    public function unblockStaff (){
-
-    }
-
-    public function manageRoles(){
-
-    }
-
-    public function managePermissions()
-    {
-
-    }
-//    public function assignRole(){
-//
-//    }
 }
