@@ -13,6 +13,13 @@ class Staff extends User
 
     public $table = 'staff';
 
+    public $fillable = [
+        'name',
+        'email',
+        'password',
+        'office_id',
+    ];
+
     public function asset()
     {
         return $this->belongsToMany(Asset::class);

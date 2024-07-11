@@ -28,7 +28,6 @@ class AssetFactory extends Factory
             'category_id' => fake()->numberBetween(1, 10),
             'status_id' => fake()->numberBetween(1, 5),
             'standard_id' => fake()->numberBetween(1, 10),
-//            'created_by' => User::factory(),
             'created_by' => $this->faker->randomElement(User::pluck('id')->toArray()),
         ];
     }

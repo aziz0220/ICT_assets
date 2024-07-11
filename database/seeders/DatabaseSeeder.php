@@ -7,6 +7,7 @@ use App\Models\AssetCategory;
 use App\Models\AssetManager;
 use App\Models\AssetStandard;
 use App\Models\AssetStatus;
+use App\Models\Office;
 use App\Models\Staff;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -102,6 +103,7 @@ class DatabaseSeeder extends Seeder
         AssetCategory::factory(40)->create();
         AssetStandard::factory(20)->create();
         Asset::factory(100)->create();
+        Office::factory(10)->create();
         $assetManagers = AssetManager::factory(2)->create();
         $staff = Staff::factory(15)->create();
 

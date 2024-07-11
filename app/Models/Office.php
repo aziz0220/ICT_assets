@@ -10,9 +10,9 @@ class Office extends Model
     use HasFactory;
 
 
-    protected $fillable = [];
+    protected $fillable = ['name', 'location'];
     public function staff()
     {
-        return $this->hasMany(Asset::class);
+        return $this->hasMany(Staff::class, 'office_id');
     }
 }
