@@ -45,7 +45,7 @@ class VendorController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->route('vendors.create')
+            return redirect()->route('vendor.create')
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -57,7 +57,7 @@ class VendorController extends Controller
 
         $vendor->save();
 
-        return redirect()->route('vendors.index')
+        return redirect()->route('vendor.index')
             ->with('success', 'Vendor created successfully!');
     }
 
@@ -100,7 +100,7 @@ class VendorController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->route('vendors.edit', $id)
+            return redirect()->route('vendor.edit', $id)
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -111,7 +111,7 @@ class VendorController extends Controller
 
         $vendor->save();
 
-        return redirect()->route('vendors.index')
+        return redirect()->route('vendor.index')
             ->with('success', 'Vendor updated successfully!');
     }
 
@@ -126,7 +126,7 @@ class VendorController extends Controller
         $vendor = Vendor::findOrFail($id);
         $vendor->delete();
 
-        return redirect()->route('vendors.index')
+        return redirect()->route('vendor.index')
             ->with('success', 'Vendor deleted successfully!');
     }
 }

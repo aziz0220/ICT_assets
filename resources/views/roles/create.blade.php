@@ -1,12 +1,17 @@
-@extends('layouts.master')
+<x-app-layout>
 
-@section('content')
+
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Create New Role') }}
+        </h2>
+    </x-slot>
     <div class="row">
         <div class="col-lg-12 margin-tb mb-4">
             <div class="pull-left">
-                <h2>Create New Role
+                <h2>
                     <div class="float-end">
-                        <a class="btn btn-primary" href="{{ route('roles.index') }}"> Back</a>
+                        <a class="btn btn-primary" href="{{ route('role.index') }}"> Back</a>
                     </div>
                 </h2>
             </div>
@@ -24,7 +29,7 @@
         </div>
     @endif
 
-    <form action="{{ route('roles.store') }}" method="POST">
+    <form action="{{ route('role.store') }}" method="POST">
         @csrf
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
@@ -50,4 +55,4 @@
             </div>
         </div>
     </form>
-@endsection
+</x-app-layout>

@@ -1,13 +1,17 @@
-@extends('layouts.master')
+<x-app-layout>
 
-@section('content')
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Role Management') }}
+        </h2>
+    </x-slot>
     <div class="row">
         <div class="col-lg-12 margin-tb mb-4">
             <div class="pull-left">
-                <h2>Role Management
+                <h2>
                     <div class="float-end">
-                        @can('role-create')
-                            <a class="btn btn-success" href="{{ route('roles.create') }}"> Create New Role</a>
+                        @can('Manage-Role')
+                            <a class="btn btn-success" href="{{ route('role.create') }}"> Create New Role</a>
                         @endcan
                     </div>
                 </h2>
@@ -30,10 +34,10 @@
             <tr>
                 <td>{{ $role->name }}</td>
                 <td>
-                    <form action="{{ route('roles.destroy', $role->id) }}" method="POST">
-                        <a class="btn btn-info" href="{{ route('roles.show', $role->id) }}">Show</a>
+                    <form action="{{ route('role.destroy', $role->id) }}" method="POST">
+                        <a class="btn btn-info" href="{{ route('role.show', $role->id) }}">Show</a>
                         @can('role-edit')
-                            <a class="btn btn-primary" href="{{ route('roles.edit', $role->id) }}">Edit</a>
+                            <a class="btn btn-primary" href="{{ route('role.edit', $role->id) }}">Edit</a>
                         @endcan
 
 
@@ -49,4 +53,4 @@
     </table>
 
     {!! $roles->render() !!}
-@endsection
+</x-app-layout>>

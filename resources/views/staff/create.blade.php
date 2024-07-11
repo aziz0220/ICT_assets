@@ -1,4 +1,10 @@
-<h1>Create Staff Member</h1>
+<x-app-layout>
+
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Create Staff Member') }}
+        </h2>
+    </x-slot>
 
 @if ($errors->any())
     <div class="alert alert-danger" role="alert">
@@ -21,6 +27,15 @@
         <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}">
     </div>
     <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" name="password" class="form-control" placeholder="Password">
+    </div>
+    <div class="form-group">
+        <label for="password">Confirm Password</label>
+        <input type="password" class="form-control" name="confirm-password" placeholder="Confirm Password">
+    </div>
+
+    <div class="form-group">
         <label for="office_id">Office</label>
         <select class="form-control" id="office_id" name="office_id">
             @foreach ($offices as $office) <option value="{{ $office->id }}">{{ $office->name }}</option>
@@ -29,3 +44,4 @@
     </div>
     <button type="submit" class="btn btn-primary">Create Staff Member</button>
 </form>
+</x-app-layout>

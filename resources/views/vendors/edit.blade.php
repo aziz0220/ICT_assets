@@ -1,7 +1,10 @@
-@extends('layouts.app')
+<x-app-layout>
 
-@section('content')
-    <h1>Edit Vendor</h1>
+        <x-slot name="header">
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                {{ __('Edit Vendor') }}
+            </h2>
+        </x-slot>
 
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -13,7 +16,7 @@
         </div>
     @endif
 
-    <form action="{{ route('vendors.update', $vendor->id) }}" method="POST">
+    <form action="{{ route('vendor.update', $vendor->id) }}" method="POST">
         @csrf
         @method('PUT')  <div class="form-group">
             <label for="vendor_name">Vendor Name</label>
@@ -27,5 +30,4 @@
 
         <button type="submit" class="btn btn-primary">Update Vendor</button>
     </form>
-
-@endsection
+</x-app-layout>>

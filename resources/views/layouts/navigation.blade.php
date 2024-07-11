@@ -24,7 +24,9 @@
                     <x-nav-link :href="route('vendor.index')" :active="request()->routeIs('vendor.index')">
                         {{ __('Vendors') }}
                     </x-nav-link>
-
+                    <x-nav-link :href="route('role.index')" :active="request()->routeIs('role.index')">
+                        {{ __('Roles') }}
+                    </x-nav-link>
                 </div>
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
                     <x-dropdown align="right" width="48">
@@ -56,10 +58,10 @@
                         </x-slot>
                     </x-dropdown>
                 </div>
-            </div>
 
 
 
+        </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">

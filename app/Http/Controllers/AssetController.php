@@ -226,7 +226,35 @@ class AssetController extends Controller
 
 
 
+    // Additional Asset functionalities
 
+    public function requestAssetChange()
+    {
+        // Implement logic for staff to request asset change
+        // This might involve a form, interaction with the Asset model, etc.
+        return view('staff.requestAssetChange'); // Assuming a request asset change view
+    }
+
+    public function reportAssetProblem()
+    {
+        // Implement logic for staff to report asset problem
+        // This might involve a form, interaction with the Asset model, etc.
+        return view('staff.reportAssetProblem'); // Assuming a report asset problem view
+    }
+
+    public function requestAssetMaintainance()
+    {
+        // Implement logic for staff to request asset maintenance
+        // This might involve a form, interaction with the Asset model, etc.
+        return view('staff.requestAssetMaintainance'); // Assuming a request asset maintenance view
+    }
+
+    public function requestNewAsset()
+    {
+        // Implement logic for staff to request new asset
+        // This might involve a form, interaction with the Asset model, etc.
+        return view('staff.requestNewAsset'); // Assuming a request new asset view
+    }
 
 
     public function registerNewAsset(array $data)

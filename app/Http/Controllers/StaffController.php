@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Office;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Staff;
-use App\Http\Requests\StaffRequest; // Import StaffRequest for validation (optional)
+use App\Http\Requests\StaffRequest;
+use Illuminate\Support\Facades\Hash;
 
 class StaffController extends Controller
 {
@@ -25,8 +28,8 @@ class StaffController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return view('staff.create'); // Assuming a staff create view
+    {          $offices = Office::all();
+        return view('staff.create', compact('offices')); // Assuming a staff create view
     }
 
     /**
@@ -35,9 +38,19 @@ class StaffController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StaffRequest $request) // Use StaffRequest for validation
+    public function store(Request $request)
     {
-        $staff = Staff::create($request->validated()); // Use validated data
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|same:confirm-password',
+            'office_id' => 'required|integer',
+        ]);
+        $input = $request->all();
+        $input['password'] = Hash::make($input['password']);
+
+        $staff = Staff::create($input);
+//        $user->assignRole('Staff');
         return redirect()->route('staff.index')
             ->with('success', 'Staff member created successfully!');
     }
@@ -63,7 +76,8 @@ class StaffController extends Controller
     public function edit(int $id)
     {
         $staff = Staff::findOrFail($id);
-        return view('staff.edit', compact('staff')); // Assuming a staff edit view
+        $offices = Office::all();
+        return view('staff.edit', compact('staff','offices')); // Assuming a staff edit view
     }
 
     /**
@@ -73,10 +87,20 @@ class StaffController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StaffRequest $request, int $id) // Use StaffRequest for validation
+    public function update(
+//      StaffRequest $request,
+        int $id ,// Use StaffRequest for validation
+        Request $request
+    )
     {
         $staff = Staff::findOrFail($id);
-        $staff->update($request->validated()); // Use validated data
+//        $staff->update($request->validated()); // Use validated data
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'office_id' => 'required|integer',
+        ]);
+        $staff->update($validatedData);
         return redirect()->route('staff.index')
             ->with('success', 'Staff member updated successfully!');
     }
@@ -95,33 +119,13 @@ class StaffController extends Controller
             ->with('success', 'Staff member deleted successfully!');
     }
 
-    // Additional staff functionalities
+    public function blockStaff(){
 
-    public function requestAssetChange()
-    {
-        // Implement logic for staff to request asset change
-        // This might involve a form, interaction with the Asset model, etc.
-        return view('staff.requestAssetChange'); // Assuming a request asset change view
     }
 
-    public function reportAssetProblem()
-    {
-        // Implement logic for staff to report asset problem
-        // This might involve a form, interaction with the Asset model, etc.
-        return view('staff.reportAssetProblem'); // Assuming a report asset problem view
+    public function unblockStaff(){
+
     }
 
-    public function requestAssetMaintainance()
-    {
-        // Implement logic for staff to request asset maintenance
-        // This might involve a form, interaction with the Asset model, etc.
-        return view('staff.requestAssetMaintainance'); // Assuming a request asset maintenance view
-    }
 
-    public function requestNewAsset()
-    {
-        // Implement logic for staff to request new asset
-        // This might involve a form, interaction with the Asset model, etc.
-        return view('staff.requestNewAsset'); // Assuming a request new asset view
-    }
 }

@@ -1,7 +1,10 @@
-@extends('layouts.app')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Vendor Details') }}
+        </h2>
+    </x-slot>
 
-@section('content')
-    <h1>Vendor Details</h1>
 
     <p><strong>Vendor Name:</strong> {{ $vendor->vendor_name }}</p>
     <p><strong>Short Name:</strong> {{ $vendor->vendor_shortname }}</p>
@@ -16,4 +19,4 @@
         <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this vendor?')">Delete</button>
     </form>
     @endcan
-@endsection
+</x-app-layout>>

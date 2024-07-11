@@ -1,4 +1,10 @@
-<h1>Staff Member Details</h1>
+<x-app-layout>
+
+<x-slot name="header">
+    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        {{ __('Staff Member Details') }}
+    </h2>
+</x-slot>
 
 <p>Name: {{ $staff->name }}</p>
 <p>Email: {{ $staff->email }}</p>
@@ -10,3 +16,4 @@
     <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this staff member?')">Delete</button>
 </form>
 @endif
+</x-app-layout>

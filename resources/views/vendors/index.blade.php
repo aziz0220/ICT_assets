@@ -1,7 +1,10 @@
-@extends('layouts.app')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Vendors') }}
+        </h2>
+    </x-slot>
 
-@section('content')
-    <h1>Vendors</h1>
 
     @if (session('success'))
         <div class="alert alert-success" role="alert">
@@ -40,5 +43,4 @@
     </table>
 
     <a href="{{ route('vendor.create') }}" class="btn btn-primary">Create New Vendor</a>
-
-@endsection
+</x-app-layout>>

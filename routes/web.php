@@ -22,16 +22,27 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::middleware(['role_or_permission:Staff'])->group(function () {
+    Route::middleware(['role_or_permission:Asset Manager'])->group(function () {
         Route::resource('/asset', AssetController::class);
-        Route::resource('/role',RoleController::class);
         Route::resource('/asset-category',AssetCategoryController::class);
         Route::resource('/asset-standard', AssetStandardController::class);
         Route::resource('/asset-status',AssetStatusController::class);
         Route::resource('/vendor',\App\Http\Controllers\VendorController::class);
-        Route::resource('/staff',\App\Http\Controllers\StaffController::class);
+
 //      Route::post('/import',[AssetController::class,'import'])->name('import');
 });
+
+    Route::middleware(['role_or_permission:Staff|Executive Manager'])->group(function () {
+        Route::resource('/asset', AssetController::class);
+
+//      Route::post('/import',[AssetController::class,'import'])->name('import');
+    });
+
+    Route::middleware(['role_or_permission:System Admin'])->group(function(){
+        Route::resource('/role', RoleController::class);
+        Route::resource('/staff',\App\Http\Controllers\StaffController::class);
+        Route::resource('/office',\App\Http\Controllers\OfficeController::class);
+    });
 
 
 

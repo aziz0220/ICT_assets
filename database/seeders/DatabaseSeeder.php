@@ -86,11 +86,7 @@ class DatabaseSeeder extends Seeder
 
 
         // ADMIN account
-//        $admin=User::create([
-//            'name' => 'aziz0220',
-//            'email' => 'benamoraziz0220@gmail.com',
-//            'password' => bcrypt('password')
-//        ]);
+
         $admin = \App\Models\User::factory()->create([
             'name' => 'admin',
             'email' => 'admin@example.com',
@@ -137,7 +133,7 @@ class DatabaseSeeder extends Seeder
 
 //        $admin->hasAllPermissions($this->permissions);
 
-        $admin->assignRole($staffRole);
+        $admin->assignRole($systemAdminRole);
 
 
     }
