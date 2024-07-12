@@ -9,7 +9,6 @@ use Spatie\Permission\Traits\HasRoles;
 class Staff extends User
 {
     use HasFactory;
-    use HasRoles;
     protected $guard_name = "web";
 
     public $table = 'staff';

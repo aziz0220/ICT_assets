@@ -16,7 +16,15 @@ class SystemAdminFactory extends Factory{
     {
 
         return [
-            'user_id' => $this->faker->randomElement(User::pluck('id')->toArray()),
+            'user_id' => function () {
+                return User::factory()->create(
+                    [
+                        'name' => 'admin',
+                        'email' => 'admin@example.com',
+                        'password' => bcrypt('password')
+                    ]
+                )->id;
+            },
         ];
     }
 }

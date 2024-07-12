@@ -1,7 +1,10 @@
-@extends('layouts.app')
+<x-app-layout>
 
-@section('content')
-    <h1>Asset Standard Details</h1>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Asset Standard Details') }}
+        </h2>
+    </x-slot>
 
     <p><strong>Item Name:</strong> {{ $assetStandard->item_name }}</p>
     <p><strong>Description:</strong> {{ $assetStandard->description }}</p>
@@ -15,4 +18,4 @@
             <button type="submit" class="btn btn-danger">Delete</button>
         </form>
     @endcan
-@endsection
+</x-app-layout>

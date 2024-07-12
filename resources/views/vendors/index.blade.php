@@ -26,7 +26,7 @@
             <tr>
                 <td>{{ $vendor->vendor_name }}</td>
                 <td>{{ $vendor->vendor_shortname }}</td>
-                <td>{{ $vendor->created_by }}</td> <td>
+                <td>{{ $vendor->creator->name }}</td> <td>
                     <a href="{{ route('vendor.show', $vendor->id) }}" class="btn btn-sm btn-info">View</a>
                     <a href="{{ route('vendor.edit', $vendor->id) }}" class="btn btn-sm btn-primary">Edit</a>
 

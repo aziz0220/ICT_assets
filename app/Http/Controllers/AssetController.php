@@ -15,71 +15,20 @@ class AssetController extends Controller
 
     function __construct()
     {
-//        'Request-Asset-Problem',
-//        'Request-Asset-Maintainance',
-//        'Manage-Asset-Standards',
-//        'Manage-Asset-Vendor',
-//        'Manage-Asset-Categories',
-//        'Manage-Asset-Status',
-//        $this->middleware(['permission:Register-New-Asset|asset-edit|Remove-Registered-Asset|Request-New-Asset|Request-Asset-Change|Request-Asset-Problem|Request-Asset-Maintainance'], ['only' => ['index', 'show']]);
-        $this->middleware(['permission:Request-New-Asset'], ['only' => ['create']]);
-        $this->middleware(['permission:Register-New-Asset'], ['only' => ['create', 'store']]);
-        $this->middleware(['permission:Request-Asset-Change'], ['only' => ['edit']]);
-        $this->middleware(['permission:Update-Asset-details'], ['only' => ['edit', 'update']]);
-        $this->middleware(['permission:Remove-Registered-Asset'], ['only' => ['destroy']]);
+        $this->middleware(['role:Staff|Asset Manager|Executive Manager'], [['index', 'show']]);
+//        $this->middleware(['permission:Request-New-Asset'], ['create']);
+//        $this->middleware(['permission:Register-New-Asset'], ['create', 'store']);
+//        $this->middleware(['permission:Request-Asset-Change'], ['edit']);
+//        $this->middleware(['permission:Update-Asset-details'], ['edit', 'update']);
+//        $this->middleware(['permission:Remove-Registered-Asset'], ['destroy']);
     }
 
     public function index(Request $request, $id = null)
     {
-        $assets = Asset::with('vendor')->latest()->paginate(50);
+        $assets = Asset::with('vendor','category','status','standard')->latest()->paginate(50);
         return view('assets.index', compact('assets'));
-
-
-//        $assets = \App\Models\Asset::with('vendor','LIKE','%'.$request->search.'%')->simplePaginate(10);
-//        return view('assets.index1', [
-//            'assets' => $assets
-//        ]);
-//
-//        $assets = Asset::where('vendor', 'LIKE', '%'.$request->search.'%')
-//            ->orWhere('serial_no', 'LIKE', '%' .$request->search. '%')
-//            ->orWhere('assigned_to', 'LIKE', '%' .$request->search. '%')
-//            ->orWhere('location', 'LIKE', '%' .$request->search. '%')
-//            ->paginate(50);
-//        return view('assets.index',compact('assets','created_by','id',));
     }
 
-//    public function department(Request $request, $id)
-//    {
-//
-//
-//        $assets = Asset::where('department_id', $id)->where(function($query) use($request) {
-//            $query->where('asset_no', 'LIKE', '%'.$request->search.'%')
-//                ->orWhere('serial_no', 'LIKE', '%' .$request->search. '%')
-//                ->orWhere('assigned_to', 'LIKE', '%' .$request->search. '%')
-//                ->orWhere('location', 'LIKE', '%' .$request->search. '%');
-//        })->paginate(1000);
-//
-//
-//        return view('asset.index', compact('assets','depart','id','devices'));
-//
-//    }
-//
-//    public function device(Request $request, $id)
-//    {
-//        $devices = Device::all();
-//        $depart = Department::all();
-//
-//        $assets = Asset::where('device_id', $id)->where(function($query) use($request) {
-//            $query->where('asset_no', 'LIKE', '%'.$request->search.'%')
-//                ->orWhere('serial_no', 'LIKE', '%' .$request->search. '%')
-//                ->orWhere('assigned_to', 'LIKE', '%' .$request->search. '%')
-//                ->orWhere('location', 'LIKE', '%' .$request->search. '%');
-//        })->paginate(1000);
-//
-//
-//        return view('asset.index', compact('assets','devices','id','depart'));
-//
-//    }
 
     public function downloadPdf()
     {
@@ -123,8 +72,7 @@ class AssetController extends Controller
             'warrant' => $request->warrant,
             'quantity' =>$request->quantity,
             'vendor_id' => $request->vendor_id,
-            'created_by' => fake()->numberBetween(1, 100),
-//            'created_by' => Auth::User()->id,
+            'created_by' => Auth::User()->id
         ]);
         return redirect()->route('asset.index')
             ->with('success','Asset Added Successfully.');
@@ -164,17 +112,13 @@ class AssetController extends Controller
      */
     public function update(Request $request, Asset $asset)
     {
-        $asset->validate([
-            'asset_name' => $request->asset_name,
-            'purchased_date' => $request->purchased_date,
-            'end_of_life' => $request->end_of_life,
-            'warrant' => $request->warrant,
-            'quantity' =>$request->quantity,
-            'vendor_id' => $request->vendor_id,
+
+        $validatedData = $request->validate([
+            'asset_name' => 'required|string|max:255',
+
         ]);
 
-        $asset->update($request->all());
-
+        $asset->update($validatedData);
         return redirect()->route('asset.index')
             ->with('success','Asset updated successfully.');
     }
@@ -244,8 +188,7 @@ class AssetController extends Controller
 
     public function requestAssetMaintainance()
     {
-        // Implement logic for staff to request asset maintenance
-        // This might involve a form, interaction with the Asset model, etc.
+
         return view('staff.requestAssetMaintainance'); // Assuming a request asset maintenance view
     }
 

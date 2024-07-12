@@ -1,7 +1,10 @@
-@extends('layouts.app')
+<x-app-layout>
 
-@section('content')
-    <h1>Create Asset Category</h1>
+<x-slot name="header">
+    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        {{ __('Create Asset Category') }}
+    </h2>
+</x-slot>
 
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -21,4 +24,4 @@
         </div>
         <button type="submit" class="btn btn-primary">Create</button>
     </form>
-@endsection
+</x-app-layout>>

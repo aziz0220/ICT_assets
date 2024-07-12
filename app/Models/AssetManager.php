@@ -8,10 +8,11 @@ use Spatie\Permission\Traits\HasRoles;
 
 class   AssetManager extends Staff
 {
+    use HasFactory;
+
     public $table = 'asset_managers';
     protected $guard_name = "web";
-    use HasFactory;
-    use HasRoles;
+
     public function user(){
         return $this->belongsTo(User::class, 'user_id');
     }

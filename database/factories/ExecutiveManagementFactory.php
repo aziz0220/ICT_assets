@@ -16,7 +16,9 @@ class ExecutiveManagementFactory extends Factory{
     {
 
         return [
-            'user_id' => $this->faker->randomElement(User::pluck('id')->toArray()),
+            'user_id' => function () {
+                return User::factory()->create()->id;
+            },
         ];
     }
 }

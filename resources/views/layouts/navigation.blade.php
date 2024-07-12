@@ -18,16 +18,29 @@
 {{--                    <x-nav-link :href="route('asset.index')" :active="request()->routeIs('asset.index')">--}}
 {{--                        {{ __('Assets') }}--}}
 {{--                    </x-nav-link>--}}
-                    <x-nav-link :href="route('staff.index')" :active="request()->routeIs('staff.index')">
-                        {{ __('Staff') }}
+                    @role('Staff')
+                    <x-nav-link :href="'/asset'" :active="request()->routeIs('/asset')">
+                        {{ __('Assets') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('vendor.index')" :active="request()->routeIs('vendor.index')">
-                        {{ __('Vendors') }}
+                    @endrole
+                    @role('System Admin')
+                    <x-nav-link :href="route('staff.index')" :active="request()->routeIs('staff.index')">
+                        {{ __('Staff')  }}
                     </x-nav-link>
                     <x-nav-link :href="route('role.index')" :active="request()->routeIs('role.index')">
                         {{ __('Roles') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('role.index')" :active="request()->routeIs('role.index')">
+                        {{ __('Permissions') }}
+                    </x-nav-link>
+                    @endrole
+                    @role('Asset Manager')
+                    <x-nav-link :href="route('vendor.index')" :active="request()->routeIs('vendor.index')">
+                        {{ __('Vendors') }}
+                    </x-nav-link>
+                    @endrole
                 </div>
+                @role('Asset Manager')
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
@@ -59,6 +72,7 @@
                     </x-dropdown>
                 </div>
 
+                @endrole
 
 
         </div>

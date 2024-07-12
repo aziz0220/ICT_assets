@@ -44,6 +44,8 @@ class DatabaseSeeder extends Seeder
         'Manage-Asset-Standards',
         'Manage-Asset-Vendor',
         'Register-New-Asset',
+        'Remove-Registered-Asset',
+        'Update-Asset-Details',
         'Manage-Asset-Categories',
         'Manage-Asset-Status',
         'Generate-Custom-Report',
@@ -62,6 +64,8 @@ class DatabaseSeeder extends Seeder
         'Manage-Asset-Standards',
         'Manage-Asset-Vendor',
         'Register-New-Asset',
+        'Remove-Registered-Asset',
+        'Update-Asset-Details',
         'Manage-Asset-Categories',
         'Manage-Asset-Status',
         'Generate-Custom-Report',
@@ -86,26 +90,18 @@ class DatabaseSeeder extends Seeder
             Permission::create(['name' => $permissionName]);
         }
 
-
-        // ADMIN account
-
-        $admin = \App\Models\User::factory()->create([
-            'name' => 'admin',
-            'email' => 'admin@example.com',
-            'password' => bcrypt('password')
-        ]);
-
         // Database Seeding
-        Vendor::factory(100)->create();
-        AssetStatus::factory(5)->create();
-        AssetCategory::factory(40)->create();
-        AssetStandard::factory(20)->create();
-        Asset::factory(100)->create();
+//        User::factory(99)->create();
         Office::factory(10)->create();
         $assetManagers = AssetManager::factory(2)->create();
         $executiveManager = ExecutiveManagement::factory()->create();
         $systemAdmin = SystemAdmin::factory()->create();
         $staff = Staff::factory(15)->create();
+        Vendor::factory(100)->create();
+        AssetStatus::factory(5)->create();
+        AssetCategory::factory(40)->create();
+        AssetStandard::factory(20)->create();
+        Asset::factory(100)->create();
 
         //Creating Roles:
         $staffRole = Role::create(['name' => 'Staff']);
@@ -113,28 +109,29 @@ class DatabaseSeeder extends Seeder
         $systemAdminRole = Role::create(['name' => 'System Admin']);
         $executiveRole = Role::create(['name' => 'Executive Manager']);
 
-        //Assigning Roles:
-
-        foreach ($assetManagers as $assetManager) {
-            $assetManager->assignRole($assetManagerRole);
-        }
-
-        foreach ($staff as $staffMember) {
-            $staffMember->assignRole($staffRole);
-        }
-
-        $executiveManager->assignRole($executiveRole);
-
-        $systemAdmin->assignRole($systemAdminRole);
-
-        $admin->assignRole($systemAdminRole);
-
 
         //Sync Permissions to Roles
         $staffRole->syncPermissions($this->staffPermissions);
         $assetManagerRole->syncPermissions($this->assetManagerPermissions);
         $systemAdminRole->syncPermissions($this->systemAdminPermissions);
         $executiveRole->syncPermissions($this->executiveManagerPermissions);
+
+        //Assigning Roles:
+
+        foreach ($assetManagers as $assetManager) {
+            $assetManager->user->assignRole($assetManagerRole);
+        }
+
+        foreach ($staff as $staffMember) {
+            $staffMember->user->assignRole($staffRole);
+        }
+
+        $executiveManager->user->assignRole($executiveRole);
+
+        $systemAdmin->user->assignRole($systemAdminRole);
+
+
+
 
     }
 }

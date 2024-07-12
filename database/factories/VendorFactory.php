@@ -13,7 +13,7 @@ class VendorFactory extends Factory{
         return [
             'vendor_name' => fake()->company,
             'vendor_shortname' => fake()->unique()->biasedNumberBetween(1, 10000),
-            'created_by' => User::factory(),
+            'created_by' => $this->faker->randomElement(User::pluck('id')->toArray()),
         ];
     }
 }

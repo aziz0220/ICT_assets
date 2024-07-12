@@ -15,7 +15,11 @@ class AssetManagerFactory extends Factory{
     public function definition(): array
     {
         return [
-            'user_id' => $this->faker->randomElement(User::pluck('id')->toArray()),
+            'user_id' => function () {
+                return User::factory([
+                    'password' => bcrypt('password'),
+                ])->create()->id;
+            },
         ];
     }
 }

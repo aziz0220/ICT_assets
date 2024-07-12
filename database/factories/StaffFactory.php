@@ -15,7 +15,11 @@ class StaffFactory extends Factory {
     public function definition(): array
     {
         return [
-            'user_id' => $this->faker->randomElement(User::pluck('id')->toArray()),
+            'user_id' => function () {
+                return User::factory()->create([
+                    'password' => bcrypt('password'),
+                ])->id;
+            },
             'office_id' => $this->faker->randomElement(Office::pluck('id')->toArray()),
         ];
     }

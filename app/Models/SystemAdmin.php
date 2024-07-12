@@ -9,7 +9,6 @@ use Spatie\Permission\Traits\HasRoles;
 class SystemAdmin extends Staff
 {
     use HasFactory;
-    use HasRoles;
 
     public $table = 'system_admins';
     protected $guard_name = "web";

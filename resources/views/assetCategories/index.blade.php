@@ -1,7 +1,10 @@
-@extends('layouts.master')
+<x-app-layout>
 
-@section('content')
-    <h1>Asset categories</h1>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Asset categories') }}
+        </h2>
+    </x-slot>
 
     @if (session('success'))
         <div class="alert alert-success" role="alert">
@@ -35,4 +38,4 @@
     </table>
 
     <a href="{{ route('asset-category.create') }}" class="btn btn-primary">Create New Asset category</a>
-@endsection
+</x-app-layout>>
