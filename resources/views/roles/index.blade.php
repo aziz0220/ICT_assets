@@ -36,14 +36,14 @@
                 <td>
                     <form action="{{ route('role.destroy', $role->id) }}" method="POST">
                         <a class="btn btn-info" href="{{ route('role.show', $role->id) }}">Show</a>
-                        @can('role-edit')
+                        @can('Manage-Role')
                             <a class="btn btn-primary" href="{{ route('role.edit', $role->id) }}">Edit</a>
                         @endcan
 
 
                         @csrf
                         @method('DELETE')
-                        @can('product-delete')
+                        @can('Manage-Role')
                             <button type="submit" class="btn btn-danger">Delete</button>
                         @endcan
                     </form>
