@@ -4,20 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Traits\HasRoles;
 
 class Staff extends User
 {
     use HasFactory;
-
+    use HasRoles;
     protected $guard_name = "web";
 
     public $table = 'staff';
 
     public $fillable = [
-        'name',
-        'email',
-        'password',
-        'office_id',
+        'user_id',
+        'office_id'
     ];
 
     public function asset()
@@ -28,6 +27,10 @@ class Staff extends User
     public function office()
     {
         return $this->belongsTo(Office::class);
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id');
     }
 
 }

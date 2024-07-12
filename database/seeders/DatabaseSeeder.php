@@ -7,8 +7,10 @@ use App\Models\AssetCategory;
 use App\Models\AssetManager;
 use App\Models\AssetStandard;
 use App\Models\AssetStatus;
+use App\Models\ExecutiveManagement;
 use App\Models\Office;
 use App\Models\Staff;
+use App\Models\SystemAdmin;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Vendor;
@@ -101,8 +103,9 @@ class DatabaseSeeder extends Seeder
         Asset::factory(100)->create();
         Office::factory(10)->create();
         $assetManagers = AssetManager::factory(2)->create();
+        $executiveManager = ExecutiveManagement::factory()->create();
+        $systemAdmin = SystemAdmin::factory()->create();
         $staff = Staff::factory(15)->create();
-
 
         //Creating Roles:
         $staffRole = Role::create(['name' => 'Staff']);
@@ -112,7 +115,6 @@ class DatabaseSeeder extends Seeder
 
         //Assigning Roles:
 
-
         foreach ($assetManagers as $assetManager) {
             $assetManager->assignRole($assetManagerRole);
         }
@@ -121,20 +123,18 @@ class DatabaseSeeder extends Seeder
             $staffMember->assignRole($staffRole);
         }
 
+        $executiveManager->assignRole($executiveRole);
+
+        $systemAdmin->assignRole($systemAdminRole);
+
+        $admin->assignRole($systemAdminRole);
+
 
         //Sync Permissions to Roles
         $staffRole->syncPermissions($this->staffPermissions);
         $assetManagerRole->syncPermissions($this->assetManagerPermissions);
         $systemAdminRole->syncPermissions($this->systemAdminPermissions);
-
-//        Permission::create(['name' => 'assign roles']);
-//        $role3 = Role::create(['name' => 'Super-Admin']);
-//        $role3->givePermissionTo('assign roles');
-
-//        $admin->hasAllPermissions($this->permissions);
-
-        $admin->assignRole($systemAdminRole);
-
+        $executiveRole->syncPermissions($this->executiveManagerPermissions);
 
     }
 }

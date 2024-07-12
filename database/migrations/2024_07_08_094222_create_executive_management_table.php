@@ -13,11 +13,8 @@ return new class extends Migration
     {
         Schema::create('executive_management', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->unsignedBigInteger('user_id'); // User who created the asset
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

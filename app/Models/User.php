@@ -76,11 +76,25 @@ class User extends Authenticatable
         return $this->hasMany(Vendor::class);
     }
 
-
-    public function getGuardName(): string
-    {
-        return 'web';
+    public function staff(){
+        return $this->hasMany(Staff::class);
     }
+
+    public function assetmanager()
+    {
+        return $this->hasMany(AssetManager::class);
+    }
+
+    public function executivemanager()
+    {
+        return $this->hasMany(ExecutiveManagement::class);
+    }
+
+    public function systemadmin()
+    {
+        return $this->hasMany(SystemAdmin::class);
+    }
+
 
 }
 
