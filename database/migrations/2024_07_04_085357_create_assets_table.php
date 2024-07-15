@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('end_of_life');
             $table->text('warrant');
             $table->integer('quantity');
+            $table->boolean('is_registered');
             $table->unsignedBigInteger('vendor_id');
             $table->foreign('vendor_id')->references('id')->on('vendors');
             $table->unsignedBigInteger('category_id');

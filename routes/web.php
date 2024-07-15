@@ -35,8 +35,10 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::middleware(['role:Asset Manager|Staff|Executive Manager'])->group(function () {
-        Route::resource('asset', AssetController::class);
-        Route::get('asset/create', 'App\Http\Controllers\AssetController@create')->name('asset.create');
+        Route::resource('assets', AssetController::class);
+//        Route::get('assets/create', 'App\Http\Controllers\AssetController@create')->name('assets.create');
+//        Route::get('assets', 'App\Http\Controllers\AssetController@register')->name('assets.register');
+//        Route::get('assets', 'App\Http\Controllers\AssetController@index')->name('assets.index');
     });
 
     Route::middleware(['role:System Admin'])->group(function(){

@@ -17,7 +17,7 @@
         </div>
     @endif
 
-    <form action="{{ route('asset.update', $asset->id) }}" method="POST">
+    <form action="{{ route('assets.update', $asset->id) }}" method="POST">
         @csrf
         @method('PUT') <div class="form-group">
             <label for="asset_name">Item Name:</label>

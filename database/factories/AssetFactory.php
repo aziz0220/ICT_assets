@@ -24,6 +24,7 @@ class AssetFactory extends Factory
             'end_of_life' => fake()->date,
             'warrant' => fake()->text(10),
             'quantity' => fake()->numberBetween(0, 100),
+            'is_registered' => fake()->boolean(50),
             'vendor_id' => fake()->numberBetween(1, 100),
             'category_id' => fake()->numberBetween(1, 10),
             'status_id' => fake()->numberBetween(1, 5),
