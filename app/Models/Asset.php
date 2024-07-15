@@ -46,5 +46,9 @@ class Asset extends Model
         return $this->belongsTo(User::class,'created_by');
     }
 
+    public function change(){
+        return $this->hasMany(AssetChange::class);
+    }
+
 
 }

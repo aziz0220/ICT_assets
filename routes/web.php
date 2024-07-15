@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AssetCategoryController;
+use App\Http\Controllers\AssetChangeController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AssetStandardController;
 use App\Http\Controllers\AssetStatusController;
@@ -36,6 +37,7 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware(['role:Asset Manager|Staff|Executive Manager'])->group(function () {
         Route::resource('assets', AssetController::class);
+        Route::resource('assetchanges', AssetChangeController::class);
 //        Route::get('assets/create', 'App\Http\Controllers\AssetController@create')->name('assets.create');
 //        Route::get('assets', 'App\Http\Controllers\AssetController@register')->name('assets.register');
 //        Route::get('assets', 'App\Http\Controllers\AssetController@index')->name('assets.index');

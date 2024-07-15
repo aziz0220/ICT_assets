@@ -57,11 +57,6 @@
          */
         public function store(Request $request)
         {
-
-            $validatedData = $request->validate([
-                'vendor_id' => 'required|integer',
-            ]);
-
             $asset=Asset::create([
                 'asset_name' => $request->asset_name,
                 'purchased_date' => $request->purchased_date,
@@ -99,10 +94,12 @@
          */
         public function edit(Asset $asset) // Route binding using implicit route model binding
         {
-            // Fetch the asset based on the route parameter
-            // $asset = Asset::findOrFail($assetId); // Alternative approach
+            $vendors = Vendor::pluck('vendor_name','id');
+            $categories = AssetCategory::pluck('category_name','id');
+            $statuses = AssetStatus::pluck('status_name', 'id');
+            $standards = AssetStandard::pluck('item_name','id');
 
-            return view('assets.edit', compact('asset'));
+            return view('assets.edit', compact('asset','vendors','categories','statuses','standards'));
         }
 
         /**
@@ -165,12 +162,6 @@
         public function exportAssets(Request $request){
             return Excel::download(new ExportAsset, 'assets.xlsx');
         }
-
-
-
-
-
-
 
 
 
