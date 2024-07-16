@@ -5,6 +5,7 @@ use App\Http\Controllers\AssetChangeController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AssetStandardController;
 use App\Http\Controllers\AssetStatusController;
+use App\Http\Controllers\BiographyController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\Api;
 
 Route::get('/', function () {
     return view('welcome');
@@ -56,6 +58,19 @@ Route::middleware('auth')->group(function () {
     });
 
 });
+
+
+
+
+Route::group(['middleware' => Api::class, 'prefix' => 'api/v1'], function () {
+    Route::get('biographies', [BiographyController::class, 'index']);
+    Route::get('biographies/{id}', [BiographyController::class, 'show']);
+    Route::get('biographies/details/{id}', [BiographyController::class, 'detail']);
+//    Route::post('biographies', [BiographyController::class, 'store']);
+//    Route::put('biographies/{id}', [BiographyController::class, 'update']);
+//    Route::delete('biographies/{id}', [BiographyController::class, 'destroy']);
+});
+
 
 require __DIR__.'/auth.php';
 
