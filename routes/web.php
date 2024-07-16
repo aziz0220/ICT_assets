@@ -10,6 +10,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -50,6 +51,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('/staff',StaffController::class);
         Route::get('/staff/block/{staff}',[StaffController::class,'block'])->name('staff.block');
         Route::get('/staff/unblock/{staff}',[StaffController::class,'unblock'])->name('staff.unblock');
+        Route::resource('/user',UserController::class);
         Route::resource('/office',OfficeController::class);
     });
 

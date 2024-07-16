@@ -5,13 +5,20 @@
             {{ __('Role Management') }}
         </h2>
     </x-slot>
+
+
     <div class="row">
         <div class="col-lg-12 margin-tb mb-4">
             <div class="pull-left">
                 <h2>
                     <div class="float-end">
                         @can('Manage-Role')
-                            <a class="btn btn-success" href="{{ route('role.create') }}"> Create New Role</a>
+
+
+                            <a class="btn btn-success" href="{{ route('role.create') }}"> Create New Role</a><br>
+
+                            <a class="btn btn-success" href="{{ route('user.index') }}"> Assign Role</a>
+
                         @endcan
                     </div>
                 </h2>

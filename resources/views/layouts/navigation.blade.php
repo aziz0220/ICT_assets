@@ -15,9 +15,6 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-{{--                    <x-nav-link :href="route('asset.index')" :active="request()->routeIs('asset.index')">--}}
-{{--                        {{ __('Assets') }}--}}
-{{--                    </x-nav-link>--}}
                     @role('Staff')
                     <x-nav-link :href="'/asset'" :active="request()->routeIs('/asset')">
                         {{ __('Assets') }}
@@ -33,6 +30,10 @@
                     <x-nav-link :href="route('permission.index')" :active="request()->routeIs('permission.index')">
                         {{ __('Permissions') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('user.index')" :active="request()->routeIs('user.index')">
+                        {{ __('Assign Role') }}
+                    </x-nav-link>
+
                     @endrole
                     @role('Asset Manager')
                     <x-nav-link :href="route('vendor.index')" :active="request()->routeIs('vendor.index')">

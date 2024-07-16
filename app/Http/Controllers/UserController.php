@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -14,7 +15,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $data = User::latest()->paginate(5);
+        $data = User::latest()->paginate(100);
         return view('users.index',compact('data'));
     }
 
@@ -45,7 +46,7 @@ class UserController extends Controller
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
 
-        return redirect()->route('users.index')
+        return redirect()->route('user.index')
             ->with('success','User created successfully');
     }
 
@@ -95,7 +96,7 @@ class UserController extends Controller
 
         $user->assignRole($request->input('roles'));
 
-        return redirect()->route('users.index')
+        return redirect()->route('user.index')
             ->with('success','User updated successfully');
     }
 
@@ -105,7 +106,7 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         User::find($id)->delete();
-        return redirect()->route('users.index')
+        return redirect()->route('user.index')
             ->with('success','User deleted successfully');
     }
 }

@@ -1,15 +1,18 @@
-@extends('layouts.master')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Edit User') }}
+        </h2>
+    </x-slot>
 
 
-@section('content')
+
     <div class="row">
         <div class="col-lg-12 margin-tb mb-4">
             <div class="pull-left">
-                <h2>Edit User
                     <div class="float-end">
-                        <a class="btn btn-primary" href="{{ route('users.index') }}"> Back</a>
+                        <a class="btn btn-primary" href="{{ route('user.index') }}"> Back</a>
                     </div>
-                </h2>
             </div>
         </div>
     </div>
@@ -27,7 +30,7 @@
     @endif
 
 
-    <form action="{{ route('users.update', $user->id) }}" method="PATCH">
+    <form action="{{ route('user.update', $user->id) }}" method="PATCH">
         @csrf
         <div class="row">
             <div class="col-xs-12 mb-3">
@@ -74,4 +77,4 @@
         </div>
     </form>
 
-@endsection
+</x-app-layout>>
