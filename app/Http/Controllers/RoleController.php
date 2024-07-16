@@ -111,18 +111,4 @@ class RoleController extends Controller
     }
 
 
-
-    //    public function assignRole(){
-//
-//    }
-
-
-    public function manageRoles(){
-
-    }
-
-    public function managePermissions()
-    {
-
-    }
 }

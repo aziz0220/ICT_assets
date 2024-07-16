@@ -30,7 +30,7 @@
                     <x-nav-link :href="route('role.index')" :active="request()->routeIs('role.index')">
                         {{ __('Roles') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('role.index')" :active="request()->routeIs('role.index')">
+                    <x-nav-link :href="route('permission.index')" :active="request()->routeIs('permission.index')">
                         {{ __('Permissions') }}
                     </x-nav-link>
                     @endrole

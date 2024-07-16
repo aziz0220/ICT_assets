@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('asset_problems', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('asset_id');
+            $table->foreign('asset_id')->references('id')->on('assets');
+            $table->string('description');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

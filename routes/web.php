@@ -6,6 +6,7 @@ use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AssetStandardController;
 use App\Http\Controllers\AssetStatusController;
 use App\Http\Controllers\OfficeController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StaffController;
@@ -35,7 +36,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('/vendor',VendorController::class);
     });
 
-    Route::middleware(['role:Asset Manager|Staff|Executive Manager'])->group(function () {
+    Route::middleware(['role:Asset Manager|Staff|Executive Manager','CheckStaffBlockStatus'])->group(function () {
         Route::resource('assets', AssetController::class);
         Route::resource('assetchanges', AssetChangeController::class);
 //        Route::get('assets/create', 'App\Http\Controllers\AssetController@create')->name('assets.create');
@@ -45,7 +46,10 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware(['role:System Admin'])->group(function(){
         Route::resource('/role', RoleController::class);
+        Route::resource('/permission', PermissionController::class);
         Route::resource('/staff',StaffController::class);
+        Route::get('/staff/block/{staff}',[StaffController::class,'block'])->name('staff.block');
+        Route::get('/staff/unblock/{staff}',[StaffController::class,'unblock'])->name('staff.unblock');
         Route::resource('/office',OfficeController::class);
     });
 

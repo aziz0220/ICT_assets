@@ -50,5 +50,12 @@ class Asset extends Model
         return $this->hasMany(AssetChange::class);
     }
 
+    public function problem(){
+        return $this->hasMany(AssetProblem::class);
+    }
+
+    public function maintenance(){
+        return $this->hasMany(AssetMaintenance::class);
+    }
 
 }

@@ -15,7 +15,8 @@ class Staff extends User
 
     public $fillable = [
         'user_id',
-        'office_id'
+        'office_id',
+        'is_blocked'
     ];
 
     public function asset()

@@ -18,8 +18,9 @@ class StaffController extends Controller
      */
     public function index()
     {
-        $staff = Staff::with('office')->latest()->paginate(50);
-        return view('staff.index', compact('staff')); // Assuming a staff index view
+        $staff = Staff::with('office','user')->where('is_blocked', false)->latest()->paginate(50);
+        $blocked = Staff::with('office','user')->where('is_blocked', true)->latest()->paginate(50);
+        return view('staff.index', compact('staff','blocked'));
     }
 
     /**
@@ -119,13 +120,32 @@ class StaffController extends Controller
             ->with('success', 'Staff member deleted successfully!');
     }
 
-    public function blockStaff(){
+    public function block(Request $request, int $id)
+    {
+        $staff = Staff::findOrFail($id);
+        if ($staff->is_blocked) {
+            return back()->with('error', 'Staff member is already blocked!');
+        }
 
+        $staff->is_blocked = true;
+        $staff->save();
+
+        return back()->with('success', 'Staff member blocked successfully!');
     }
 
-    public function unblockStaff(){
+    public function unblock(Request $request, int $id)
+    {
+        $staff = Staff::findOrFail($id);
+        if (!$staff->is_blocked) {
+            return back()->with('error', 'Staff member is already unblocked!');
+        }
 
+        $staff->is_blocked = false;
+        $staff->save();
+
+        return back()->with('success', 'Staff member unblocked successfully!');
     }
+
 
 
 }

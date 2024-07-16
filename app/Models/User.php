@@ -77,22 +77,22 @@ class User extends Authenticatable
     }
 
     public function staff(){
-        return $this->hasMany(Staff::class);
+        return $this->hasOne(Staff::class);
     }
 
     public function assetmanager()
     {
-        return $this->hasMany(AssetManager::class);
+        return $this->hasOne(AssetManager::class);
     }
 
     public function executivemanager()
     {
-        return $this->hasMany(ExecutiveManagement::class);
+        return $this->hasOne(ExecutiveManagement::class);
     }
 
     public function systemadmin()
     {
-        return $this->hasMany(SystemAdmin::class);
+        return $this->hasOne(SystemAdmin::class);
     }
 
 

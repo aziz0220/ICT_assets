@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('staff', function (Blueprint $table) {
+        Schema::create('asset_maintenances', function (Blueprint $table) {
             $table->id();
-            $table->boolean('is_blocked')->default(false);
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('office_id');
-            $table->foreign('office_id')->references('id')->on('offices');
+            $table->unsignedBigInteger('asset_id');
+            $table->foreign('asset_id')->references('id')->on('assets');
+            $table->string('description');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('staff');
+        Schema::dropIfExists('asset_maintenances');
     }
 };

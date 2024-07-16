@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AssetProblem extends Model
+class AssetMaintenance extends Model
 {
     use HasFactory;
 
-    public $table = 'asset_problems';
+    public $table = 'asset_maintenances';
 
     protected $fillable = ['asset_id', 'description'];
 
@@ -17,8 +17,4 @@ class AssetProblem extends Model
     {
         return $this->belongsTo(Asset::class);
     }
-
-
-
-
 }

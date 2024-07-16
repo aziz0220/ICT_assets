@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('asset_changes', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('asset_id');
+            $table->foreign('asset_id')->references('id')->on('assets');
             $table->string('asset_name');
             $table->date('purchased_date');
             $table->date('end_of_life');

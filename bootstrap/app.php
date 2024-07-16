@@ -41,6 +41,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
+            'checkStaffBlockStatus' => \App\Http\Middleware\CheckStaffBlockStatus::class,
         ]);
         $middleware->group('web', [
             \Illuminate\Cookie\Middleware\EncryptCookies::class,
@@ -49,6 +50,7 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            'checkStaffBlockStatus' => \App\Http\Middleware\CheckStaffBlockStatus::class,
         ]);
         $middleware->group('api', [
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
