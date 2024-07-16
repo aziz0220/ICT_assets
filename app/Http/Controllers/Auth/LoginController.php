@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\AccountStatus;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 use App\Models\User;
 
@@ -78,6 +80,8 @@ class LoginController extends Controller
      */
     protected function incrementLoginAttempts(Request $request)
     {
+
+
         $this->limiter()->hit(
             $this->throttleKey($request), $this->decayMinutes * 60
         );
@@ -87,6 +91,9 @@ class LoginController extends Controller
         if ($user && $this->limiter()->attempts($this->throttleKey($request)) >= $this->maxAttempts) {
             $user->is_blocked = true;
             $user->save();
+            Mail::to($user)->send(
+                new AccountStatus($user)
+            );
 
             $this->fireLockoutEvent($request);
 

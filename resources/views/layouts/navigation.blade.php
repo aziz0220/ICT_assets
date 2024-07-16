@@ -57,7 +57,7 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            <x-dropdown-link :href="'/asset'">
+                            <x-dropdown-link :href="route('assets.index')">
                                 {{ __('Assets') }}
                             </x-dropdown-link>
                             <x-dropdown-link :href="route('asset-standard.index')">

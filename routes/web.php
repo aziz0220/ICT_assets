@@ -37,7 +37,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('/vendor',VendorController::class);
     });
 
-    Route::middleware(['role:Asset Manager|Staff|Executive Manager','CheckStaffBlockStatus'])->group(function () {
+    Route::middleware(['role:Asset Manager|Staff|Executive Manager','App\Http\Middleware\CheckStaffBlockStatus'])->group(function () {
         Route::resource('assets', AssetController::class);
         Route::resource('assetchanges', AssetChangeController::class);
 //        Route::get('assets/create', 'App\Http\Controllers\AssetController@create')->name('assets.create');
