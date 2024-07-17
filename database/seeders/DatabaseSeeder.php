@@ -51,7 +51,21 @@ class DatabaseSeeder extends Seeder
         'Generate-Custom-Report',
         'Manage-Role',
         'Manage-Permission',
-        'Block-Staff'
+        'Block-Staff',
+        'view contents',
+        'comment on contents',
+        'manage biography',
+        'submit suggestions',
+        'create contents',
+        'manage forums',
+        'organize documents',
+        'manage calendar',
+        'set permissions',
+        'schedule publication',
+        'set expiration dates',
+        'archive contents',
+        'edit contents',
+        'block biographies'
     ];
 
     private $staffPermissions = [
@@ -59,6 +73,10 @@ class DatabaseSeeder extends Seeder
         'Request-Asset-Change',
         'Request-Asset-Problem',
         'Request-Asset-Maintainance',
+        'view contents',
+        'comment on contents',
+        'manage biography',
+        'submit suggestions'
     ];
     private $assetManagerPermissions = [
         'Manage-Asset-Standards',
@@ -77,6 +95,24 @@ class DatabaseSeeder extends Seeder
         'Manage-Role',
         'Manage-Permission',
         'Block-Staff'
+    ];
+
+    private $creatorPermissions = [
+        'create contents',
+        'manage forums',
+        'organize documents',
+        'manage calendar'
+    ];
+
+    private $publisherPermissions = [
+        'set permissions',
+        'schedule publication',
+        'set expiration dates',
+        'archive contents',
+        'edit contents',
+        'block biographies',
+        'manage calendar',
+        'Generate-Custom-Report'
     ];
 
     /**
@@ -108,6 +144,9 @@ class DatabaseSeeder extends Seeder
         $assetManagerRole = Role::create(['name' => 'Asset Manager']);
         $systemAdminRole = Role::create(['name' => 'System Admin']);
         $executiveRole = Role::create(['name' => 'Executive Manager']);
+        $creatorRole = Role::create(['name' => 'creator']);
+        $publisherRole = Role::create(['name' => 'publisher']);
+        $admin = Role::create(['name' => 'admin']);
 
 
         //Sync Permissions to Roles
@@ -115,7 +154,9 @@ class DatabaseSeeder extends Seeder
         $assetManagerRole->syncPermissions($this->assetManagerPermissions);
         $systemAdminRole->syncPermissions($this->systemAdminPermissions);
         $executiveRole->syncPermissions($this->executiveManagerPermissions);
-
+        $publisherRole->syncPermissions($this->publisherPermissions);
+        $creatorRole->syncPermissions($this->creatorPermissions);
+        $admin->givePermissionTo(Permission::all());
         //Assigning Roles:
 
         foreach ($assetManagers as $assetManager) {

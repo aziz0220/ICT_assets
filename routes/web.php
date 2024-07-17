@@ -6,9 +6,13 @@ use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AssetStandardController;
 use App\Http\Controllers\AssetStatusController;
 use App\Http\Controllers\BiographyController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ContentController;
+use App\Http\Controllers\ForumController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\UserController;
@@ -70,6 +74,30 @@ Route::group(['middleware' => Api::class, 'prefix' => 'api/v1'], function () {
 //    Route::put('biographies/{id}', [BiographyController::class, 'update']);
 //    Route::delete('biographies/{id}', [BiographyController::class, 'destroy']);
 });
+
+
+Route::middleware(['auth', 'role:staff'])->group(function () {
+    Route::get('contents', [ContentController::class, 'index'])->name('contents.index');
+    Route::post('comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::get('profile/edit', [UserController::class, 'edit'])->name('profile.edit');
+    Route::put('profile', [UserController::class, 'update'])->name('profile.update');
+});
+
+Route::middleware(['auth', 'role:creator'])->group(function () {
+    Route::get('contents/create', [ContentController::class, 'create'])->name('contents.create');
+    Route::post('contents', [ContentController::class, 'store'])->name('contents.store');
+    Route::get('forums', [ForumController::class, 'index'])->name('forums.index');
+    // Other creator routes
+});
+
+Route::middleware(['auth', 'role:publisher'])->group(function () {
+    Route::get('permissions', [PermissionController::class, 'index'])->name('permissions.index');
+    Route::post('permissions', [PermissionController::class, 'store'])->name('permissions.store');
+    Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
+    // Other publisher routes
+});
+
+
 
 
 require __DIR__.'/auth.php';

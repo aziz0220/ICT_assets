@@ -16,7 +16,7 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     @role('Staff')
-                    <x-nav-link :href="'/asset'" :active="request()->routeIs('/asset')">
+                    <x-nav-link :href="route('assets.index')" :active="request()->routeIs('assets.index')">
                         {{ __('Assets') }}
                     </x-nav-link>
                     @endrole

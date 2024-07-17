@@ -44,11 +44,8 @@
                     @endif
                 </td>
                 <td>
-{{--                    @can('Manage-Role')--}}
-{{--                        <a class="btn btn-success" href="{{ route('assign-role') }}" Assign Role to User</a>--}}
-{{--                    @endcan--}}
                     <a class="btn btn-info" href="{{ route('user.show',$user->id) }}">Show</a>
-                    <a class="btn btn-primary" href="{{ route('user.edit',$user->id) }}">Edit</a>
+                    <a class="btn btn-primary" href="{{ route('user.edit',$user->id) }}">Edit</a><br>
                     <a class="btn btn-success" href="{{ route('user.destroy',$user->id) }}"> Delete</a>
                 </td>
             </tr>

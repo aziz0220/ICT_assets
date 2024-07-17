@@ -29,6 +29,7 @@ class AssetChangeController extends Controller
     public function store(Request $request)
     {
         AssetChange::create([
+            'asset_id' => $request->asset_id,
             'asset_name' => $request->asset_name,
             'purchased_date' => $request->purchased_date,
             'end_of_life' => $request->end_of_life,

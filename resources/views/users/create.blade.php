@@ -8,9 +8,9 @@
     <div class="row">
         <div class="col-lg-12 margin-tb mb-4">
             <div class="pull-left">
-                    <div class="float-end">
-                        <a class="btn btn-primary" href="{{ route('user.index') }}"> Back</a>
-                    </div>
+                <div class="float-end">
+                    <a class="btn btn-primary" href="{{ route('user.index') }}"> Back</a>
+                </div>
             </div>
         </div>
     </div>
@@ -56,9 +56,19 @@
             <div class="col-xs-12 mb-3">
                 <div class="form-group">
                     <strong>Role:</strong>
-                    <select class="form-control multiple" multiple name="roles[]">
+                    <select class="form-control multiple" multiple name="roles[]" id="roles">
                         @foreach ($roles as $role)
                             <option value="{{ $role }}">{{ $role }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-12 mb-3" id="office-section" style="display: none;">
+                <div class="form-group">
+                    <label for="office_id">Office</label>
+                    <select class="form-control" id="office_id" name="office_id">
+                        @foreach ($offices as $office)
+                            <option value="{{ $office->id }}">{{ $office->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -68,4 +78,23 @@
             </div>
         </div>
     </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const rolesSelect = document.getElementById('roles');
+            const officeSection = document.getElementById('office-section');
+
+            rolesSelect.addEventListener('change', function () {
+                const selectedRoles = Array.from(rolesSelect.options)
+                    .filter(option => option.selected)
+                    .map(option => option.value);
+
+                if (selectedRoles.includes('Staff')) {
+                    officeSection.style.display = 'block';
+                } else {
+                    officeSection.style.display = 'none';
+                }
+            });
+        });
+    </script>
 </x-app-layout>

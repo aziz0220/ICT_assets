@@ -49,9 +49,18 @@ class StaffController extends Controller
         ]);
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
+        $user = User::create([
+            'name' => $input['name'],
+            'email' => $input['email'],
+            'password' => $input['password'],
 
-        $staff = Staff::create($input);
-//        $user->assignRole('Staff');
+        ]);
+
+        $user->assignRole('Staff');
+        $staff = Staff::create([
+            'user_id' => $user->id,
+            'office_id' => $input['office_id'],
+        ]);
         return redirect()->route('staff.index')
             ->with('success', 'Staff member created successfully!');
     }
@@ -88,23 +97,25 @@ class StaffController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(
-//      StaffRequest $request,
-        int $id ,// Use StaffRequest for validation
-        Request $request
-    )
+    public function update(Request $request, int $id)
     {
         $staff = Staff::findOrFail($id);
-//        $staff->update($request->validated()); // Use validated data
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email',
             'office_id' => 'required|integer',
         ]);
-        $staff->update($validatedData);
+
+        // Update User with validated data
+        $staff->user->update($validatedData);
+
+        // Update Staff (optional, if additional staff-specific fields need update)
+        $staff->update(['office_id' => $validatedData['office_id']]);
+
         return redirect()->route('staff.index')
             ->with('success', 'Staff member updated successfully!');
     }
+
 
     /**
      * Remove the specified staff member from storage.
@@ -116,6 +127,8 @@ class StaffController extends Controller
     {
         $staff = Staff::findOrFail($id);
         $staff->delete();
+        $user = User::findOrFail($staff->user_id);
+        $user->delete();
         return redirect()->route('staff.index')
             ->with('success', 'Staff member deleted successfully!');
     }

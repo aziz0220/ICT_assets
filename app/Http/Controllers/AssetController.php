@@ -180,12 +180,6 @@
 
         // Additional Asset functionalities
 
-        public function requestAssetChange()
-        {
-            // Implement logic for staff to request asset change
-            // This might involve a form, interaction with the Asset model, etc.
-            return view('staff.requestAssetChange'); // Assuming a request asset change view
-        }
 
         public function reportAssetProblem()
         {

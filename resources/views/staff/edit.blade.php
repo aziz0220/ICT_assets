@@ -19,11 +19,11 @@
     @csrf
     @method('PUT')  <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $staff->name) }}">
+        <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $staff->user->name) }}">
     </div>
     <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $staff->email) }}">
+        <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $staff->user->email) }}">
     </div>
     <div class="form-group">
         <label for="office_id">Office</label>

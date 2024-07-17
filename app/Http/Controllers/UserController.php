@@ -2,10 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AssetManager;
+use App\Models\ExecutiveManagement;
+use App\Models\Office;
+use App\Models\Staff;
+use App\Models\SystemAdmin;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -25,7 +32,8 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::pluck('name','name')->all();
-        return view('users.create',compact('roles'));
+        $offices = Office::all();
+        return view('users.create',compact('roles','offices'));
     }
 
     /**
@@ -33,6 +41,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
@@ -45,6 +54,32 @@ class UserController extends Controller
 
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
+        Log::log('info', $request->input('roles'));
+        foreach ($request->input('roles') as $role) {
+            switch ($role) {
+                case 'System Admin':
+                    SystemAdmin::create([
+                        'user_id' => $user->id,
+                    ]);
+                    break;
+                case 'Staff':
+                    Staff::create([
+                        'user_id' => $user->id,
+                        'office_id' => $request->input('office_id'),
+                    ]);
+                    break;
+                case 'Asset Manager':
+                    AssetManager::create([
+                        'user_id' => $user->id,
+                    ]);
+                    break;
+                case 'Executive Manager':
+                    ExecutiveManagement::create([
+                        'user_id' => $user->id,
+                    ]);
+                    break;
+            }
+        }
 
         return redirect()->route('user.index')
             ->with('success','User created successfully');
