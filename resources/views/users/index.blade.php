@@ -46,7 +46,11 @@
                 <td>
                     <a class="btn btn-info" href="{{ route('user.show',$user->id) }}">Show</a>
                     <a class="btn btn-primary" href="{{ route('user.edit',$user->id) }}">Edit</a><br>
-                    <a class="btn btn-success" href="{{ route('user.destroy',$user->id) }}"> Delete</a>
+                    <form action="{{ route('user.destroy', $user->id) }}" method="POST" style="display: inline-block">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this member?')">Delete</button>
+                    </form>
                 </td>
             </tr>
         @endforeach

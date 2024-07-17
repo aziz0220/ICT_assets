@@ -1,5 +1,4 @@
 <?php
-
 use App\Http\Controllers\AssetCategoryController;
 use App\Http\Controllers\AssetChangeController;
 use App\Http\Controllers\AssetController;
@@ -75,7 +74,6 @@ Route::group(['middleware' => Api::class, 'prefix' => 'api/v1'], function () {
 //    Route::delete('biographies/{id}', [BiographyController::class, 'destroy']);
 });
 
-
 Route::middleware(['auth', 'role:staff'])->group(function () {
     Route::get('contents', [ContentController::class, 'index'])->name('contents.index');
     Route::post('comments', [CommentController::class, 'store'])->name('comments.store');
@@ -91,14 +89,11 @@ Route::middleware(['auth', 'role:creator'])->group(function () {
 });
 
 Route::middleware(['auth', 'role:publisher'])->group(function () {
-    Route::get('permissions', [PermissionController::class, 'index'])->name('permissions.index');
-    Route::post('permissions', [PermissionController::class, 'store'])->name('permissions.store');
+//    Route::get('permissions', [PermissionController::class, 'index'])->name('permissions.index');
+//    Route::post('permissions', [PermissionController::class, 'store'])->name('permissions.store');
     Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
     // Other publisher routes
 });
-
-
-
 
 require __DIR__.'/auth.php';
 

@@ -45,7 +45,7 @@ class PermissionController extends Controller
 
         $permission = Permission::create(['name' => $request->input('name')]);
 
-        return redirect()->route('permissions.index')
+        return redirect()->route('permission.index')
             ->with('success', 'Permission created successfully');
     }
 
@@ -90,7 +90,7 @@ class PermissionController extends Controller
         $permission->name = $request->input('name');
         $permission->save();
 
-        return redirect()->route('permissions.index')
+        return redirect()->route('permission.index')
             ->with('success', 'Permission updated successfully');
     }
 
@@ -103,7 +103,7 @@ class PermissionController extends Controller
     public function destroy(string $id)
     {
         Permission::destroy($id);
-        return redirect()->route('permissions.index')
+        return redirect()->route('permission.index')
             ->with('success', 'Permission deleted successfully');
     }
 }

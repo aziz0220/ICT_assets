@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -47,10 +48,10 @@ class RoleController extends Controller
             'permission' => 'required',
         ]);
 
+        Log::debug('deaf',$request->input('permission'));
         $role = Role::create(['name' => $request->input('name')]);
         $role->syncPermissions($request->input('permission'));
-
-        return redirect()->route('roles.index')
+        return redirect()->route('role.index')
             ->with('success', 'Role created successfully');
     }
 
@@ -93,11 +94,11 @@ class RoleController extends Controller
 
         $role = Role::find($id);
         $role->name = $request->input('name');
-        $role->save();
+//        $role->save();
 
         $role->syncPermissions($request->input('permission'));
-
-        return redirect()->route('roles.index')
+//        $role->update();
+        return redirect()->route('role.index')
             ->with('success', 'Role updated successfully');
     }
 
@@ -107,7 +108,7 @@ class RoleController extends Controller
     public function destroy(string $id)
     {
         DB::table("roles")->where('id', $id)->delete();
-        return redirect()->route('roles.index')
+        return redirect()->route('role.index')
             ->with('success', 'Role deleted successfully');
     }
 

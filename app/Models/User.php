@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -14,6 +15,7 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
     use HasRoles;
+    use SoftDeletes;
 
 
     /**

@@ -30,8 +30,9 @@
     @endif
 
 
-    <form action="{{ route('user.update', $user->id) }}" method="PATCH">
+    <form action="{{ route('user.update', $user->id) }}" method="POST">
         @csrf
+        @method('PUT')
         <div class="row">
             <div class="col-xs-12 mb-3">
                 <div class="form-group">
@@ -64,9 +65,20 @@
             <div class="col-xs-12 mb-3">
                 <div class="form-group">
                     <strong>Role:</strong>
-                    <select class="form-control multiple" multiple name="roles[]">
+                    <select class="form-control multiple" multiple name="roles[]" @selected($userRole)>
                         @foreach ($roles as $role)
                             <option value="{{ $role }}">{{ $role }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-xs-12 mb-3" id="office-section" style="display: none;">
+                <div class="form-group">
+                    <label for="office_id">Office</label>
+                    <select class="form-control" id="office_id" name="office_id">
+                        @foreach ($offices as $office)
+                            <option value="{{ $office->id }}">{{ $office->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -77,4 +89,24 @@
         </div>
     </form>
 
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const rolesSelect = document.getElementById('roles');
+            const officeSection = document.getElementById('office-section');
+
+            rolesSelect.addEventListener('change', function () {
+                const selectedRoles = Array.from(rolesSelect.options)
+                    .filter(option => option.selected)
+                    .map(option => option.value);
+
+                if (selectedRoles.includes('Staff')) {
+                    officeSection.style.display = 'block';
+                } else {
+                    officeSection.style.display = 'none';
+                }
+            });
+        });
+    </script>
 </x-app-layout>>

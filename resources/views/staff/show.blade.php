@@ -6,8 +6,8 @@
     </h2>
 </x-slot>
 
-<p>Name: {{ $staff->name }}</p>
-<p>Email: {{ $staff->email }}</p>
+<p>Name: {{ $staff->user->name }}</p>
+<p>Email: {{ $staff->user->email }}</p>
 <p>Office: {{ $staff->office->name ?? 'N/A' }}</p> <a href="{{ route('staff.edit', $staff->id) }}" class="btn btn-warning">Edit</a>
 
 @if (Auth::user()->hasRole('admin') || Auth::user()->id === $staff->id) <form action="{{ route('staff.destroy', $staff->id) }}" method="POST" style="display: inline-block">

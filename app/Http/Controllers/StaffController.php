@@ -128,6 +128,8 @@ class StaffController extends Controller
         $staff = Staff::findOrFail($id);
         $staff->delete();
         $user = User::findOrFail($staff->user_id);
+        $user->removeRole('Staff');
+
         $user->delete();
         return redirect()->route('staff.index')
             ->with('success', 'Staff member deleted successfully!');

@@ -101,9 +101,9 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $roles = Role::pluck('name','name')->all();
-        $userRole = $user->roles->pluck('name','name')->all();
-
-        return view('users.edit',compact('user','roles','userRole'));
+        $userRole = $user->roles->pluck('name')->all();
+        $offices = Office::all();
+        return view('users.edit',compact('user','roles','userRole','offices'));
     }
 
     /**
@@ -136,11 +136,19 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified staff member from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function destroy(string $id)
     {
-        User::find($id)->delete();
+        $user = User::findOrFail($id);
+        foreach ($user->roles->pluck('name')->all() as $role)
+        {
+            $user->removeRole($role);
+        }
+        $user->delete();
         return redirect()->route('user.index')
             ->with('success','User deleted successfully');
     }
