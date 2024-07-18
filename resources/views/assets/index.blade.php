@@ -78,6 +78,12 @@
                         @can('Request-Asset-Change')
                             <a class="btn btn-primary" href="{{ route('assets.edit',$asset->id) }}">Request Change</a>
                         @endcan
+                        @can('Request-Asset-Maintenance')
+                            <a class="btn btn-primary" href="{{ route('assets.maintenance',$asset->id) }}">Request Maintenance</a>
+                        @endcan
+                        @can('Request-Asset-Problem')
+                            <a class="btn btn-primary" href="{{ route('assets.problem',$asset->id) }}">Report Problem</a>
+                        @endcan
                         @can('Update-Asset-Details')
                             <a class="btn btn-primary" href="{{ route('assets.edit',$asset->id) }}">Update Asset Details</a>
                         @endcan
@@ -212,12 +218,82 @@
                     @endif
                 </td>
                 <td>
+                    <a class="btn btn-info" href="{{ route('assets.show',$req->id) }}">Show</a>
                     <form action="{{ route('assets.destroy',$req->id) }}" method="POST">
-                        <a class="btn btn-info" href="{{ route('assets.show',$req->id) }}">Show</a>
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Cancel Request</button>
                     </form>
                 </td>
             </tr>
         @endforeach
     </table>
+
+
+
+
+
+
+
+
+    <h1> Requested Changes </h1>
+
+
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>Name</th>
+            <th>purchased date</th>
+            <th>end of life</th>
+            <th>Vendor</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th>Standard</th>
+        </tr>
+        @foreach ($changes as $req)
+            <tr>
+                <td>{{$req->asset_name}}</td>
+                <td>{{ $req->purchased_date  }}</td>
+                <td>{{ $req->end_of_life }}</td>
+                <td>
+                    @if ($req->vendor)
+                        {{ $req->vendor->vendor_name }}
+                    @else
+                        N/A
+                    @endif
+                </td>
+                <td>
+                    @if ($req->category)
+                        {{ $req->category->category_name }}
+                    @else
+                        N/A
+                    @endif
+                </td>
+                <td>
+                    @if ($req->status)
+                        {{ $req->status->status_name }}
+                    @else
+                        N/A
+                    @endif
+                </td>
+                <td>
+                    @if ($req->standard)
+                        {{ $req->standard->item_name }}
+                    @else
+                        N/A
+                    @endif
+                </td>
+                <td>
+                    <a class="btn btn-info" href="{{ route('assets.show',$req->asset_id) }}">Original</a>
+                    <a class="btn btn-info" href="{{ route('assetchanges.edit', $req) }}" > Edit Request</a>
+                    <form action="{{ route('assetchanges.destroy',$req->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Cancel Request</button>
+                    </form>
+                </td>
+            </tr>
+        @endforeach
+    </table>
+
 @endrole
 </x-app-layout>>

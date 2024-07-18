@@ -45,6 +45,8 @@ Route::middleware('auth')->group(function () {
     Route::middleware(['role:Asset Manager|Staff|Executive Manager','App\Http\Middleware\CheckStaffBlockStatus'])->group(function () {
         Route::resource('assets', AssetController::class);
         Route::resource('assetchanges', AssetChangeController::class);
+        Route::post('/assetchanges/{id}', [AssetChangeController::class, 'store'])->name('assetchanges.store');
+
 //        Route::get('assets/create', 'App\Http\Controllers\AssetController@create')->name('assets.create');
 //        Route::get('assets', 'App\Http\Controllers\AssetController@register')->name('assets.register');
 //        Route::get('assets', 'App\Http\Controllers\AssetController@index')->name('assets.index');

@@ -19,9 +19,10 @@
         </div>
     @endif
     @role('Staff')
-    <form method="post" action="/assetchanges">
+    <form action="{{ route('assetchanges.store', $asset->id) }}" method="POST">
         @csrf
-    @endrole
+        @method('POST')
+        @endrole
     @role('Asset Manager')
     <form action="{{ route('assets.update', $asset->id) }}" method="POST">
         @csrf
