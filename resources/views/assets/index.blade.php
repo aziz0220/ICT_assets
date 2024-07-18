@@ -13,10 +13,10 @@
                 <h2>
                     <div class="float-end">
                         @can('Request-New-Asset')
-                            <a class="btn btn-success" href="asset/create"> Request New Asset</a>
+                            <a class="btn btn-success" href="assets/create"> Request New Asset</a>
                         @endcan
                         @can('Register-New-Asset')
-                            <a class="btn btn-success" href="asset/create"> Register New Asset</a>
+                            <a class="btn btn-success" href="assets/create"> Register New Asset</a>
                         @endcan
                     </div>
                 </h2>

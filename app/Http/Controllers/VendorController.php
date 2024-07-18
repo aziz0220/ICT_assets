@@ -17,7 +17,7 @@ class VendorController extends Controller
      */
     public function index()
     {
-        $vendors = Vendor::with('creator')->latest()->paginate(50);
+        $vendors = Vendor::with('creator')->latest()->paginate(10);
         return view('vendors.index', compact('vendors'));
     }
 
@@ -125,7 +125,6 @@ class VendorController extends Controller
     {
         $vendor = Vendor::findOrFail($id);
         $vendor->delete();
-
         return redirect()->route('vendor.index')
             ->with('success', 'Vendor deleted successfully!');
     }

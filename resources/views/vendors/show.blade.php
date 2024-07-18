@@ -8,7 +8,7 @@
 
     <p><strong>Vendor Name:</strong> {{ $vendor->vendor_name }}</p>
     <p><strong>Short Name:</strong> {{ $vendor->vendor_shortname }}</p>
-    <p><strong>Created By:</strong> {{ $vendor->created_by }} </p>
+    <p><strong>Created By:</strong> {{  $vendor->creator->name  }} </p>
 
     @can('edit vendors')  <a href="{{ route('vendors.edit', $vendor->id) }}" class="btn btn-primary">Edit Vendor</a>
     @endcan

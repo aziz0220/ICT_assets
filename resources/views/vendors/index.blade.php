@@ -28,9 +28,10 @@
                 <td>{{ $vendor->vendor_shortname }}</td>
                 <td>{{ $vendor->creator->name }}</td> <td>
                     <a href="{{ route('vendor.show', $vendor->id) }}" class="btn btn-sm btn-info">View</a>
-                    <a href="{{ route('vendor.edit', $vendor->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                    @can('Manage-Asset-Vendor')
+                        <a href="{{ route('vendor.edit', $vendor->id) }}" class="btn btn-sm btn-primary">Edit</a>
 
-                    @can('delete vendors')  <form action="{{ route('vendor.destroy', $vendor->id) }}" method="POST" class="d-inline">
+                    <form action="{{ route('vendor.destroy', $vendor->id) }}" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this vendor?')">Delete</button>
