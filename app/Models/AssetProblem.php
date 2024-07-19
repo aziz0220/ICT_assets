@@ -17,8 +17,4 @@ class AssetProblem extends Model
     {
         return $this->belongsTo(Asset::class);
     }
-
-
-
-
 }

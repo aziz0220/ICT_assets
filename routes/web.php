@@ -46,6 +46,8 @@ Route::middleware('auth')->group(function () {
         Route::resource('assets', AssetController::class);
         Route::resource('assetchanges', AssetChangeController::class);
         Route::post('/assetchanges/{id}', [AssetChangeController::class, 'store'])->name('assetchanges.store');
+        Route::put('assets/{id}/approve', [AssetController::class, 'approveNewRequest'])->name('assets.approve');
+
 
 //        Route::get('assets/create', 'App\Http\Controllers\AssetController@create')->name('assets.create');
 //        Route::get('assets', 'App\Http\Controllers\AssetController@register')->name('assets.register');
@@ -59,7 +61,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/staff/block/{staff}',[StaffController::class,'block'])->name('staff.block');
         Route::get('/staff/unblock/{staff}',[StaffController::class,'unblock'])->name('staff.unblock');
         Route::resource('/user',UserController::class);
-        Route::resource('/office',OfficeController::class);
+        Route::resource('/offices',OfficeController::class);
+        Route::post('/offices/{office}/set-head', [OfficeController::class, 'setHead'])->name('offices.setHead');
+        Route::post('/offices/{office}/remove-head', [OfficeController::class, 'removeHead'])->name('offices.removeHead');
+
     });
 
 });

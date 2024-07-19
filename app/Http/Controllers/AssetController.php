@@ -138,6 +138,29 @@
             return redirect()->back()->with('success','Asset Deleted Successfully.');
         }
 
+        public function approveNewRequest($id)
+        {
+            $asset = Asset::findOrFail($id);
+            $user = Auth::user();
+
+            // Check if the user is the head of the office related to the asset
+            if ($user->staff->office->head_office_id == $user->staff->id) {
+                if($asset->is_registered == 0 && $asset->head_approval == 0) {
+                    $asset->head_approval = 1;
+                    $asset->save();
+
+                    return redirect()->route('assets.index')->with('success', 'Asset approved successfully.');
+                }
+                else{
+                    return redirect()->route('assets.index')->with('error', 'Cannot Perform Approval to this Asset.');
+                }
+                $asset->is_registered = 1;
+                $asset->save();
+            }
+            return redirect()->route('assets.index')->with('error', 'You are not authorized to approve this asset.');
+        }
+
+
 
 
         public function downloadPdf()
@@ -181,23 +204,9 @@
 
 
         // Additional Asset functionalities
-
-
-        public function reportAssetProblem()
-        {
-            // Implement logic for staff to report asset problem
-            // This might involve a form, interaction with the Asset model, etc.
-            return view('staff.reportAssetProblem'); // Assuming a report asset problem view
-        }
-
-        public function requestAssetMaintainance()
-        {
-
-            return view('staff.requestAssetMaintainance'); // Assuming a request asset maintenance view
-        }
-
-
         public function assignAssetToStaff()    {
+
+
         }
 
         public function generateCustomReport(){

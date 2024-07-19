@@ -33,7 +33,9 @@
                     <x-nav-link :href="route('user.index')" :active="request()->routeIs('user.index')">
                         {{ __('Assign Role') }}
                     </x-nav-link>
-
+                    <x-nav-link :href="route('offices.index')" :active="request()->routeIs('offices.index')">
+                        {{ __('Offices') }}
+                    </x-nav-link>
                     @endrole
                     @role('Asset Manager')
                     <x-nav-link :href="route('vendor.index')" :active="request()->routeIs('vendor.index')">

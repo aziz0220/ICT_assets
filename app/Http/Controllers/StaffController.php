@@ -135,7 +135,7 @@ class StaffController extends Controller
             ->with('success', 'Staff member deleted successfully!');
     }
 
-    public function block(Request $request, int $id)
+    public function block(int $id)
     {
         $staff = Staff::findOrFail($id);
         if ($staff->is_blocked) {
@@ -148,7 +148,7 @@ class StaffController extends Controller
         return back()->with('success', 'Staff member blocked successfully!');
     }
 
-    public function unblock(Request $request, int $id)
+    public function unblock(int $id)
     {
         $staff = Staff::findOrFail($id);
         if (!$staff->is_blocked) {
@@ -159,6 +159,21 @@ class StaffController extends Controller
         $staff->save();
 
         return back()->with('success', 'Staff member unblocked successfully!');
+    }
+
+    public function setHead (int $id, Office $office_id) {
+        $office = Office::findOrFail($office_id);
+        $staff = Staff::findOrFail($id);
+        if ($office->head_office_id == $id) {
+
+
+
+        }
+
+        $staff->is_head = true;
+        $staff->save();
+        return redirect()->route('staff.index')
+            ->with('success', 'Head of office set successfully!');
     }
 
 

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('warrant');
             $table->integer('quantity');
             $table->boolean('is_registered');
+            $table->boolean('head_approval')->nullable();
             $table->unsignedBigInteger('vendor_id');
             $table->foreign('vendor_id')->references('id')->on('vendors');
             $table->unsignedBigInteger('category_id');

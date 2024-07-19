@@ -148,7 +148,6 @@ class DatabaseSeeder extends Seeder
         $publisherRole = Role::create(['name' => 'publisher']);
         $admin = Role::create(['name' => 'admin']);
 
-
         //Sync Permissions to Roles
         $staffRole->syncPermissions($this->staffPermissions);
         $assetManagerRole->syncPermissions($this->assetManagerPermissions);
@@ -157,8 +156,8 @@ class DatabaseSeeder extends Seeder
         $publisherRole->syncPermissions($this->publisherPermissions);
         $creatorRole->syncPermissions($this->creatorPermissions);
         $admin->givePermissionTo(Permission::all());
-        //Assigning Roles:
 
+        //Assigning Roles:
         foreach ($assetManagers as $assetManager) {
             $assetManager->user->assignRole($assetManagerRole);
         }

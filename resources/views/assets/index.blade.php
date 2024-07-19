@@ -78,12 +78,12 @@
                         @can('Request-Asset-Change')
                             <a class="btn btn-primary" href="{{ route('assets.edit',$asset->id) }}">Request Change</a>
                         @endcan
-                        @can('Request-Asset-Maintenance')
-                            <a class="btn btn-primary" href="{{ route('assets.maintenance',$asset->id) }}">Request Maintenance</a>
-                        @endcan
-                        @can('Request-Asset-Problem')
-                            <a class="btn btn-primary" href="{{ route('assets.problem',$asset->id) }}">Report Problem</a>
-                        @endcan
+{{--                        @can('Request-Asset-Maintenance')--}}
+{{--                            <a class="btn btn-primary" href="{{ route('assets.maintenance',$asset->id) }}">Request Maintenance</a>--}}
+{{--                        @endcan--}}
+{{--                        @can('Request-Asset-Problem')--}}
+{{--                            <a class="btn btn-primary" href="{{ route('assets.problem',$asset->id) }}">Report Problem</a>--}}
+{{--                        @endcan--}}
                         @can('Update-Asset-Details')
                             <a class="btn btn-primary" href="{{ route('assets.edit',$asset->id) }}">Update Asset Details</a>
                         @endcan
@@ -152,7 +152,11 @@
                             <label for="asset_name">Item Name:</label>
                             <input type="text" name="asset_name" id="asset_name" class="form-control" value="{{ $req->asset_name }}" required>
                         </div>
-
+                        <form action="{{ route('assets.approve', $req->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <button type="submit" class="btn btn-primary">Approve</button>
+                        </form>
                         <button type="submit" class="btn btn-primary">Register Asset</button>
 
                     </form>
