@@ -14,13 +14,15 @@ class StaffFactory extends Factory {
 
     public function definition(): array
     {
+        $officeIds = Office::pluck('id')->toArray();
+        $officeIds[] = null;
         return [
             'user_id' => function () {
                 return User::factory()->create([
                     'password' => bcrypt('password'),
                 ])->id;
             },
-            'office_id' => $this->faker->randomElement(Office::pluck('id')->toArray()),
+            'office_id' => $this->faker->randomElement($officeIds),
         ];
     }
 }

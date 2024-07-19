@@ -64,6 +64,10 @@ Route::middleware('auth')->group(function () {
         Route::resource('/offices',OfficeController::class);
         Route::post('/offices/{office}/set-head', [OfficeController::class, 'setHead'])->name('offices.setHead');
         Route::post('/offices/{office}/remove-head', [OfficeController::class, 'removeHead'])->name('offices.removeHead');
+        Route::get('/offices/{office}/assign-staff', [OfficeController::class, 'assignStaffForm'])->name('offices.assignStaffForm');
+        Route::post('/offices/{office}/assign-staff', [OfficeController::class, 'assignStaff'])->name('offices.assignStaff');
+        Route::get('/staff/{staff}/edit-office', [OfficeController::class, 'editStaffOffice'])->name('staff.editOffice');
+        Route::put('/staff/{staff}/update-office', [OfficeController::class, 'updateStaffOffice'])->name('staff.updateOffice');
 
     });
 

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->boolean('is_blocked')->default(false);
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('office_id');
+            $table->unsignedBigInteger('office_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

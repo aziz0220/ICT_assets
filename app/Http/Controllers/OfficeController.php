@@ -15,7 +15,7 @@ class OfficeController extends Controller
      */
     public function index()
     {
-        $offices = Office::with('headOffice')->get();
+        $offices = Office::with('headOffice.user')->get();
         return view('offices.index', compact('offices'));
     }
 
@@ -55,9 +55,8 @@ class OfficeController extends Controller
      */
     public function show(Office $office)
     {
-
         $staff = Staff::with('user')->where('office_id', $office->id)->get();
-        return view('offices.show', compact('office','staff'));
+        return view('offices.show', compact('office', 'staff'));
     }
 
     /**
@@ -122,9 +121,52 @@ class OfficeController extends Controller
     {
         $office->headOffice()->dissociate();
         $office->save();
-
         return redirect()->route('offices.show', $office)->with('success', 'Head office removed successfully.');
     }
+
+
+
+// Method to show form to assign staff to an office
+    public function assignStaffForm(Office $office)
+    {
+        $staff = Staff::with('user')->whereNull('office_id')->get();
+        return view('offices.assignstaff', compact('office', 'staff'));
+    }
+
+// Method to assign staff to an office
+    public function assignStaff(Request $request, Office $office)
+    {
+        $request->validate([
+            'staff_id' => 'required|exists:staff,id',
+        ]);
+
+        $staff = Staff::find($request->staff_id);
+        $staff->office()->associate($office);
+        $staff->save();
+
+        return redirect()->route('offices.show', $office)->with('success', 'Staff assigned to office successfully.');
+    }
+
+// Method to edit staff office
+    public function editStaffOffice(Request $request, Staff $staff)
+    {
+        $offices = Office::all();
+        return view('staff.editoffice', compact('staff', 'offices'));
+    }
+
+// Method to update staff office
+    public function updateStaffOffice(Request $request, Staff $staff)
+    {
+        $request->validate([
+            'office_id' => 'nullable|exists:offices,id',
+        ]);
+
+        $staff->office()->associate($request->office_id);
+        $staff->save();
+
+        return redirect()->route('staff.show', $staff)->with('success', 'Staff office updated successfully.');
+    }
+
 
 
 

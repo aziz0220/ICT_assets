@@ -27,6 +27,8 @@
                         <form action="{{ route('offices.destroy', $office->id) }}" method="POST">
                             <a class="btn btn-info" href="{{ route('offices.show', $office->id) }}">Show</a>
                             <a class="btn btn-primary" href="{{ route('offices.edit', $office->id) }}">Edit</a>
+                            <a href="{{ route('offices.assignStaffForm', $office->id) }}" class="btn btn-primary">Assign Staff</a>
+
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Delete</button>
