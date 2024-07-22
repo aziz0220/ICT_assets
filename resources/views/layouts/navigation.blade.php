@@ -20,6 +20,11 @@
                         {{ __('Assets') }}
                     </x-nav-link>
                     @endrole
+                    @role('Head Office')
+                    <x-nav-link :href="route('assets.index')" :active="request()->routeIs('assets.index')">
+                        {{ __('Assets') }}
+                    </x-nav-link>
+                    @endrole
                     @role('System Admin')
                     <x-nav-link :href="route('staff.index')" :active="request()->routeIs('staff.index')">
                         {{ __('Staff')  }}

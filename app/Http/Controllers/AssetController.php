@@ -11,6 +11,7 @@
     use App\Models\Vendor;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
+    use Illuminate\Support\Facades\Log;
     use Vtiful\Kernel\Excel;
 
     class AssetController extends Controller
@@ -18,7 +19,7 @@
 
         function __construct()
         {
-            $this->middleware(['role:Staff|Asset Manager|Executive Manager'], [['index', 'show']]);
+            $this->middleware(['role:Staff|Asset Manager|Executive Manager|Head Office'], [['index', 'show']]);
     //        $this->middleware(['permission:Request-New-Asset'], ['create']);
     //        $this->middleware(['permission:Register-New-Asset'], ['create', 'store']);
     //        $this->middleware(['permission:Request-Asset-Change'], ['edit']);
@@ -28,10 +29,12 @@
 
         public function index(Request $request, $id = null)
         {
-            $assets = Asset::with('vendor','category','status','standard')->where('is_registered','=','1')->latest()->paginate(50);
-            $requests = Asset::with('vendor','category','status','standard')->where('is_registered','=','0')->latest()->paginate(50);
-            $changes = AssetChange::with('vendor','category','status','standard')->latest()->paginate(50);
-            return view('assets.index', compact('assets','requests', 'changes'));
+            $assets = Asset::with('vendor','category','status','standard')->where('is_registered','=','1')->where('head_approval','=','1')->latest()->paginate(50);
+            $approvedReq = Asset::with('vendor','category','status','standard')->where('is_registered','=','0')->where('head_approval','=','1')->latest()->paginate(50);
+            $requests = Asset::with('vendor','category','status','standard')->where('is_registered','=','0')->where('head_approval','=','0')->latest()->paginate(50);
+            $approvedChange = AssetChange::with('vendor','category','status','standard')->where('head_approval','=','1')->latest()->paginate(50);
+            $changes = AssetChange::with('vendor','category','status','standard')->where('head_approval','=','0')->latest()->paginate(50);
+            return view('assets.index', compact('assets','requests', 'changes','approvedReq','approvedChange'));
         }
 
 
@@ -142,25 +145,71 @@
         {
             $asset = Asset::findOrFail($id);
             $user = Auth::user();
-
-            // Check if the user is the head of the office related to the asset
-            if ($user->staff->office->head_office_id == $user->staff->id) {
+            if ($user->staff->office->head_id == $user->staff->id) {
                 if($asset->is_registered == 0 && $asset->head_approval == 0) {
                     $asset->head_approval = 1;
                     $asset->save();
-
                     return redirect()->route('assets.index')->with('success', 'Asset approved successfully.');
                 }
                 else{
                     return redirect()->route('assets.index')->with('error', 'Cannot Perform Approval to this Asset.');
                 }
-                $asset->is_registered = 1;
-                $asset->save();
+            }
+            return redirect()->route('assets.index')->with('error', 'You are not authorized to approve this asset.');
+        }
+
+        public function approveEditRequest($id)
+        {
+            $asset = AssetChange::findOrFail($id);
+            $user = Auth::user();
+            if ($user->staff->office->head_id == $user->staff->id) {
+                if($asset->is_registered == 0 && $asset->head_approval == 0) {
+                    $asset->head_approval = 1;
+                    $asset->save();
+                    return redirect()->route('assets.index')->with('success', 'Asset approved successfully.');
+                }
+                else{
+                    return redirect()->route('assets.index')->with('error', 'Cannot Perform Approval to this Asset.');
+                }
             }
             return redirect()->route('assets.index')->with('error', 'You are not authorized to approve this asset.');
         }
 
 
+        public function disapproveNewRequest($id)
+        {
+            $asset = Asset::findOrFail($id);
+            $user = Auth::user();
+            if ($user->staff->office->head_id == $user->staff->id) {
+                if($asset->is_registered == 0 && $asset->head_approval == 1) {
+                    $asset->head_approval = 0;
+                    $asset->save();
+                    return redirect()->route('assets.index')->with('success', 'Asset disapproved successfully.');
+                }
+                else{
+                    return redirect()->route('assets.index')->with('error', 'Cannot Perform Disapproval to this Asset.');
+                }
+            }
+            return redirect()->route('assets.index')->with('error', 'You are not authorized to disapprove this asset.');
+        }
+
+
+        public function disapproveEditRequest($id)
+        {
+            $asset = AssetChange::findOrFail($id);
+            $user = Auth::user();
+            if ($user->staff->office->head_id == $user->staff->id) {
+                if($asset->is_registered == 0 && $asset->head_approval == 1) {
+                    $asset->head_approval = 0;
+                    $asset->save();
+                    return redirect()->route('assets.index')->with('success', 'Asset disapproved successfully.');
+                }
+                else{
+                    return redirect()->route('assets.index')->with('error', 'Cannot Perform Disapproval to this Asset.');
+                }
+            }
+            return redirect()->route('assets.index')->with('error', 'You are not authorized to disapprove this asset.');
+        }
 
 
         public function downloadPdf()

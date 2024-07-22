@@ -42,12 +42,14 @@ Route::middleware('auth')->group(function () {
         Route::resource('/vendor',VendorController::class);
     });
 
-    Route::middleware(['role:Asset Manager|Staff|Executive Manager','App\Http\Middleware\CheckStaffBlockStatus'])->group(function () {
+    Route::middleware(['role:Asset Manager|Staff|Executive Manager|Head Office','App\Http\Middleware\CheckStaffBlockStatus'])->group(function () {
         Route::resource('assets', AssetController::class);
         Route::resource('assetchanges', AssetChangeController::class);
         Route::post('/assetchanges/{id}', [AssetChangeController::class, 'store'])->name('assetchanges.store');
         Route::put('assets/{id}/approve', [AssetController::class, 'approveNewRequest'])->name('assets.approve');
-
+        Route::put('assets/{id}/approve-change', [AssetController::class, 'approveEditRequest'])->name('assets.approveChange');
+        Route::put('assets/{id}/disapprove', [AssetController::class, 'disapproveNewRequest'])->name('assets.disapprove');
+        Route::put('assets/{id}/disapprove-change', [AssetController::class, 'disapproveEditRequest'])->name('assets.disapproveChange');
 
 //        Route::get('assets/create', 'App\Http\Controllers\AssetController@create')->name('assets.create');
 //        Route::get('assets', 'App\Http\Controllers\AssetController@register')->name('assets.register');

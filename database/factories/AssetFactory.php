@@ -25,6 +25,7 @@ class AssetFactory extends Factory
             'warrant' => fake()->text(10),
             'quantity' => fake()->numberBetween(0, 100),
             'is_registered' => fake()->boolean(50),
+            'head_approval' => fake()->boolean(100),
             'vendor_id' => fake()->numberBetween(1, 100),
             'category_id' => fake()->numberBetween(1, 10),
             'status_id' => fake()->numberBetween(1, 5),

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Office;
 use App\Models\Staff;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class OfficeController extends Controller
 {
@@ -13,6 +15,14 @@ class OfficeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+    private $headOfficePermissions = [
+        'approve_new_asset',
+        'approve_edit_asset',
+        'approve_maintenance',
+        'approve_problem'
+    ];
     public function index()
     {
         $offices = Office::with('headOffice.user')->get();
@@ -86,8 +96,11 @@ class OfficeController extends Controller
             'head_office_id' => 'nullable|exists:staff,id',
         ]);
 
+        if($request->head_office_id != $office->head_id){
+            $request->staff_id = $request->head_office_id;
+            $this->setHead($request, $office);
+        }
         $office->update($request->all());
-
         return redirect()->route('offices.index')->with('success', 'Office updated successfully.');
     }
 
@@ -100,7 +113,6 @@ class OfficeController extends Controller
     public function destroy(Office $office)
     {
         $office->delete();
-
         return redirect()->route('offices.index')->with('success', 'Office deleted successfully.');
     }
 
@@ -109,17 +121,20 @@ class OfficeController extends Controller
         $request->validate([
             'staff_id' => 'required|exists:staff,id',
         ]);
-
         $staff = Staff::find($request->staff_id);
         $office->headOffice()->associate($staff);
+        $staff->user->removeRole('Staff');
+        $staff->user->assignRole('Head Office');
         $office->save();
-
         return redirect()->route('offices.show', $office)->with('success', 'Head office updated successfully.');
     }
 
     public function removeHead(Office $office)
     {
+        $staff = Staff::findOrFail($office->head_id);
         $office->headOffice()->dissociate();
+        $staff->user->removeRole('Head Office');
+        $staff->user->assignRole('Staff');
         $office->save();
         return redirect()->route('offices.show', $office)->with('success', 'Head office removed successfully.');
     }
@@ -139,11 +154,10 @@ class OfficeController extends Controller
         $request->validate([
             'staff_id' => 'required|exists:staff,id',
         ]);
-
         $staff = Staff::find($request->staff_id);
         $staff->office()->associate($office);
-        $staff->save();
 
+        $staff->save();
         return redirect()->route('offices.show', $office)->with('success', 'Staff assigned to office successfully.');
     }
 
@@ -160,14 +174,8 @@ class OfficeController extends Controller
         $request->validate([
             'office_id' => 'nullable|exists:offices,id',
         ]);
-
         $staff->office()->associate($request->office_id);
         $staff->save();
-
         return redirect()->route('staff.show', $staff)->with('success', 'Staff office updated successfully.');
     }
-
-
-
-
 }

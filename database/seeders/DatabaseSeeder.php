@@ -65,7 +65,11 @@ class DatabaseSeeder extends Seeder
         'set expiration dates',
         'archive contents',
         'edit contents',
-        'block biographies'
+        'block biographies',
+        'approve_new_asset',
+        'approve_edit_asset',
+        'approve_maintenance',
+        'approve_problem'
     ];
 
     private $staffPermissions = [
@@ -76,7 +80,7 @@ class DatabaseSeeder extends Seeder
         'view contents',
         'comment on contents',
         'manage biography',
-        'submit suggestions'
+        'submit suggestions',
     ];
     private $assetManagerPermissions = [
         'Manage-Asset-Standards',
@@ -115,6 +119,13 @@ class DatabaseSeeder extends Seeder
         'Generate-Custom-Report'
     ];
 
+    private $headOfficePermissions = [
+        'approve_new_asset',
+        'approve_edit_asset',
+        'approve_maintenance',
+        'approve_problem',
+    ];
+
     /**
      * Seed the application's database.
      */
@@ -127,7 +138,7 @@ class DatabaseSeeder extends Seeder
         }
 
         // Database Seeding
-//        User::factory(99)->create();
+//      User::factory(99)->create();
         Office::factory(10)->create();
         $assetManagers = AssetManager::factory(2)->create();
         $executiveManager = ExecutiveManagement::factory()->create();
@@ -141,6 +152,7 @@ class DatabaseSeeder extends Seeder
 
         //Creating Roles:
         $staffRole = Role::create(['name' => 'Staff']);
+        $headOfficeRole = Role::create(['name' => 'Head Office']);
         $assetManagerRole = Role::create(['name' => 'Asset Manager']);
         $systemAdminRole = Role::create(['name' => 'System Admin']);
         $executiveRole = Role::create(['name' => 'Executive Manager']);
@@ -150,11 +162,13 @@ class DatabaseSeeder extends Seeder
 
         //Sync Permissions to Roles
         $staffRole->syncPermissions($this->staffPermissions);
+        $headOfficeRole->syncPermissions($this->headOfficePermissions);
         $assetManagerRole->syncPermissions($this->assetManagerPermissions);
         $systemAdminRole->syncPermissions($this->systemAdminPermissions);
         $executiveRole->syncPermissions($this->executiveManagerPermissions);
         $publisherRole->syncPermissions($this->publisherPermissions);
         $creatorRole->syncPermissions($this->creatorPermissions);
+
         $admin->givePermissionTo(Permission::all());
 
         //Assigning Roles:
