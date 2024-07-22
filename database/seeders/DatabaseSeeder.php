@@ -48,6 +48,7 @@ class DatabaseSeeder extends Seeder
         'Update-Asset-Details',
         'Manage-Asset-Categories',
         'Manage-Asset-Status',
+        'Assign-Asset-To-Staff',
         'Generate-Custom-Report',
         'Manage-Role',
         'Manage-Permission',
@@ -90,6 +91,7 @@ class DatabaseSeeder extends Seeder
         'Update-Asset-Details',
         'Manage-Asset-Categories',
         'Manage-Asset-Status',
+        'Assign-Asset-To-Staff',
         'Generate-Custom-Report',
     ];
     private $executiveManagerPermissions = [

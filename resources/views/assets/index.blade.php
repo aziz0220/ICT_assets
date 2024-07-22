@@ -5,11 +5,17 @@
         </h2>
     </x-slot>
 
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success">
+            <p>{{ $message }}</p>
+        </div>
+    @endif
 
 
-    <h1> Registered Assets </h1>
+
 
     @role('Staff|Asset Manager')
+
     <div class="row">
         <div class="col-lg-12 margin-tb mb-4">
             <div class="pull-left">
@@ -26,12 +32,20 @@
             </div>
         </div>
     </div>
-    @if ($message = Session::get('success'))
-        <div class="alert alert-success">
-            <p>{{ $message }}</p>
-        </div>
-    @endif
+    @endrole
 
+
+    @role('Asset Manager')
+
+
+    <a class="btn btn-primary" href="{{ route('assets.assign') }}">Assign Asset To Staff</a>
+
+    @endrole
+
+
+    @role('Staff|Asset Manager')
+
+    <h1> Registered Assets </h1>
     <table class="table table-striped table-hover">
         <tr>
             <th>Name</th>
@@ -41,6 +55,8 @@
             <th>Category</th>
             <th>Status</th>
             <th>Standard</th>
+           @role('Asset Manager') <th> Staff</th>
+            @endrole
         </tr>
         @foreach ($assets as $asset)
             <tr>
@@ -76,6 +92,13 @@
                     @endif
                 </td>
                 <td>
+                    @if ($asset->staff_id)
+                        {{ $asset->staff->user->name }}
+                    @else
+                     N/A
+                    @endif
+                </td>
+                <td>
                     <form action="{{ route('assets.destroy',$asset->id) }}" method="POST">
                         <a class="btn btn-info" href="{{ route('assets.show',$asset->id) }}">Show</a>
                         @can('Request-Asset-Change')
@@ -90,6 +113,10 @@
                         @can('Update-Asset-Details')
                             <a class="btn btn-primary" href="{{ route('assets.edit',$asset->id) }}">Update Asset Details</a>
                         @endcan
+                        @can('Assign-Asset-To-Staff')
+                            <a class="btn btn-primary" href="{{ route('assets.staff', $asset->id) }}">Assign To Staff</a>
+                            @endcan
+
                         @csrf
                         @method('DELETE')
                         @can('Remove-Registered-Asset')
@@ -511,4 +538,4 @@
     </table>
 @endrole
 
-</x-app-layout>>
+</x-app-layout>

@@ -40,6 +40,9 @@ Route::middleware('auth')->group(function () {
         Route::resource('/asset-standard', AssetStandardController::class);
         Route::resource('/asset-status',AssetStatusController::class);
         Route::resource('/vendor',VendorController::class);
+        Route::get('/assets/assign', [AssetController::class, 'assignAssetToStaff'])->name('assets.assign');
+        Route::post('/assets/assign', [AssetController::class,'assignAsset'])->name('assets.assign');
+        Route::get('/assets/{id}/staff',[AssetController::class, 'assignStaff'])->name('assets.staff');
     });
 
     Route::middleware(['role:Asset Manager|Staff|Executive Manager|Head Office','App\Http\Middleware\CheckStaffBlockStatus'])->group(function () {

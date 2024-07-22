@@ -38,9 +38,8 @@ class Asset extends Model
 
     public function staff()
     {
-        return $this->belongsToMany(Staff::class);
+        return $this->belongsTo(Staff::class);
     }
-
     public function creator()
     {
         return $this->belongsTo(User::class,'created_by');

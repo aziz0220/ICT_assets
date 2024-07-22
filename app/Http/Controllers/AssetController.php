@@ -7,11 +7,11 @@
     use App\Models\AssetChange;
     use App\Models\AssetStandard;
     use App\Models\AssetStatus;
+    use App\Models\Staff;
     use App\Models\User;
     use App\Models\Vendor;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
-    use Illuminate\Support\Facades\Log;
     use Vtiful\Kernel\Excel;
 
     class AssetController extends Controller
@@ -29,7 +29,8 @@
 
         public function index(Request $request, $id = null)
         {
-            $assets = Asset::with('vendor','category','status','standard')->where('is_registered','=','1')->where('head_approval','=','1')->latest()->paginate(50);
+//            $assigned = Asset::with('vendor','category','status','standard','staff','staff.user')->where('is_registered','=','1')->where('head_approval','=','1')->latest()->paginate(50);
+            $assets = Asset::with('vendor','category','status','standard','staff','staff.user')->where('is_registered','=','1')->where('head_approval','=','1')->latest()->paginate(50);
             $approvedReq = Asset::with('vendor','category','status','standard')->where('is_registered','=','0')->where('head_approval','=','1')->latest()->paginate(50);
             $requests = Asset::with('vendor','category','status','standard')->where('is_registered','=','0')->where('head_approval','=','0')->latest()->paginate(50);
             $approvedChange = AssetChange::with('vendor','category','status','standard')->where('head_approval','=','1')->latest()->paginate(50);
@@ -211,6 +212,38 @@
             return redirect()->route('assets.index')->with('error', 'You are not authorized to disapprove this asset.');
         }
 
+        public function assignAssetToStaff()    {
+            $assets = Asset::where('is_registered', 1)->where('head_approval', 1)->get();
+            $staff = Staff::with('user')->where('is_blocked', 0)->get();
+            return view('assets.assign', compact('assets', 'staff'));
+        }
+
+
+        public function assignAsset(Request $request)
+        {
+            $request->validate([
+                'asset_id' => 'required|exists:assets,id',
+                'staff_id' => 'required|exists:staff,id',
+            ]);
+
+            $asset = Asset::findOrFail($request->asset_id);
+            $staff = Staff::findOrFail($request->staff_id);
+
+            $asset->staff_id = $staff->id;
+            $asset->save();
+
+            return redirect()->route('assets.index')->with('success', 'Asset assigned to staff successfully.');
+        }
+
+
+        public function assignStaff($id){
+            $asset = Asset::findOrFail($id);
+            $staff = Staff::with('user')->where('is_blocked','=','0')->get();
+            return view('assets.staff',compact('asset','staff'));
+        }
+
+
+
 
         public function downloadPdf()
         {
@@ -253,10 +286,7 @@
 
 
         // Additional Asset functionalities
-        public function assignAssetToStaff()    {
 
-
-        }
 
         public function generateCustomReport(){
         }
