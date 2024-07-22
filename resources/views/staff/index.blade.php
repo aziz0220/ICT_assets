@@ -12,6 +12,8 @@
     </div>
 @endif
     <a href="{{ route('staff.create') }}" class="btn btn-success">Add Staff Member</a>
+    @if($staff->isNotEmpty())
+    <h1> Active Staff members </h1>
 <table class="table table-striped">
     <thead>
     <tr>
@@ -43,9 +45,10 @@
     @endforeach
     </tbody>
 </table>
-
-
+    @endif
+    {!! $staff->render() !!}
     @role('System Admin')
+    @if($blocked->isNotEmpty())
     <h1> Blocked Staff members </h1>
 
     <table class="table table-striped">
@@ -80,6 +83,8 @@
         </tbody>
     </table>
 
+        {!! $blocked->render() !!}
+    @endif
     @endrole
 
 </x-app-layout>

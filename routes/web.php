@@ -33,9 +33,6 @@ Route::get('/dashboard', function () {
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::middleware(['role:Asset Manager'])->group(function () {
         Route::resource('/asset-category',AssetCategoryController::class);
@@ -62,7 +59,6 @@ Route::middleware('auth')->group(function () {
         Route::get('assets/{id}/maintenance', [AssetController::class, 'maintenanceRequest'])->name('assets.maintenance');
         Route::post('assets/{id}/maintenance', [AssetMaintenanceController::class, 'store'])->name('asset.maintenance.store');
 
-
         Route::get('assets/{id}/maintenance',[AssetController::class,'maintenanceRequest'])->name('assets.maintenance');
         Route::get('assets/{id}/problem',[AssetController::class,'problemRequest'])->name('assets.problem');
 //        Route::get('assets/create', 'App\Http\Controllers\AssetController@create')->name('assets.create');
@@ -87,6 +83,11 @@ Route::middleware('auth')->group(function () {
 
     });
 
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+
 });
 
 
@@ -101,11 +102,11 @@ Route::group(['middleware' => Api::class, 'prefix' => 'api/v1'], function () {
 //    Route::delete('biographies/{id}', [BiographyController::class, 'destroy']);
 });
 
-Route::middleware(['auth', 'role:staff'])->group(function () {
+Route::middleware(['auth', 'role:Staff'])->group(function () {
     Route::get('contents', [ContentController::class, 'index'])->name('contents.index');
     Route::post('comments', [CommentController::class, 'store'])->name('comments.store');
-    Route::get('profile/edit', [UserController::class, 'edit'])->name('profile.edit');
-    Route::put('profile', [UserController::class, 'update'])->name('profile.update');
+//    Route::get('profile/edit', [UserController::class, 'edit'])->name('profile.edit');
+//    Route::put('profile', [UserController::class, 'update'])->name('profile.update');
 });
 
 Route::middleware(['auth', 'role:creator'])->group(function () {

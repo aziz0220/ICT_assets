@@ -31,7 +31,7 @@
             <p>{{ $message }}</p>
         </div>
     @endif
-
+    @if($roles->isNotEmpty())
     <table class="table table-striped table-hover">
         <tr>
             <th>Name</th>
@@ -58,6 +58,6 @@
             </tr>
         @endforeach
     </table>
-
+    @endif
     {!! $roles->render() !!}
 </x-app-layout>>

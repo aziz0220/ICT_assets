@@ -46,5 +46,5 @@
         @endforeach
     </table>
 
-{{--    {!! $permissions->links() !!}--}}
+    {!! $permissions->links() !!}
 </x-app-layout>

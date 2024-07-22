@@ -6,6 +6,7 @@ use App\Models\Office;
 use App\Models\Staff;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class OfficeController extends Controller
@@ -25,7 +26,7 @@ class OfficeController extends Controller
     ];
     public function index()
     {
-        $offices = Office::with('headOffice.user')->get();
+        $offices = Office::with('headOffice.user')->paginate(5);
         return view('offices.index', compact('offices'));
     }
 

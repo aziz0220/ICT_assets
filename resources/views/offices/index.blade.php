@@ -37,5 +37,6 @@
                 </tr>
             @endforeach
         </table>
+        {!! $offices->links() !!}
     </div>
 </x-app-layout>

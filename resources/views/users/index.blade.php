@@ -55,4 +55,5 @@
             </tr>
         @endforeach
     </table>
+    {!! $data->render() !!}
 </x-app-layout>

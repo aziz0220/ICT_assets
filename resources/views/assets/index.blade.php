@@ -44,7 +44,7 @@
 
 
     @role('Staff|Asset Manager')
-
+    @if($assets->isNotEmpty())
     <h1> Registered Assets </h1>
     <table class="table table-striped table-hover">
         <tr>
@@ -138,10 +138,12 @@
             </tr>
         @endforeach
     </table>
+    @endif
 @endrole
 
 
     @role('Asset Manager')
+    @if($requests->isNotEmpty())
     <h1>Requested Assets</h1>
     <table class="table table-striped table-hover">
         <tr>
@@ -209,9 +211,9 @@
             </tr>
         @endforeach
     </table>
+    @endif
 
-
-
+    @if($changes->isNotEmpty())
 
     <h1> Requested Changes </h1>
 
@@ -279,6 +281,7 @@
             </tr>
         @endforeach
     </table>
+    @endif
     @endrole
 
 
@@ -287,6 +290,7 @@
 
 
 @role('Staff')
+    @if($assigned->isNotEmpty())
     <h1> Assigned Assets </h1>
 
 
@@ -353,7 +357,7 @@
             </tr>
         @endforeach
     </table>
-
+    @endif
 
 
     @endrole
@@ -365,6 +369,7 @@
 
 
     @role('Staff|Head Office')
+    @if($requests->isNotEmpty())
     <h1> Requested Assets </h1>
 
 
@@ -429,10 +434,10 @@
             </tr>
         @endforeach
     </table>
+    @endif
 
 
-
-
+    @if($changes->isNotEmpty())
     <h1> Requested Changes </h1>
 
 
@@ -499,9 +504,9 @@
             </tr>
         @endforeach
     </table>
+    @endif
 
-
-
+    @if($approvedReq->isNotEmpty())
     <h1> Approved Assets </h1>
 
 
@@ -567,7 +572,9 @@
         @endforeach
     </table>
 
+    @endif
 
+    @if($approvedChange->isNotEmpty())
 
 
     <h1> Approved Changes </h1>
@@ -630,6 +637,7 @@
             </tr>
         @endforeach
     </table>
+    @endif
 @endrole
 
 </x-app-layout>

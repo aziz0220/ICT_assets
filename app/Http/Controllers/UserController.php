@@ -22,7 +22,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $data = User::latest()->paginate(100);
+        $data = User::latest()->paginate(10);
         return view('users.index',compact('data'));
     }
 

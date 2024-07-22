@@ -18,8 +18,8 @@ class StaffController extends Controller
      */
     public function index()
     {
-        $staff = Staff::with('office','user')->where('is_blocked', false)->latest()->paginate(50);
-        $blocked = Staff::with('office','user')->where('is_blocked', true)->latest()->paginate(50);
+        $staff = Staff::with('office','user')->where('is_blocked', false)->latest()->paginate(10);
+        $blocked = Staff::with('office','user')->where('is_blocked', true)->latest()->paginate(10);
         return view('staff.index', compact('staff','blocked'));
     }
 
