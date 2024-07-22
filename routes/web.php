@@ -2,6 +2,8 @@
 use App\Http\Controllers\AssetCategoryController;
 use App\Http\Controllers\AssetChangeController;
 use App\Http\Controllers\AssetController;
+use App\Http\Controllers\AssetMaintenanceController;
+use App\Http\Controllers\AssetProblemController;
 use App\Http\Controllers\AssetStandardController;
 use App\Http\Controllers\AssetStatusController;
 use App\Http\Controllers\BiographyController;
@@ -53,7 +55,16 @@ Route::middleware('auth')->group(function () {
         Route::put('assets/{id}/approve-change', [AssetController::class, 'approveEditRequest'])->name('assets.approveChange');
         Route::put('assets/{id}/disapprove', [AssetController::class, 'disapproveNewRequest'])->name('assets.disapprove');
         Route::put('assets/{id}/disapprove-change', [AssetController::class, 'disapproveEditRequest'])->name('assets.disapproveChange');
+        // Asset Problems
+        Route::get('assets/{id}/problem', [AssetController::class, 'problemRequest'])->name('assets.problem');
+        Route::post('assets/{id}/problem', [AssetProblemController::class, 'store'])->name('asset.problem.store');
+// Asset Maintenance
+        Route::get('assets/{id}/maintenance', [AssetController::class, 'maintenanceRequest'])->name('assets.maintenance');
+        Route::post('assets/{id}/maintenance', [AssetMaintenanceController::class, 'store'])->name('asset.maintenance.store');
 
+
+        Route::get('assets/{id}/maintenance',[AssetController::class,'maintenanceRequest'])->name('assets.maintenance');
+        Route::get('assets/{id}/problem',[AssetController::class,'problemRequest'])->name('assets.problem');
 //        Route::get('assets/create', 'App\Http\Controllers\AssetController@create')->name('assets.create');
 //        Route::get('assets', 'App\Http\Controllers\AssetController@register')->name('assets.register');
 //        Route::get('assets', 'App\Http\Controllers\AssetController@index')->name('assets.index');

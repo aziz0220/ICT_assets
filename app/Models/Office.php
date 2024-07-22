@@ -16,6 +16,11 @@ class Office extends Model
         return $this->hasMany(Staff::class, 'office_id');
     }
 
+    public function asset(){
+        return $this->hasMany(Asset::class);
+
+    }
+
     public function headOffice()
     {
         return $this->belongsTo(Staff::class, 'head_id');

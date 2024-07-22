@@ -55,7 +55,9 @@
             <th>Category</th>
             <th>Status</th>
             <th>Standard</th>
-           @role('Asset Manager') <th> Staff</th>
+           @role('Asset Manager')
+            <th> Staff</th>
+            <th> Office</th>
             @endrole
         </tr>
         @foreach ($assets as $asset)
@@ -91,6 +93,7 @@
                         N/A
                     @endif
                 </td>
+                @role('Asset Manager')
                 <td>
                     @if ($asset->staff_id)
                         {{ $asset->staff->user->name }}
@@ -98,6 +101,14 @@
                      N/A
                     @endif
                 </td>
+                <td>
+                    @if ($asset->office_id)
+                        {{ $asset->office->name }}
+                    @else
+                        N/A
+                    @endif
+                </td>
+                @endrole
                 <td>
                     <form action="{{ route('assets.destroy',$asset->id) }}" method="POST">
                         <a class="btn btn-info" href="{{ route('assets.show',$asset->id) }}">Show</a>
@@ -269,6 +280,89 @@
         @endforeach
     </table>
     @endrole
+
+
+
+
+
+
+@role('Staff')
+    <h1> Assigned Assets </h1>
+
+
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>Name</th>
+            <th>purchased date</th>
+            <th>end of life</th>
+            <th>Vendor</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th>Standard</th>
+        </tr>
+        @foreach ($assigned as $req)
+            <tr>
+                <td>{{$req->asset_name}}</td>
+                <td>{{ $req->purchased_date  }}</td>
+                <td>{{ $req->end_of_life }}</td>
+                <td>
+                    @if ($req->vendor)
+                        {{ $req->vendor->vendor_name }}
+                    @else
+                        N/A
+                    @endif
+                </td>
+                <td>
+                    @if ($req->category)
+                        {{ $req->category->category_name }}
+                    @else
+                        N/A
+                    @endif
+                </td>
+                <td>
+                    @if ($req->status)
+                        {{ $req->status->status_name }}
+                    @else
+                        N/A
+                    @endif
+                </td>
+                <td>
+                    @if ($req->standard)
+                        {{ $req->standard->item_name }}
+                    @else
+                        N/A
+                    @endif
+                </td>
+                <td>
+                    <a class="btn btn-info" href="{{ route('assets.show', $req->id) }}">Show</a>
+                    @can('Request-Asset-Maintenance')
+                        <form action="{{ route('asset.maintenance.store', $req->id) }}" method="POST">
+                            @csrf
+                            <textarea name="description" class="form-control" placeholder="Describe maintenance needed" required></textarea>
+                            <button type="submit" class="btn btn-primary mt-2">Request Maintenance</button>
+                        </form>
+                    @endcan
+                    @can('Request-Asset-Problem')
+                        <form action="{{ route('asset.problem.store', $req->id) }}" method="POST">
+                            @csrf
+                            <textarea name="description" class="form-control" placeholder="Describe the problem" required></textarea>
+                            <button type="submit" class="btn btn-danger mt-2">Report Problem</button>
+                        </form>
+                    @endcan
+                </td>
+            </tr>
+        @endforeach
+    </table>
+
+
+
+    @endrole
+
+
+
+
+
+
 
     @role('Staff|Head Office')
     <h1> Requested Assets </h1>

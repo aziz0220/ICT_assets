@@ -29,13 +29,16 @@
 
         public function index(Request $request, $id = null)
         {
-//            $assigned = Asset::with('vendor','category','status','standard','staff','staff.user')->where('is_registered','=','1')->where('head_approval','=','1')->latest()->paginate(50);
-            $assets = Asset::with('vendor','category','status','standard','staff','staff.user')->where('is_registered','=','1')->where('head_approval','=','1')->latest()->paginate(50);
+            $user = Auth::user();
+            if($user->hasRole('Staff')){
+                $assigned = Asset::with('vendor','category','status','standard','staff','staff.user','office')->where('is_registered','=','1')->where('head_approval','=','1')->where('office_id','=',$user->staff->office->id)->latest()->paginate(50);
+            }
+            $assets = Asset::with('vendor','category','status','standard','staff','staff.user','office')->where('is_registered','=','1')->where('head_approval','=','1')->latest()->paginate(50);
             $approvedReq = Asset::with('vendor','category','status','standard')->where('is_registered','=','0')->where('head_approval','=','1')->latest()->paginate(50);
             $requests = Asset::with('vendor','category','status','standard')->where('is_registered','=','0')->where('head_approval','=','0')->latest()->paginate(50);
             $approvedChange = AssetChange::with('vendor','category','status','standard')->where('head_approval','=','1')->latest()->paginate(50);
             $changes = AssetChange::with('vendor','category','status','standard')->where('head_approval','=','0')->latest()->paginate(50);
-            return view('assets.index', compact('assets','requests', 'changes','approvedReq','approvedChange'));
+            return view('assets.index', compact('assets','requests', 'changes','approvedReq','approvedChange','assigned'));
         }
 
 

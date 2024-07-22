@@ -40,6 +40,11 @@ class Asset extends Model
     {
         return $this->belongsTo(Staff::class);
     }
+    public function office()
+    {
+        return $this->belongsTo(Office::class);
+    }
+
     public function creator()
     {
         return $this->belongsTo(User::class,'created_by');

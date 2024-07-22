@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('quantity');
             $table->boolean('is_registered');
             $table->boolean('head_approval');
+            $table->unsignedBigInteger('office_id');
             $table->unsignedBigInteger('staff_id')->nullable(); // New column to store assigned staff
             $table->foreign('staff_id')->references('id')->on('staff');
             $table->unsignedBigInteger('vendor_id');
