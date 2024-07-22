@@ -6,9 +6,8 @@
     </x-slot>
 
 
-@role('Staff')
+
     <h1> Registered Assets </h1>
-@endrole
 
     @role('Staff|Asset Manager')
     <div class="row">
@@ -102,6 +101,8 @@
         @endforeach
     </table>
 @endrole
+
+
     @role('Asset Manager')
     <h1>Requested Assets</h1>
     <table class="table table-striped table-hover">
@@ -165,6 +166,76 @@
                         @csrf
                         @method('DELETE')
                             <button type="submit" class="btn btn-danger">Reject</button>
+                    </form>
+                </td>
+            </tr>
+        @endforeach
+    </table>
+
+
+
+
+    <h1> Requested Changes </h1>
+
+
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>Name</th>
+            <th>purchased date</th>
+            <th>end of life</th>
+            <th>Vendor</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th>Standard</th>
+        </tr>
+        @foreach ($changes as $req)
+            <tr>
+                <td>{{$req->asset_name}}</td>
+                <td>{{ $req->purchased_date  }}</td>
+                <td>{{ $req->end_of_life }}</td>
+                <td>
+                    @if ($req->vendor)
+                        {{ $req->vendor->vendor_name }}
+                    @else
+                        N/A
+                    @endif
+                </td>
+                <td>
+                    @if ($req->category)
+                        {{ $req->category->category_name }}
+                    @else
+                        N/A
+                    @endif
+                </td>
+                <td>
+                    @if ($req->status)
+                        {{ $req->status->status_name }}
+                    @else
+                        N/A
+                    @endif
+                </td>
+                <td>
+                    @if ($req->standard)
+                        {{ $req->standard->item_name }}
+                    @else
+                        N/A
+                    @endif
+                </td>
+                <td>
+                    <a class="btn btn-info" href="{{ route('assets.show',$req->asset_id) }}">Original</a>
+                    <form action="{{ route('assets.update', $req->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="form-group hidden" >
+                            <label for="asset_name">Item Name:</label>
+                            <input type="text" name="asset_name" id="asset_name" class="form-control" value="{{ $req->asset_name }}" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Register Asset</button>
+                    </form>
+                    <form action="{{ route('assets.destroy',$req->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Reject</button>
                     </form>
                 </td>
             </tr>
