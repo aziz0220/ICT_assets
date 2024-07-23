@@ -31,13 +31,13 @@
         {
             $user = Auth::user();
             if($user->hasRole('Staff')){
-                $assigned = Asset::with('vendor','category','status','standard','staff','staff.user','office')->where('is_registered','=','1')->where('head_approval','=','1')->where('office_id','=',$user->staff->office->id)->latest()->paginate(50);
+                $assigned = Asset::with('vendor','category','status','standard','staff','staff.user','office')->where('is_registered','=','1')->where('head_approval','=','1')->where('office_id','=',$user->staff->office->id)->latest()->paginate(10);
             }
-            $assets = Asset::with('vendor','category','status','standard','staff','staff.user','office')->where('is_registered','=','1')->where('head_approval','=','1')->latest()->paginate(50);
-            $approvedReq = Asset::with('vendor','category','status','standard')->where('is_registered','=','0')->where('head_approval','=','1')->latest()->paginate(50);
-            $requests = Asset::with('vendor','category','status','standard')->where('is_registered','=','0')->where('head_approval','=','0')->latest()->paginate(50);
-            $approvedChange = AssetChange::with('vendor','category','status','standard')->where('head_approval','=','1')->latest()->paginate(50);
-            $changes = AssetChange::with('vendor','category','status','standard')->where('head_approval','=','0')->latest()->paginate(50);
+            $assets = Asset::with('vendor','category','status','standard','staff','staff.user','office')->where('is_registered','=','1')->where('head_approval','=','1')->latest()->paginate(10);
+            $approvedReq = Asset::with('vendor','category','status','standard')->where('is_registered','=','0')->where('head_approval','=','1')->latest()->paginate(10);
+            $requests = Asset::with('vendor','category','status','standard')->where('is_registered','=','0')->where('head_approval','=','0')->latest()->paginate(10);
+            $approvedChange = AssetChange::with('vendor','category','status','standard')->where('head_approval','=','1')->latest()->paginate(10);
+            $changes = AssetChange::with('vendor','category','status','standard')->where('head_approval','=','0')->latest()->paginate(10);
             return view('assets.index', compact('assets','requests', 'changes','approvedReq','approvedChange','assigned'));
         }
 

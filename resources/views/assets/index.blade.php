@@ -115,12 +115,6 @@
                         @can('Request-Asset-Change')
                             <a class="btn btn-primary" href="{{ route('assets.edit',$asset->id) }}">Request Change</a>
                         @endcan
-{{--                        @can('Request-Asset-Maintenance')--}}
-{{--                            <a class="btn btn-primary" href="{{ route('assets.maintenance',$asset->id) }}">Request Maintenance</a>--}}
-{{--                        @endcan--}}
-{{--                        @can('Request-Asset-Problem')--}}
-{{--                            <a class="btn btn-primary" href="{{ route('assets.problem',$asset->id) }}">Report Problem</a>--}}
-{{--                        @endcan--}}
                         @can('Update-Asset-Details')
                             <a class="btn btn-primary" href="{{ route('assets.edit',$asset->id) }}">Update Asset Details</a>
                         @endcan
@@ -138,6 +132,8 @@
             </tr>
         @endforeach
     </table>
+
+        {{ $assets->links() }}
     @endif
 @endrole
 
@@ -211,6 +207,7 @@
             </tr>
         @endforeach
     </table>
+        {{ $requests->links() }}
     @endif
 
     @if($changes->isNotEmpty())
@@ -281,6 +278,7 @@
             </tr>
         @endforeach
     </table>
+        {{ $changes->links() }}
     @endif
     @endrole
 
@@ -339,13 +337,7 @@
                 </td>
                 <td>
                     <a class="btn btn-info" href="{{ route('assets.show', $req->id) }}">Show</a>
-                    @can('Request-Asset-Maintenance')
-                        <form action="{{ route('asset.maintenance.store', $req->id) }}" method="POST">
-                            @csrf
-                            <textarea name="description" class="form-control" placeholder="Describe maintenance needed" required></textarea>
-                            <button type="submit" class="btn btn-primary mt-2">Request Maintenance</button>
-                        </form>
-                    @endcan
+                    <!-- Asset Problem Form -->
                     @can('Request-Asset-Problem')
                         <form action="{{ route('asset.problem.store', $req->id) }}" method="POST">
                             @csrf
@@ -353,10 +345,20 @@
                             <button type="submit" class="btn btn-danger mt-2">Report Problem</button>
                         </form>
                     @endcan
+
+                    <!-- Asset Maintenance Form -->
+                    @can('Request-Asset-Maintenance')
+                        <form action="{{ route('asset.maintenance.store', $req->id) }}" method="POST">
+                            @csrf
+                            <textarea name="description" class="form-control" placeholder="Describe maintenance needed" required></textarea>
+                            <button type="submit" class="btn btn-primary mt-2">Request Maintenance</button>
+                        </form>
+                    @endcan
                 </td>
             </tr>
         @endforeach
     </table>
+        {{ $assigned->links() }}
     @endif
 
 
@@ -434,6 +436,7 @@
             </tr>
         @endforeach
     </table>
+        {{ $requests->links() }}
     @endif
 
 
@@ -504,6 +507,7 @@
             </tr>
         @endforeach
     </table>
+        {{ $changes->links() }}
     @endif
 
     @if($approvedReq->isNotEmpty())
@@ -571,7 +575,7 @@
             </tr>
         @endforeach
     </table>
-
+        {{ $approvedReq->links() }}
     @endif
 
     @if($approvedChange->isNotEmpty())
@@ -637,6 +641,7 @@
             </tr>
         @endforeach
     </table>
+        {{ $approvedChange->links() }}
     @endif
 @endrole
 

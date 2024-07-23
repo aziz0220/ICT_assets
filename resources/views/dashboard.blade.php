@@ -7,13 +7,53 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                   @role('Staff')
-                    <p> Pending Requests </p>
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 bg-white border-b border-gray-200">
+                    @if($pendingProblems->isNotEmpty())
+                        <h3>Pending Asset Problems</h3>
+                        <table class="table table-striped table-hover">
+                            <tr>
+                                <th>Description</th>
+                                <th>Asset</th>
+                                <th>Actions</th>
+                            </tr>
+                            @foreach ($pendingProblems as $problem)
+                                <tr>
+                                    <td>{{ $problem->description }}</td>
+                                    <td>{{ $problem->asset->asset_name }}</td>
+                                    <td>
+                                        <!-- Add your actions here -->
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    @else
+                        <p>No pending problems.</p>
+                    @endif
 
-
-                    @endrole
+                    @if($pendingMaintenances->isNotEmpty())
+                        <h3>Pending Asset Maintenances</h3>
+                        <table class="table table-striped table-hover">
+                            <tr>
+                                <th>Description</th>
+                                <th>Asset</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                            @foreach ($pendingMaintenances as $maintenance)
+                                <tr>
+                                    <td>{{ $maintenance->description }}</td>
+                                    <td>{{ $maintenance->asset->asset_name }}</td>
+                                    <td>{{ $maintenance->status }}</td>
+                                    <td>
+                                        <!-- Add your actions here -->
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    @else
+                        <p>No pending maintenances.</p>
+                    @endif
                 </div>
             </div>
         </div>

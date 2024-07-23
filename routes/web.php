@@ -44,6 +44,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/assets/{id}/staff',[AssetController::class, 'assignStaff'])->name('assets.staff');
     });
 
+    Route::middleware(['role:Staff'])->group(function () {
+        Route::get('/dashboard',[AssetProblemController::class, 'index'])->name('dashboard');
+    });
+
     Route::middleware(['role:Asset Manager|Staff|Executive Manager|Head Office','App\Http\Middleware\CheckStaffBlockStatus'])->group(function () {
         Route::resource('assets', AssetController::class);
         Route::resource('assetchanges', AssetChangeController::class);
@@ -59,8 +63,10 @@ Route::middleware('auth')->group(function () {
         Route::get('assets/{id}/maintenance', [AssetController::class, 'maintenanceRequest'])->name('assets.maintenance');
         Route::post('assets/{id}/maintenance', [AssetMaintenanceController::class, 'store'])->name('asset.maintenance.store');
 
-        Route::get('assets/{id}/maintenance',[AssetController::class,'maintenanceRequest'])->name('assets.maintenance');
-        Route::get('assets/{id}/problem',[AssetController::class,'problemRequest'])->name('assets.problem');
+        Route::resource('asset_problems', AssetProblemController::class);
+        Route::resource('asset_maintenances', AssetMaintenanceController::class);
+
+
 //        Route::get('assets/create', 'App\Http\Controllers\AssetController@create')->name('assets.create');
 //        Route::get('assets', 'App\Http\Controllers\AssetController@register')->name('assets.register');
 //        Route::get('assets', 'App\Http\Controllers\AssetController@index')->name('assets.index');
