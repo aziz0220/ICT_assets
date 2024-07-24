@@ -10,26 +10,14 @@
 </head>
 <body class="bg-ash-gray/40 text-black/80 h-screen bg-cover bg-center" style="background-image: url({{Vite::asset('resources/images/background1.jpeg')}})">
 
-<div class="px-10">
+<div class="">
 
-    <nav class="flex justify-between items-center py-4 border-b border-white/10">
-        <div>
-            <a href="/"   class="">
-                <img style="width: 50px;" src="{{ Vite::asset('resources/images/logo.png') }}" alt="">
-            </a>
-        </div>
-        <x-links class="space-x-6 font-bold"></x-links>
-        @auth
-            <x-right-nav-main></x-right-nav-main>
-        @endauth
-        @guest
-            <x-right-nav></x-right-nav>
-        @endguest
-
-    </nav>
-
-
-<main class="mt-10 ">
+{{--    <x-sidebar-dynamic></x-sidebar-dynamic>--}}
+    <x-sidebar></x-sidebar>
+{{--        <x-sidebar-wide></x-sidebar-wide>--}}
+    {{--    <x-vertical-menu ></x-vertical-menu>--}}
+    <x-navbar></x-navbar>
+<main class="mt-20 px-20">
     {{ $slot }}
 </main>
 

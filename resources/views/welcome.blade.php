@@ -1,6 +1,5 @@
 <x-layout>
 
-    <x-vertical-menu class=""></x-vertical-menu>
     <div class="space-y-10">
         <section class="text-center pt-6">
             <h1 class="font-bold text-4xl relative after:absolute after:bg-gray-200 after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-left after:scale-x-100 hover:after:origin-bottom-right hover:after:scale-x-0 after:transition-transform after:ease-in-out after:duration-300">ICT Register</h1>
@@ -10,7 +9,7 @@
         </section>
 
         <section>
-            <x-section-heading>Assets</x-section-heading>
+            <x-section-heading>Registered Assets</x-section-heading>
             <div class="grid lg:grid-cols-3 gap-8 mt-6">
                 @foreach($assets as $asset)
                     <x-asset-card :$asset/>
