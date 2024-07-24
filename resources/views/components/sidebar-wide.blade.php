@@ -1,4 +1,4 @@
-<div class="fixed h-screen flex-col justify-between items-center border-e bg-white">
+<div class="fixed h-screen flex-col justify-between items-center border-e bg-white ">
     <div class="sidebar px-4 py-6">
     <span class="grid h-10 w-32 place-content-center rounded-lg bg-gray-100 text-xs text-gray-600">
       Logo

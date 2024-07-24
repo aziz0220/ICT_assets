@@ -1,7 +1,7 @@
-<div class="fixed h-screen w-16 flex-col justify-between border-e bg-white">
+<div class="fixed h-screen w-16 flex-col justify-between border-e sticky top-0 h-screen w-16">
     <div class=" justify-between items-center">
         <div class="inline-flex size-16 items-center justify-center">
-      <span class="grid size-10 place-content-center rounded-lg bg-gray-100 text-xs text-gray-600">
+      <span class="grid size-10 place-content-center rounded-lg bg-gray-200 text-xs text-gray-600">
         R
       </span>
         </div>

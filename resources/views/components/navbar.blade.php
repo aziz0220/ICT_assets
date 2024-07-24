@@ -1,5 +1,5 @@
-<div class="px-20">
-    <nav class="flex justify-between items-center py-4 border-b border-white/10">
+<div class="fixed  top-0 left-16 right-0 w-full h-20 px-16 py-4 justify-between items-center border-e bg-gray-100 border-black-900">
+    <nav class="flex justify-between items-center h-10">
         <div>
             <a href="/"   class="">
                 <img style="width: 50px;" src="{{ Vite::asset('resources/images/logo.png') }}" alt="">
