@@ -8,7 +8,7 @@
     <title>ICT Register</title>
     @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
-<body class="bg-ash-gray/40 text-blue4/80 h-screen bg-cover bg-center" style="background-image: url({{Vite::asset('resources/images/background1.jpeg')}})">
+<body class="bg-ash-gray/40 text-black/80 h-screen bg-cover bg-center" style="background-image: url({{Vite::asset('resources/images/background1.jpeg')}})">
 
 <div class="px-10">
 
@@ -19,11 +19,17 @@
             </a>
         </div>
         <x-links class="space-x-6 font-bold"></x-links>
-        <x-right-nav></x-right-nav>
+        @auth
+            <x-right-nav-main></x-right-nav-main>
+        @endauth
+        @guest
+            <x-right-nav></x-right-nav>
+        @endguest
+
     </nav>
 
 
-<main class="mt-10 max-w-[800px]">
+<main class="mt-10 ">
     {{ $slot }}
 </main>
 
