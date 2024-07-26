@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('vendor_shortname');
             $table->unsignedBigInteger('created_by')->nullable(); // User who created the asset
             $table->foreign('created_by')->references('id')->on('users'); // Foreign key constraint
+            $table->string('logo')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

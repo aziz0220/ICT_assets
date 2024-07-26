@@ -25,4 +25,6 @@
             <input type="text" name="category_name" id="category_name" class="form-control" value="{{ old('category_name', $assetCategory->category_name) }}" required>
         </div>
     </form>
+
+
 </x-app-layout>

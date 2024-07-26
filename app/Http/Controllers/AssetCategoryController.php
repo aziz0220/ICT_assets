@@ -40,6 +40,7 @@ class AssetCategoryController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'category_name' => 'required|string|max:255|unique:asset_categories,category_name', // Unique validation
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -52,6 +53,13 @@ class AssetCategoryController extends Controller
             'category_name' => $request->category_name,
             'created_by' => Auth::user()->id, // Set created_by to logged-in user
         ]);
+
+        if ($request->file('logo')) {
+            $logoPath = $request->file('logo')->store('category_logos', 'public');
+            $assetCategory->logo = $logoPath;
+        }
+
+        $assetCategory->save();
 
         return redirect()->route('asset-category.index')
             ->with('success', 'Asset Category created successfully!');

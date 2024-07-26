@@ -88,6 +88,14 @@
             </div>
         </div>
     </form>
+    <form action="{{ route('user.updateProfilePicture') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <div>
+            <label for="profile_picture">Profile Picture</label>
+            <input type="file" name="profile_picture" id="profile_picture" required>
+        </div>
+        <button type="submit">Upload</button>
+    </form>
 
 
 

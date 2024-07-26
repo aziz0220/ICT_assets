@@ -11,14 +11,18 @@
 <body class="bg-ash-gray/40 text-black/80 h-screen bg-cover bg-center" style="background-image: url({{Vite::asset('resources/images/background1.jpeg')}})">
 
 <div class="flex">
-    <div class="fixed top-0 left-0 h-screen w-16 bg-gray-100 border-r border-gray-600">
+    <div class="fixed h-full">
         {{--<x-sidebar-dynamic></x-sidebar-dynamic>--}}
+        @if(auth()->user())
+        <x-toggle-button></x-toggle-button>
+        <x-sidebar-wide></x-sidebar-wide>
         <x-sidebar></x-sidebar>
-        {{--<x-sidebar-wide></x-sidebar-wide>--}}
         {{--<x-vertical-menu ></x-vertical-menu>--}}
+        @endif
     </div>
 
     <div class="ml-16 w-full">
+
         <x-navbar></x-navbar>
         <main class="mt-20 px-20 pt-16">
             {{ $slot }}

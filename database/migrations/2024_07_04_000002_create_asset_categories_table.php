@@ -16,6 +16,7 @@ return new class extends Migration
             $table->text('category_name');
             $table->unsignedBigInteger('created_by')->nullable();
             $table->foreign('created_by')->references('id')->on('users');
+            $table->string('logo')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -10,7 +10,7 @@ class AssetCategory extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable = ['category_name','created_by'];
+    protected $fillable = ['category_name','created_by','logo'];
     protected $guarded = ['created_at', 'updated_at','deleted_at'];
 
     public function asset(): HasMany

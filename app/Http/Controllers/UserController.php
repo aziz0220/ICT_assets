@@ -10,6 +10,7 @@ use App\Models\SystemAdmin;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -152,4 +153,23 @@ class UserController extends Controller
         return redirect()->route('user.index')
             ->with('success','User deleted successfully');
     }
+
+
+    public function updateProfilePicture(Request $request)
+    {
+        $request->validate([
+            'profile_picture' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $user = Auth::user();
+        if ($request->file('profile_picture')) {
+            $profilePicturePath = $request->file('profile_picture')->store('profile_pictures', 'public');
+            $user->profile_picture = $profilePicturePath;
+            $user->save();
+        }
+
+        return back()->with('success', 'Profile picture updated successfully!');
+    }
+
+
 }

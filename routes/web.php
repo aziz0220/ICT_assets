@@ -34,9 +34,11 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
 Route::get('/search', SearchController::class);
 
 Route::middleware('auth')->group(function () {
+    Route::get('/dashboard',[AssetProblemController::class, 'index'])->name('dashboard');
 
     Route::middleware(['role:Asset Manager'])->group(function () {
         Route::resource('/asset-category',AssetCategoryController::class);
@@ -48,9 +50,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/assets/{id}/staff',[AssetController::class, 'assignStaff'])->name('assets.staff');
     });
 
-    Route::middleware(['role:Staff'])->group(function () {
-        Route::get('/dashboard',[AssetProblemController::class, 'index'])->name('dashboard');
-    });
+//    Route::middleware(['role:Staff'])->group(function () {
+//        Route::get('/dashboard',[AssetProblemController::class, 'index'])->name('dashboard');
+//    });
 
     Route::middleware(['role:Asset Manager|Staff|Executive Manager|Head Office','App\Http\Middleware\CheckStaffBlockStatus'])->group(function () {
         Route::resource('assets', AssetController::class);
