@@ -1,5 +1,5 @@
 <div class="fixed h-full flex-col justify-between border-e h-screen bg-gray-100 shadow-lg transition-all duration-500 translate-x-0 transform peer-hover:-translate-x-full ">
-    <div class=" justify-between items-center py-12">
+    <div class="bottom-0 justify-between items-center py-12">
         <div class="inline-flex size-16 items-center justify-center top-2">
             <span class="grid size-10 place-content-center rounded-lg bg-gray-200 text-xs text-gray-600">
                <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
@@ -295,12 +295,12 @@
         </div>
     </div>
 
-    <div class="sticky inset-x-0 bottom-0 border-t border-gray-100 bg-white p-2">
+    <div class="sticky translate-y-80 bottom-0 border-t border-gray-100 bg-white active:bg-red-50 p-2">
         <form method="POST" action="{{route('logout')}}">
             @csrf
             <button
                 type="submit"
-                class="group relative flex w-full justify-center rounded-lg px-2 py-1.5 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                class="group relative flex w-full justify-center rounded-lg px-2 py-1.5 text-sm text-gray-500 hover:bg-red-50 active:bg-red-300  hover:text-gray-700"
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"

@@ -1,4 +1,4 @@
-<div id="toggle-icon" class="peer top-0 left-0 w-16 h-10 cursor-pointer bg-gray-100">
+<div id="toggle-icon" class="peer top-0 left-0 w-16 h-10 cursor-pointer bg-gray-100 active:bg-gray-400">
     <a class="t group relative flex justify-center rounded px-2 py-1.5">
         @if(auth()->user())
         <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
