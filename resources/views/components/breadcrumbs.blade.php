@@ -1,9 +1,9 @@
+@props(['pageName','sectionName'])
 <nav aria-label="Breadcrumb">
     <ol class="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300">
         <li>
-            <a href="#" class="block transition hover:text-gray-700 dark:hover:text-gray-200">
+            <a href="" class="block transition hover:text-gray-700 dark:hover:text-gray-200">
                 <span class="sr-only"> Home </span>
-
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-4 w-4"
@@ -37,7 +37,7 @@
         </li>
 
         <li>
-            <a href="#" class="block transition hover:text-gray-700 dark:hover:text-gray-200"> Manage </a>
+            <a href="" class="block transition hover:text-gray-700 dark:hover:text-gray-200"> {{ $sectionName }} </a>
         </li>
 
         <li class="rtl:rotate-180">
@@ -56,8 +56,8 @@
         </li>
 
         <li>
-            <a href="#" class="block transition hover:text-gray-700 dark:hover:text-gray-200">
-                Assets
+            <a href="" class="block transition hover:text-gray-700 dark:hover:text-gray-200">
+                {{ $pageName }}
             </a>
         </li>
     </ol>

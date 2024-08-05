@@ -1,3 +1,4 @@
+@props(['pageName','sectionName'])
 <!doctype html>
 <html lang="en">
 <head>
@@ -23,7 +24,7 @@
 
     <div class="ml-16 w-full">
 
-        <x-navbar></x-navbar>
+        <x-navbar :sectionName="$sectionName"  :pageName="$pageName"></x-navbar>
         <main class="mt-20 px-20 pt-16">
             {{ $slot }}
         </main>

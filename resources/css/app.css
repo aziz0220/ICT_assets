@@ -12,4 +12,12 @@
     }
 
 
+
+    #notification {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+        z-index: 9999; /* Ensures it appears on top of other content */
+    }
+
 }

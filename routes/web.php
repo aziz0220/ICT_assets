@@ -28,6 +28,9 @@ use App\Http\Middleware\Api;
 //   return view('welcome');
 //});
 
+Route::post('/assets/bulk-action', [AssetController::class, 'bulkAction'])->name('assets.bulk-action');
+
+
 Route::resource('/',WelcomeController::class);
 
 Route::get('/dashboard', function () {

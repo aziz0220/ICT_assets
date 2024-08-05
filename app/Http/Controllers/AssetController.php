@@ -32,13 +32,17 @@
             $user = Auth::user();
             $assigned = collect();
             if($user->hasRole('Staff')){
-                $assigned = Asset::with('vendor','category','status','standard','staff','staff.user','office')->where('is_registered','=','1')->where('head_approval','=','1')->where('office_id','=',$user->staff->office->id)->latest()->paginate(10);
+                $assigned = Asset::with('vendor','category','status','standard','staff','staff.user','office')->where('is_registered','=','1')->where('head_approval','=','1')->where('office_id','=',$user->staff->office->id)->latest()->paginate(10, ['*'], 'assigned_page');
             }
-            $assets = Asset::with('vendor','category','status','standard','staff','staff.user','office')->where('is_registered','=','1')->where('head_approval','=','1')->latest()->paginate(10);
-            $approvedReq = Asset::with('vendor','category','status','standard')->where('is_registered','=','0')->where('head_approval','=','1')->latest()->paginate(10);
-            $requests = Asset::with('vendor','category','status','standard')->where('is_registered','=','0')->where('head_approval','=','0')->latest()->paginate(10);
-            $approvedChange = AssetChange::with('vendor','category','status','standard')->where('head_approval','=','1')->latest()->paginate(10);
-            $changes = AssetChange::with('vendor','category','status','standard')->where('head_approval','=','0')->latest()->paginate(10);
+            $perPage = $request->input('per_page', 10); // Default to 10 items per page
+            $assets = Asset::with('vendor', 'category', 'status', 'standard', 'staff', 'staff.user', 'office')
+                ->where('is_registered', '=', '1')
+                ->where('head_approval', '=', '1')
+                ->latest()
+                ->paginate($perPage, ['*'], 'registered_page');$approvedReq = Asset::with('vendor','category','status','standard')->where('is_registered','=','0')->where('head_approval','=','1')->latest()->paginate(10, ['*'], 'approved_page');
+            $requests = Asset::with('vendor','category','status','standard')->where('is_registered','=','0')->where('head_approval','=','0')->latest()->paginate(10, ['*'], 'requested_page');
+            $approvedChange = AssetChange::with('vendor','category','status','standard')->where('head_approval','=','1')->latest()->paginate(10, ['*'], 'approved_change_page');
+            $changes = AssetChange::with('vendor','category','status','standard')->where('head_approval','=','0')->latest()->paginate(10, ['*'], 'requested_change_page');
             return view('assets.index', compact('assets','requests', 'changes','approvedReq','approvedChange','assigned'));
         }
 
@@ -279,6 +283,56 @@
 
 
 
+        public function bulkAction(Request $request)
+        {
+            $action = $request->input('action');
+            $assetIds = explode(',', $request->input('selected_assets'));
+
+            switch ($action) {
+                case 'edit':
+                    // Handle bulk edit
+                    foreach ($assetIds as $id) {
+                        // Edit logic
+                    }
+                    break;
+                case 'approve':
+                    // Handle bulk approve
+                    foreach ($assetIds as $id) {
+                        $asset = Asset::approveNewRequest($id);
+                    }
+                    break;
+                case 'disapprove':
+                    // Handle bulk disapprove
+                    foreach ($assetIds as $id) {
+                        $asset = Asset::disapproveNewRequest($id);
+                    }
+                    break;
+                case 'assign':
+                    // Handle bulk assign
+                    foreach ($assetIds as $id) {
+                        $asset = Asset::assignAsset($id);
+                    }
+                    break;
+//                case 'export':
+//                    // Handle bulk export
+//                    return Excel::download(new ExportAsset, 'assets.xlsx');
+//                    break;
+//                case 'print':
+//                    // Handle bulk print
+//                    return Excel::download(new ExportAsset, 'assets.xlsx');
+//                    break;
+                case 'delete':
+                    // Handle bulk delete
+                    foreach ($assetIds as $id) {
+                        Asset::destroy($id);
+                    }
+                    break;
+                default:
+                    return back()->with('error', 'Invalid action selected');
+            }
+
+            return back()->with('success', 'Bulk action performed successfully');
+        }
 
 
 

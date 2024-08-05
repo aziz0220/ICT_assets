@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout :sectionName="__('Welcome')" :pageName="__('Home')">
     <div class="space-y-10">
         <section class="text-center select-none pt-6">
             <h1 class="font-bold text-4xl relative inline-block after:absolute after:bg-gray-200 after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-left after:scale-x-100 hover:after:origin-bottom-right hover:after:scale-x-0 after:transition-transform after:ease-in-out after:duration-300">ICT Register</h1>

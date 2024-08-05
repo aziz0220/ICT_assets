@@ -41,5 +41,32 @@ document.addEventListener('DOMContentLoaded', function () {
     selectMenu.addEventListener('change', function () {
         setActiveNavItem(this.value);
     });
+
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const notification = document.getElementById('notification');
+    const closeButton = document.getElementById('notification-close');
+
+    if (notification) {
+        // Automatically hide the notification after 3 seconds
+        setTimeout(() => {
+            notification.style.opacity = 0;
+            setTimeout(() => {
+                notification.remove();
+            }, 1000); // Allow time for fade-out effect
+        }, 5000);
+
+        // Add click event to close button
+        if (closeButton) {
+            closeButton.addEventListener('click', () => {
+                notification.style.opacity = 0;
+                setTimeout(() => {
+                    notification.remove();
+                }, 300); // Allow time for fade-out effect
+            });
+        }
+    }
 });
 

@@ -1,157 +1,36 @@
-<x-layout>
+<x-layout :sectionName="__('Manage')" :pageName="__('Assets')">
+    <script>
+        function toggleSelectAll() {
+            var checkboxes = document.querySelectorAll('.asset-checkbox');
+            var selectAll = document.getElementById('SelectAll');
+            checkboxes.forEach((checkbox) => {
+                checkbox.checked = selectAll.checked;
+            });
+            collectSelectedIds();
+        }
+
+        document.querySelectorAll('.asset-checkbox').forEach((checkbox) => {
+            checkbox.addEventListener('change', collectSelectedIds);
+        });
+
+        function collectSelectedIds() {
+            var selected = [];
+            document.querySelectorAll('.asset-checkbox:checked').forEach((checkbox) => {
+                selected.push(checkbox.value);
+            });
+            document.getElementById('selected_assets').value = selected.join(',');
+        }
+    </script>
     <x-tabs></x-tabs>
+    <x-alerts.alert></x-alerts.alert>
 
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Assets') }}
-        </h2>
-    </x-slot>
-
-    @if ($message = Session::get('success'))
-        <div class="alert alert-success">
-            <p>{{ $message }}</p>
-        </div>
-    @endif
+    <x-assets-actions></x-assets-actions>
 
 
-    @role('Staff|Asset Manager')
-
-    <div class="row">
-        <div class="col-lg-12 margin-tb mb-4">
-            <div class="pull-left">
-                <h2>
-                    <div class="float-end">
-                        @can('Request-New-Asset')
-                            <a class="btn btn-success" href="assets/create"> Request New Asset</a>
-                        @endcan
-                        @can('Register-New-Asset')
-                            <a class="btn btn-success" href="assets/create"> Register New Asset</a>
-                        @endcan
-                    </div>
-                </h2>
-            </div>
-        </div>
-    </div>
-    @endrole
-
-
-    @role('Asset Manager')
-
-
-    <a class="btn btn-primary" href="{{ route('assets.assign') }}">Assign Asset To Staff</a>
-
-    @endrole
+    <x-assets-registered :assets="$assets"></x-assets-registered>
 
 
 
-    <!-- Sections -->
-    <div id="registered" class="tab-content">
-        @role('Staff|Asset Manager')
-        @if($assets->isNotEmpty())
-            <h1> Registered Assets </h1>
-            <div class="overflow-x-auto">
-                <table class="table table-striped table-hover min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
-                    <thead class="ltr:text-left rtl:text-right">
-                    <tr>
-                        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Name</th>
-                        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">purchased date</th>
-                        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">end of life</th>
-                        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Vendor</th>
-                        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Category</th>
-                        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Status</th>
-                        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Standard</th>
-                        @role('Asset Manager')
-                        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900"> Staff</th>
-                        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900"> Office</th>
-                        @endrole
-                        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200">
-                    @foreach ($assets as $asset)
-                        <tr class="odd:bg-gray-50">
-                            <td>{{$asset->asset_name}}</td>
-                            <td>{{ $asset->purchased_date  }}</td>
-                            <td>{{ $asset->end_of_life }}</td>
-                            <td>
-                                @if ($asset->vendor)
-                                    {{ $asset->vendor->vendor_name }}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>
-                                @if ($asset->category)
-                                    {{ $asset->category->category_name }}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>
-                                @if ($asset->status)
-                                    {{ $asset->status->status_name }}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>
-                                @if ($asset->standard)
-                                    {{ $asset->standard->item_name }}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            @role('Asset Manager')
-                            <td>
-                                @if ($asset->staff_id)
-                                    {{ $asset->staff->user->name }}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>
-                                @if ($asset->office_id)
-                                    {{ $asset->office->name }}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            @endrole
-                            <td>
-                                <form action="{{ route('assets.destroy',$asset->id) }}" method="POST">
-                                    <a class="inline-block rounded bg-blue-600 px-4 py-2 text-xs font-medium text-white hover:bg-blue-700" href="{{ route('assets.show',$asset->id) }}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 w-3">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                        </svg>
-                                    </a>
-                                    @can('Request-Asset-Change')
-                                        <a class="btn btn-primary" href="{{ route('assets.edit',$asset->id) }}">Request Change</a>
-                                    @endcan
-                                    @can('Update-Asset-Details')
-                                        <a class="btn btn-primary" href="{{ route('assets.edit',$asset->id) }}">Update Asset Details</a>
-                                    @endcan
-                                    @can('Assign-Asset-To-Staff')
-                                        <a class="btn btn-primary" href="{{ route('assets.staff', $asset->id) }}">Assign To Staff</a>
-                                    @endcan
-
-                                    @csrf
-                                    @method('DELETE')
-                                    @can('Remove-Registered-Asset')
-                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                    @endcan
-                                </form>
-                            </td>
-                        </tr>
-                    </tbody>
-                    @endforeach
-                </table>
-                {{ $assets->links() }}
-            </div>
-
-        @endif
-        @endrole
-    </div>
     <div id="requests" class="tab-content" style="display:none;">
         @role('Asset Manager')
         @if($requests->isNotEmpty())
@@ -222,14 +101,47 @@
                     </tr>
                 @endforeach
             </table>
-            {{ $requests->links() }}
+            <div class="rounded-b-lg border-t border-gray-200 px-4 py-2">
+                <ol class="flex justify-end gap-1 text-xs font-medium">
+                    <!-- Previous Page Link -->
+                    @if ($assets->onFirstPage())
+                        <li class="disabled"><span class="inline-flex size-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 rtl:rotate-180">&laquo;</span></li>
+                    @else
+                        <li><a href="{{ $assets->appends(['per_page' => request('per_page')])->previousPageUrl() }}" class="inline-flex size-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 rtl:rotate-180">&laquo;</a></li>
+                    @endif
+
+                    <!-- Pagination Elements -->
+                    @foreach ($assets->appends(['per_page' => request('per_page')])->elements as $element)
+                        <!-- "Three Dots" Separator -->
+                        @if (is_string($element))
+                            <li class="disabled"><span class="inline-flex size-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 rtl:rotate-180">{{ $element }}</span></li>
+                        @endif
+
+                        <!-- Array Of Links -->
+                        @if (is_array($element))
+                            @foreach ($element as $page => $url)
+                                @if ($page == $assets->currentPage())
+                                    <li class="active"><span class="inline-flex size-8 items-center justify-center rounded border-blue-600 bg-blue-600 text-center leading-8 text-white">{{ $page }}</span></li>
+                                @else
+                                    <li><a href="{{ $url }}" class="block size-8 rounded border border-gray-100 bg-white text-center leading-8 text-gray-900">{{ $page }}</a></li>
+                                @endif
+                            @endforeach
+                        @endif
+                    @endforeach
+
+                    <!-- Next Page Link -->
+                    @if ($assets->hasMorePages())
+                        <li><a href="{{ $assets->appends(['per_page' => request('per_page')])->nextPageUrl() }}" class="inline-flex size-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 rtl:rotate-180">&raquo;</a></li>
+                    @else
+                        <li class="disabled"><span class="inline-flex size-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 rtl:rotate-180">&raquo;</span></li>
+                    @endif
+                </ol>
+            </div>
+
         @endif
 
         @if($changes->isNotEmpty())
-
             <h1> Requested Changes </h1>
-
-
             <table class="table table-striped table-hover">
                 <tr>
                     <th>Name</th>
@@ -517,13 +429,11 @@
         @endrole
 
     </div>
+
     <div id="approved" class="tab-content" style="display:none;">
         @role('Staff|Head Office')
 
         @if($approvedReq->isNotEmpty())
-            <h1> Approved Assets </h1>
-
-
             <table class="table table-striped table-hover">
                 <tr>
                     <th>Name</th>
@@ -651,20 +561,46 @@
                     </tr>
                 @endforeach
             </table>
-            {{ $approvedChange->links() }}
+{{--            {{ $approvedChange->links() }}--}}
+
+            <div class="rounded-b-lg border-t border-gray-200 px-4 py-2">
+                <ol class="flex justify-end gap-1 text-xs font-medium">
+                    @if ($approvedChange->onFirstPage())
+                        <li class="disabled"><span class="inline-flex size-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 rtl:rotate-180">&laquo;</span></li>
+                    @else
+                        <li><a href="{{ $approvedChange->previousPageUrl() }}" class="inline-flex size-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 rtl:rotate-180">&laquo;</a></li>
+                    @endif
+
+                    <!-- Pagination Elements -->
+                    @foreach ($approvedChange->appends(['registered_page' => $approvedChange->currentPage()])->elements as $element)
+                        <!-- "Three Dots" Separator -->
+                        @if (is_string($element))
+                            <li class="disabled"><span class="inline-flex size-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 rtl:rotate-180">{{ $element }}</span></li>
+                        @endif
+
+                        <!-- Array Of Links -->
+                        @if (is_array($element))
+                            @foreach ($element as $page => $url)
+                                @if ($page == $approvedChange->currentPage())
+                                    <li class="active"><span class="inline-flex size-8 items-center justify-center rounded border-blue-600 bg-blue-600 text-center leading-8 text-white">{{ $page }}</span></li>
+                                @else
+                                    <li><a href="{{ $url }}" class="block size-8 rounded border border-gray-100 bg-white text-center leading-8 text-gray-900">{{ $page }}</a></li>
+                                @endif
+                            @endforeach
+                        @endif
+                    @endforeach
+
+                    <!-- Next Page Link -->
+                    @if ($approvedChange->hasMorePages())
+                        <li><a href="{{ $approvedChange->nextPageUrl() }}" class="inline-flex size-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 rtl:rotate-180">&raquo;</a></li>
+                    @else
+                        <li class="disabled"><span class="inline-flex size-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 rtl:rotate-180">&raquo;</span></li>
+                    @endif
+                </ol>
+            </div>
         @endif
         @endrole
 
     </div>
-
-
-
-
-
-
-
-
-
-
 
 </x-layout>
