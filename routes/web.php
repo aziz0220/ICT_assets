@@ -33,9 +33,9 @@ Route::post('/assets/bulk-action', [AssetController::class, 'bulkAction'])->name
 
 Route::resource('/',WelcomeController::class);
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+//Route::get('/dashboard', function () {
+//    return view('dashboard');
+//})->middleware(['auth', 'verified'])->name('dashboard');
 
 
 Route::get('/search', SearchController::class);

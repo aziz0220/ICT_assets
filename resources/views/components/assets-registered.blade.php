@@ -21,7 +21,6 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
                             </button>
-
                             <button
                                 type="button"
                                 class="inline-block p-3 text-gray-700 hover:bg-gray-50 focus:relative dark:text-gray-200 dark:hover:bg-gray-800"
@@ -213,14 +212,11 @@
                                     @endcan
                                 </div>
                             </td>
-
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
             </div>
-
-
             <div class="rounded-b-lg border-t border-gray-200 px-4 py-2">
                 <ol class="flex justify-end gap-1 text-xs font-medium">
                     @if ($assets->onFirstPage())

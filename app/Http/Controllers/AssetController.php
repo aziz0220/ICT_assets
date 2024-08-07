@@ -39,7 +39,8 @@
                 ->where('is_registered', '=', '1')
                 ->where('head_approval', '=', '1')
                 ->latest()
-                ->paginate($perPage, ['*'], 'registered_page');$approvedReq = Asset::with('vendor','category','status','standard')->where('is_registered','=','0')->where('head_approval','=','1')->latest()->paginate(10, ['*'], 'approved_page');
+                ->paginate($perPage, ['*'], 'registered_page');
+            $approvedReq = Asset::with('vendor','category','status','standard')->where('is_registered','=','0')->where('head_approval','=','1')->latest()->paginate(10, ['*'], 'approved_page');
             $requests = Asset::with('vendor','category','status','standard')->where('is_registered','=','0')->where('head_approval','=','0')->latest()->paginate(10, ['*'], 'requested_page');
             $approvedChange = AssetChange::with('vendor','category','status','standard')->where('head_approval','=','1')->latest()->paginate(10, ['*'], 'approved_change_page');
             $changes = AssetChange::with('vendor','category','status','standard')->where('head_approval','=','0')->latest()->paginate(10, ['*'], 'requested_change_page');

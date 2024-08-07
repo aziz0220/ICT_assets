@@ -1,29 +1,15 @@
+@props(['requests','changes','assets','assigned','approvedChange','approvedReq'])
 <div class="flex items-center justify-center w-full -translate-y-24">
-{{--    <div class="sm:hidden">--}}
-{{--        <label for="Tab" class="sr-only">Tab</label>--}}
-{{--        <select id="Tab" class="w-full rounded-md border-gray-200" onchange="showSection(this.value)">--}}
-{{--            @role('Staff|Asset Manager')--}}
-{{--            <option value="registered">Registered</option>--}}
-{{--            @endrole--}}
-{{--            @role('Asset Manager|Staff|Head Office')--}}
-{{--            <option value="requests">Requests</option>--}}
-{{--            @endrole--}}
-{{--            @role('Staff')--}}
-{{--            <option value="assigned">Assigned</option>--}}
-{{--            @endrole--}}
-{{--            @role('Staff|Head Office')--}}
-{{--            <option value="approved">Approved</option>--}}
-{{--            @endrole--}}
-{{--        </select>--}}
-{{--    </div>--}}
-
     <div class="hidden sm:block">
         <div class="border-b border-gray-200">
             <nav class="-mb-px flex gap-6" aria-label="Tabs">
                 <a
                     id="nav-registered"
-                    class="nav-item cursor-pointer inline-flex shrink-0 items-center gap-2 border-b-2 border-transparent px-1 pb-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                    onclick="showSection('registered')"
+                    class="nav-item cursor-pointer inline-flex shrink-0 items-center gap-2 border-b-2 border-transparent px-1 pb-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 @if(!$assets->isNotEmpty()) cursor-not-allowed @endif"
+                    @if($assets->isNotEmpty())
+                        onclick="showSection('registered')"
+                    @endif
+
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -49,8 +35,10 @@
 
                 <a
                     id="nav-requests"
-                    class="nav-item cursor-pointer inline-flex shrink-0 items-center gap-2 border-b-2 border-transparent px-1 pb-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                    onclick="showSection('requests')"
+                    class="nav-item cursor-pointer inline-flex shrink-0 items-center gap-2 border-b-2 border-transparent px-1 pb-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 @if(!$requests->isNotEmpty() && !$changes->isNotEmpty()) cursor-not-allowed @endif"
+                    @if($requests->isNotEmpty() || $changes->isNotEmpty())
+                        onclick="showSection('requests')"
+                    @endif
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -71,8 +59,10 @@
 
                 <a
                     id="nav-assigned"
-                    class="nav-item cursor-pointer inline-flex shrink-0 items-center gap-2 border-b-2 border-transparent px-1 pb-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                    onclick="showSection('assigned')"
+                    class="nav-item cursor-pointer inline-flex shrink-0 items-center gap-2 border-b-2 border-transparent px-1 pb-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 @if(!$assigned->isNotEmpty()) cursor-not-allowed @endif"
+                    @if($assigned->isNotEmpty())
+                        onclick="showSection('assigned')"
+                    @endif
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -93,8 +83,10 @@
 
                 <a
                     id="nav-approved"
-                    class="nav-item cursor-pointer inline-flex shrink-0 items-center gap-2 border-b-2 border-transparent px-1 pb-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                    onclick="showSection('approved')"
+                    class="nav-item cursor-pointer inline-flex shrink-0 items-center gap-2 border-b-2 border-transparent px-1 pb-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 @if(!$approvedReq->isNotEmpty() && $approvedChange->isNotEmpty()) cursor-not-allowed @endif"
+                    @if($approvedReq->isNotEmpty() || $approvedChange->isNotEmpty())
+                        onclick="showSection('approved')"
+                    @endif
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -117,10 +109,7 @@
     </div>
 </div>
 
-
-
 <script>
-
     document.addEventListener('DOMContentLoaded', function() {
         // Initialize the default section
         const selectElement = document.getElementById('Tab');
@@ -148,7 +137,6 @@
         document.querySelector(`#nav-${section}`).classList.remove('border-transparent', 'text-gray-500', 'hover:border-gray-300', 'hover:text-gray-700', 'text-sky-600');
         document.querySelector(`#nav-${section}`).classList.add('border-indigo-500', 'text-indigo-600','hover:text-indigo-900');
 
-
         updateSelectedOptionStyling();
     }
 
@@ -175,5 +163,8 @@
     .nav-item.active {
         border-color: #4F46E5;
         color: #4F46E5;
+    }
+    .cursor-not-allowed {
+        cursor: not-allowed;
     }
 </style>

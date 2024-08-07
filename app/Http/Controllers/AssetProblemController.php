@@ -12,8 +12,8 @@ class AssetProblemController extends Controller
 
     public function index()
     {
-        $pendingProblems = AssetProblem::where('is_resolved', false)->get();
-        $pendingMaintenances = AssetMaintenance::where('status', 'pending')->get();
+        $pendingProblems = AssetProblem::with('asset')->where('is_resolved', false)->get();
+        $pendingMaintenances = AssetMaintenance::with('asset')->where('status', 'pending')->get();
         return view('dashboard', compact('pendingProblems', 'pendingMaintenances'));
     }
 
