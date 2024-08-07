@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Asset;
 use App\Models\AssetMaintenance;
 use App\Models\AssetProblem;
 use Illuminate\Http\Request;
@@ -12,9 +13,10 @@ class AssetProblemController extends Controller
 
     public function index()
     {
+        $totalAssets = Asset::count();
         $pendingProblems = AssetProblem::with('asset')->where('is_resolved', false)->get();
         $pendingMaintenances = AssetMaintenance::with('asset')->where('status', 'pending')->get();
-        return view('dashboard', compact('pendingProblems', 'pendingMaintenances'));
+        return view('dashboard', compact('pendingProblems', 'pendingMaintenances','totalAssets'));
     }
 
     public function store(Request $request, $assetId)

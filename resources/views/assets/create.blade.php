@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-layout :sectionName="__('Assets')" :pageName="__('Create')">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             @if (auth()->user()->hasRole('Staff'))
@@ -112,4 +112,4 @@
         @endif
   </div>
 </form>
-</x-app-layout>
+</x-layout>
