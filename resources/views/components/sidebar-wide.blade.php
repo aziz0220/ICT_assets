@@ -1,20 +1,19 @@
-<div class="fixed top-10 bottom-0 left-0 flex-col justify-between border-r h-screen bg-gray-100 shadow-lg transition-all duration-500 transform -translate-x-full peer-hover:translate-x-0 hover:translate-x-0 peer">
-    <div class="sidebar px-4 py-16">
-        <div class="flex items-center mb-8">
+<div class="space-y-2 fixed top-10 h-full flex-col justify-between border-r h-screen bg-gray-100 shadow-lg transition-all duration-500 transform -translate-x-full peer-hover:translate-x-0 hover:translate-x-0 peer">
+    <div class="sidebar px-4">
+        <div class="flex py-4 mb-2 items-center justify-center">
             <a href="{{ route('dashboard.index') }}" class="flex items-center">
                 <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
                 <span class="ml-2 text-lg font-semibold">ICT Register</span>
             </a>
         </div>
-
-        <!-- Navigation Links -->
         <ul class="space-y-1">
             <li>
                 <a href="{{ route('dashboard.index') }}" class="block rounded-lg px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200">
                     {{ __('Dashboard') }}
                 </a>
             </li>
-
+        </ul>
+        <ul class="space-y-1 border-t border-gray-100 py-11">
             @role('Staff')
             <li>
                 <a href="{{ route('assets.index') }}" class="block rounded-lg px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200">
@@ -162,32 +161,34 @@
         </ul>
     </div>
 
-    <!-- Footer Section -->
-    <div class="sticky bottom-0 top- border-t border-gray-200 bg-gray-50">
-        <a href="#" class="flex items-center gap-2 bg-white p-4 hover:bg-gray-100">
-            <img
-                alt=""
-                src="https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-                class="size-10 rounded-full object-cover"
-            />
-            <div>
-                <p class="text-xs">
-                    <strong class="block font-medium">
-                        @if(Auth::user())
-                            {{ Auth::user()->name }}
-                        @else
-                            Anonymous
-                        @endif
-                    </strong>
-                    <span>
-                        @if(Auth::user())
-                            {{ Auth::user()->email }}
-                        @else
-                            unknown@example.com
-                        @endif
-                    </span>
-                </p>
-            </div>
-        </a>
+    <div class="flex flex-col h-full">
+        <div class="flex-grow"></div>
+        <div class="sticky bottom-0 border-t border-gray-200 bg-gray-50">
+            <a href="" class="flex items-center gap-2 bg-white p-4 hover:bg-gray-100">
+                <img
+                    alt=""
+                    src="https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+                    class="size-10 rounded-full object-cover"
+                />
+                <div>
+                    <p class="text-xs">
+                        <strong class="block font-medium">
+                            @if(Auth::user())
+                                {{ Auth::user()->name }}
+                            @else
+                                Anonymous
+                            @endif
+                        </strong>
+                        <span>
+                            @if(Auth::user())
+                                {{ Auth::user()->email }}
+                            @else
+                                unknown@example.com
+                            @endif
+                        </span>
+                    </p>
+                </div>
+            </a>
+        </div>
     </div>
 </div>
