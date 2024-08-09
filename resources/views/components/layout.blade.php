@@ -17,12 +17,11 @@
 
 <div class="flex">
     <div class="fixed h-full">
-        {{--<x-sidebar-dynamic></x-sidebar-dynamic>--}}
+{{--    <x-sidebar-dynamic></x-sidebar-dynamic>--}}
         @if(auth()->user())
         <x-toggle-button></x-toggle-button>
         <x-sidebar-wide></x-sidebar-wide>
         <x-sidebar></x-sidebar>
-        {{--<x-vertical-menu ></x-vertical-menu>--}}
         @endif
     </div>
 

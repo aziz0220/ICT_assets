@@ -6,7 +6,6 @@
                 <img style="width: 25px;" src="{{ Vite::asset('resources/images/logo.png') }}" alt="">
             </a>
         </div>
-
         <x-breadcrumbs class="-translate-x-full" :sectionName="$sectionName" :pageName="$pageName"></x-breadcrumbs>
         {{--        <x-links class="space-x-6 font-bold"></x-links>--}}
         <div class="flex right-0 top-0">

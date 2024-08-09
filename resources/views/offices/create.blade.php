@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-layout :sectionName="__('Create')" :pageName="__('Office')">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Add Office') }}
@@ -28,4 +28,4 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
-</x-app-layout>>
+</x-layout>>

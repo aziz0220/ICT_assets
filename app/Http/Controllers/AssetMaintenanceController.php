@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 
 class AssetMaintenanceController extends Controller
 {
+
+
     public function store(Request $request, $id)
     {
         $request->validate([
@@ -22,5 +24,31 @@ class AssetMaintenanceController extends Controller
         ]);
 
         return redirect()->route('assets.index')->with('success', 'Maintenance request submitted successfully.');
+    }
+
+
+    public function destroy($id)
+    {
+        $maintenance = AssetMaintenance::findOrFail($id);
+        $maintenance->delete();
+        return redirect()->route('dashboard.index')->with('success', 'Maintenance removed successfully.');
+    }
+
+    public function approve($id)
+    {
+        $maintenance = AssetMaintenance::findOrFail($id);
+        $maintenance->is_approved = true;
+        $maintenance->save();
+
+        return redirect()->route('dashboard.index')->with('success', 'Maintenance approved successfully.');
+    }
+
+    public function resolve($id)
+    {
+        $maintenance = AssetMaintenance::findOrFail($id);
+        $maintenance->status = 'resolved';
+        $maintenance->save();
+
+        return redirect()->route('dashboard.index')->with('success', 'Maintenance resolved successfully.');
     }
 }

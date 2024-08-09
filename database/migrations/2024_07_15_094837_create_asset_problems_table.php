@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreign('asset_id')->references('id')->on('assets');
             $table->string('description');
             $table->boolean('is_resolved')->default(false);
+            $table->boolean('is_approved')->default(false);
             $table->unsignedBigInteger('issued_by');
             $table->foreign('issued_by')->references('id')->on('users');
             $table->timestamps();

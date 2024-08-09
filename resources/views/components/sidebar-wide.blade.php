@@ -1,7 +1,7 @@
 <div class="fixed top-10 bottom-0 left-0 flex-col justify-between border-r h-screen bg-gray-100 shadow-lg transition-all duration-500 transform -translate-x-full peer-hover:translate-x-0 hover:translate-x-0 peer">
     <div class="sidebar px-4 py-16">
         <div class="flex items-center mb-8">
-            <a href="{{ route('dashboard') }}" class="flex items-center">
+            <a href="{{ route('dashboard.index') }}" class="flex items-center">
                 <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
                 <span class="ml-2 text-lg font-semibold">ICT Register</span>
             </a>
@@ -10,7 +10,7 @@
         <!-- Navigation Links -->
         <ul class="space-y-1">
             <li>
-                <a href="{{ route('dashboard') }}" class="block rounded-lg px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200">
+                <a href="{{ route('dashboard.index') }}" class="block rounded-lg px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200">
                     {{ __('Dashboard') }}
                 </a>
             </li>

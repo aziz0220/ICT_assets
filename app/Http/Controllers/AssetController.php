@@ -32,7 +32,9 @@
             $user = Auth::user();
             $assigned = collect();
             if($user->hasRole('Staff')){
-                $assigned = Asset::with('vendor','category','status','standard','staff','staff.user','office')->where('is_registered','=','1')->where('head_approval','=','1')->where('office_id','=',$user->staff->office->id)->latest()->paginate(10, ['*'], 'assigned_page');
+//                $assigned = Asset::with('vendor','category','status','standard','staff','staff.user','office')->where('is_registered','=','1')->where('head_approval','=','1')->where('office_id','=',$user->staff->office->id)->latest()->paginate(10, ['*'], 'assigned_page');
+                $assigned = Asset::with('vendor','category','status','standard','staff','staff.user','office')->where('is_registered','=','1')->where('head_approval','=','1')->where('office_id','=',$user->staff->office->id)->where('staff_id','=',$user->staff->id)->latest()->paginate(10, ['*'], 'assigned_page');
+
             }
             $perPage = $request->input('per_page', 10); // Default to 10 items per page
             $assets = Asset::with('vendor', 'category', 'status', 'standard', 'staff', 'staff.user', 'office')

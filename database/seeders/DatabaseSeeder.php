@@ -70,7 +70,9 @@ class DatabaseSeeder extends Seeder
         'approve_new_asset',
         'approve_edit_asset',
         'approve_maintenance',
-        'approve_problem'
+        'approve_problem',
+        'resolve_problem',
+        'resolve_maintenance',
     ];
 
     private $staffPermissions = [
@@ -82,6 +84,7 @@ class DatabaseSeeder extends Seeder
         'comment on contents',
         'manage biography',
         'submit suggestions',
+        'resolve_maintenance'
     ];
     private $assetManagerPermissions = [
         'Manage-Asset-Standards',
@@ -93,6 +96,8 @@ class DatabaseSeeder extends Seeder
         'Manage-Asset-Status',
         'Assign-Asset-To-Staff',
         'Generate-Custom-Report',
+        'resolve_problem',
+        'resolve_maintenance'
     ];
     private $executiveManagerPermissions = [
         'Generate-Custom-Report',

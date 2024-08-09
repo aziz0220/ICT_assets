@@ -9,6 +9,7 @@ use App\Http\Controllers\AssetStatusController;
 use App\Http\Controllers\BiographyController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ContentController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\PermissionController;
@@ -33,16 +34,11 @@ Route::post('/assets/bulk-action', [AssetController::class, 'bulkAction'])->name
 
 Route::resource('/',WelcomeController::class);
 
-//Route::get('/dashboard', function () {
-//    return view('dashboard');
-//})->middleware(['auth', 'verified'])->name('dashboard');
-
-
 Route::get('/search', SearchController::class);
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard',[AssetProblemController::class, 'index'])->name('dashboard');
-
+//    Route::get('/dashboard',[DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('/dashboard',DashboardController::class);
     Route::middleware(['role:Asset Manager'])->group(function () {
         Route::resource('/asset-category',AssetCategoryController::class);
         Route::resource('/asset-standard', AssetStandardController::class);
@@ -53,9 +49,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/assets/{id}/staff',[AssetController::class, 'assignStaff'])->name('assets.staff');
     });
 
-//    Route::middleware(['role:Staff'])->group(function () {
-//        Route::get('/dashboard',[AssetProblemController::class, 'index'])->name('dashboard');
-//    });
 
     Route::middleware(['role:Asset Manager|Staff|Executive Manager|Head Office','App\Http\Middleware\CheckStaffBlockStatus'])->group(function () {
         Route::resource('assets', AssetController::class);
@@ -74,6 +67,13 @@ Route::middleware('auth')->group(function () {
 
         Route::resource('asset_problems', AssetProblemController::class);
         Route::resource('asset_maintenances', AssetMaintenanceController::class);
+        Route::patch('/asset_problems/{id}/approve', [AssetProblemController::class, 'approve'])->name('asset_problems.approve');
+        Route::patch('/asset_problems/{id}/resolve', [AssetProblemController::class, 'resolve'])->name('asset_problems.resolve');
+
+
+        Route::patch('asset_maintenances/{id}/approve', [AssetMaintenanceController::class, 'approve'])->name('asset_maintenances.approve');
+        Route::patch('asset_maintenances/{id}/resolve', [AssetMaintenanceController::class, 'resolve'])->name('asset_maintenances.resolve');
+        Route::delete('asset_maintenances/{id}', [AssetMaintenanceController::class, 'destroy'])->name('asset_maintenances.destroy');
 
 
 //        Route::get('assets/create', 'App\Http\Controllers\AssetController@create')->name('assets.create');

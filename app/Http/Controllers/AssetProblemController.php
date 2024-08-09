@@ -32,6 +32,42 @@ class AssetProblemController extends Controller
             'issued_by' => auth()->user()->id,
         ]);
 
-        return redirect()->route('dashboard')->with('success', 'Problem reported successfully.');
+        return redirect()->route('dashboard.index')->with('success', 'Problem reported successfully.');
     }
+
+    public function show($id)
+    {
+        // You can either redirect to the index page
+        return redirect()->route('asset_problems.index');
+
+        // Or return a view if you have a detailed page for the asset problem
+        $problem = AssetProblem::with('asset')->findOrFail($id);
+        return view('asset_problems.show', compact('problem'));
+    }
+
+    public function destroy($id)
+    {
+        $problem = AssetProblem::findOrFail($id);
+        $problem->delete();
+        return redirect()->route('dashboard.index')->with('success', 'Problem removed successfully.');
+    }
+
+    public function approve($id)
+    {
+        $problem = AssetProblem::findOrFail($id);
+        $problem->is_approved = true;
+        $problem->save();
+
+        return redirect()->route('dashboard.index')->with('success', 'Problem approved successfully.');
+    }
+
+    public function resolve($id)
+    {
+        $problem = AssetProblem::findOrFail($id);
+        $problem->is_resolved = true;
+        $problem->save();
+
+        return redirect()->route('dashboard.index')->with('success', 'Problem resolved successfully.');
+    }
+
 }

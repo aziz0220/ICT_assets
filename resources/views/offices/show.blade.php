@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-layout :sectionName="__('Show')" :pageName="__('Office')">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Office Details') }}
@@ -55,4 +55,4 @@
 
         <a class="btn btn-primary mt-4" href="{{ route('offices.index') }}">Back</a>
     </div>
-</x-app-layout>
+</x-layout>
