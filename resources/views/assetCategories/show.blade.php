@@ -1,11 +1,4 @@
-<x-app-layout>
-
-<x-slot name="header">
-    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-        {{ __('Asset Category Details') }}
-    </h2>
-</x-slot>
-
+<x-layout :sectionName="__('Show')" :pageName="__('Categories')">
     <p><strong>Category Name:</strong> {{ $assetCategory->category_name }}</p>
     <p><strong>Created By:</strong> {{ $assetCategory->created_by }} </p>
 
@@ -18,4 +11,4 @@
             <button type="submit" class="btn btn-danger">Delete</button>
         </form>
     @endcan
-</x-app-layout>>
+</x-layout>>

@@ -1,5 +1,4 @@
-<x-app-layout>
-
+<x-layout :sectionName="__('Manage')" :pageName="__('Status')">
 {{--@section('content')--}}
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
@@ -42,4 +41,4 @@
 {{--@endsection--}}
 
 
-</x-app-layout>
+</x-layout>

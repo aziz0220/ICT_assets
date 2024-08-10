@@ -1,17 +1,9 @@
-<x-app-layout>
-
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Asset categories') }}
-        </h2>
-    </x-slot>
-
+<x-layout :sectionName="__('Manage')" :pageName="__('Categories')">
     @if (session('success'))
         <div class="alert alert-success" role="alert">
             {{ session('success') }}
         </div>
     @endif
-
     <table class="table table-striped">
         <thead>
         <tr>
@@ -38,4 +30,4 @@
     </table>
 
     <a href="{{ route('asset-category.create') }}" class="btn btn-primary">Create New Asset category</a>
-</x-app-layout>>
+</x-layout>>

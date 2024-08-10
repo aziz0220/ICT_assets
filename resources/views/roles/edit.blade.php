@@ -1,12 +1,9 @@
-<x-app-layout>
-
-
+<x-layout :sectionName="__('Edit')" :pageName="__('Role')">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Edit Role') }}
         </h2>
     </x-slot>
-
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
@@ -18,8 +15,6 @@
             </div>
         </div>
     </div>
-
-
     @if (count($errors) > 0)
         <div class="alert alert-danger">
             <strong>Whoops!</strong> There were some problems with your input.<br><br>
@@ -30,7 +25,6 @@
             </ul>
         </div>
     @endif
-
     <form action="{{ route('role.update', $role->id) }}" method="POST">
         @csrf
         @method('PUT')
@@ -60,5 +54,4 @@
             </div>
         </div>
     </form>
-
-</x-app-layout>>
+</x-layout>>

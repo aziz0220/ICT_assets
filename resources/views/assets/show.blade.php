@@ -1,4 +1,4 @@
-<x-layout :sectionName="__('Assets')" :pageName="__('View')">
+<x-layout :sectionName="__('View')" :pageName="__('Asset')">
 
     <div class="flow-root rounded-lg border border-gray-100 top-0 shadow-sm dark:border-gray-700">
         <dl class="-my-3 divide-y divide-gray-100 text-sm dark:divide-gray-700">

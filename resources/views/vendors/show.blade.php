@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-layout :sectionName="__('Details')" :pageName="__('Vendor')">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Vendor Details') }}
@@ -19,4 +19,4 @@
         <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this vendor?')">Delete</button>
     </form>
     @endcan
-</x-app-layout>>
+</x-layout>>

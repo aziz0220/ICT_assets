@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-layout :sectionName="__('Edit')" :pageName="__('User')">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Edit User') }}
@@ -117,4 +117,4 @@
             });
         });
     </script>
-</x-app-layout>>
+</x-layout>>

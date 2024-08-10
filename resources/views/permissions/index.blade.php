@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-layout :sectionName="__('Manage')" :pageName="__('Permission')">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Permissions') }}
@@ -15,7 +15,6 @@
             </div>
         </div>
     </div>
-
     @if ($message = Session::get('success'))
         <div class="alert alert-success">
             <p>{{ $message }}</p>
@@ -45,6 +44,5 @@
             </tr>
         @endforeach
     </table>
-
     {!! $permissions->links() !!}
-</x-app-layout>
+</x-layout>

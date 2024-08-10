@@ -1,5 +1,4 @@
-<x-app-layout>
-
+<x-layout :sectionName="__('Manage')" :pageName="__('Role')">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Role Management') }}
@@ -60,4 +59,4 @@
     </table>
     @endif
     {!! $roles->render() !!}
-</x-app-layout>>
+</x-layout>>

@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-layout :sectionName="__('Manage')" :pageName="__('Standard')">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Asset Standards') }}
@@ -40,4 +40,4 @@
     </table>
 
     <a href="{{ route('asset-standard.create') }}" class="btn btn-primary">Create New Asset Standard</a>
-</x-app-layout>
+</x-layout>

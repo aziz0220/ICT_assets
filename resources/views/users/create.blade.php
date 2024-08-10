@@ -1,10 +1,9 @@
-<x-app-layout>
+<x-layout :sectionName="__('Create')" :pageName="__('User')">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Create New User') }}
         </h2>
     </x-slot>
-
     <div class="row">
         <div class="col-lg-12 margin-tb mb-4">
             <div class="pull-left">
@@ -14,7 +13,6 @@
             </div>
         </div>
     </div>
-
     @if (count($errors) > 0)
         <div class="alert alert-danger">
             <strong>Whoops!</strong> There were some problems with your input.<br><br>
@@ -25,7 +23,6 @@
             </ul>
         </div>
     @endif
-
     <form action="{{ route('user.store') }}" method="POST">
         @csrf
         <div class="row">
@@ -78,17 +75,14 @@
             </div>
         </div>
     </form>
-
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const rolesSelect = document.getElementById('roles');
             const officeSection = document.getElementById('office-section');
-
             rolesSelect.addEventListener('change', function () {
                 const selectedRoles = Array.from(rolesSelect.options)
                     .filter(option => option.selected)
                     .map(option => option.value);
-
                 if (selectedRoles.includes('Staff')) {
                     officeSection.style.display = 'block';
                 } else {
@@ -97,4 +91,4 @@
             });
         });
     </script>
-</x-app-layout>
+</x-layout>

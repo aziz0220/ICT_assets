@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-layout :sectionName="__('Details')" :pageName="__('User')">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Show User') }}
@@ -40,4 +40,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>>
+</x-layout>>

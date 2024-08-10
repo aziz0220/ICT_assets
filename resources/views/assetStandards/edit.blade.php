@@ -1,5 +1,4 @@
-<x-app-layout>
-
+<x-layout :sectionName="__('Edit')" :pageName="__('Standard')">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Edit Asset Standard') }}
@@ -29,4 +28,4 @@
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
     </form>
-</x-app-layout>>
+</x-layout>>
