@@ -25,19 +25,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\Api;
 
-//Route::get('/', function () {
-//   return view('welcome');
-//});
+//require __DIR__.'/auth.php';
+
+Auth::routes();
 
 Route::post('/assets/bulk-action', [AssetController::class, 'bulkAction'])->name('assets.bulk-action');
-
 
 Route::resource('/',WelcomeController::class);
 
 Route::get('/search', SearchController::class);
 
-Route::middleware('auth')->group(function () {
-//    Route::get('/dashboard',[DashboardController::class, 'index'])->name('dashboard');
+Route::middleware(['auth','role.check'])->group(function () {
     Route::resource('/dashboard',DashboardController::class);
     Route::middleware(['role:Asset Manager'])->group(function () {
         Route::resource('/asset-category',AssetCategoryController::class);
@@ -48,7 +46,6 @@ Route::middleware('auth')->group(function () {
         Route::post('/assets/assign', [AssetController::class,'assignAsset'])->name('assets.assign');
         Route::get('/assets/{id}/staff',[AssetController::class, 'assignStaff'])->name('assets.staff');
     });
-
 
     Route::middleware(['role:Asset Manager|Staff|Executive Manager|Head Office','App\Http\Middleware\CheckStaffBlockStatus'])->group(function () {
         Route::resource('assets', AssetController::class);
@@ -61,7 +58,7 @@ Route::middleware('auth')->group(function () {
         // Asset Problems
         Route::get('assets/{id}/problem', [AssetController::class, 'problemRequest'])->name('assets.problem');
         Route::post('assets/{id}/problem', [AssetProblemController::class, 'store'])->name('asset.problem.store');
-// Asset Maintenance
+        // Asset Maintenance
         Route::get('assets/{id}/maintenance', [AssetController::class, 'maintenanceRequest'])->name('assets.maintenance');
         Route::post('assets/{id}/maintenance', [AssetMaintenanceController::class, 'store'])->name('asset.maintenance.store');
 
@@ -75,10 +72,6 @@ Route::middleware('auth')->group(function () {
         Route::patch('asset_maintenances/{id}/resolve', [AssetMaintenanceController::class, 'resolve'])->name('asset_maintenances.resolve');
         Route::delete('asset_maintenances/{id}', [AssetMaintenanceController::class, 'destroy'])->name('asset_maintenances.destroy');
 
-
-//        Route::get('assets/create', 'App\Http\Controllers\AssetController@create')->name('assets.create');
-//        Route::get('assets', 'App\Http\Controllers\AssetController@register')->name('assets.register');
-//        Route::get('assets', 'App\Http\Controllers\AssetController@index')->name('assets.index');
     });
 
     Route::middleware(['role:System Admin'])->group(function(){
@@ -95,7 +88,6 @@ Route::middleware('auth')->group(function () {
         Route::post('/offices/{office}/assign-staff', [OfficeController::class, 'assignStaff'])->name('offices.assignStaff');
         Route::get('/staff/{staff}/edit-office', [OfficeController::class, 'editStaffOffice'])->name('staff.editOffice');
         Route::put('/staff/{staff}/update-office', [OfficeController::class, 'updateStaffOffice'])->name('staff.updateOffice');
-
     });
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -137,7 +129,3 @@ Route::middleware(['auth', 'role:publisher'])->group(function () {
     Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
     // Other publisher routes
 });
-
-require __DIR__.'/auth.php';
-
-Auth::routes();

@@ -1,13 +1,17 @@
 @props(['pageName','sectionName'])
-<div class="fixed top-0 left-16 right-0 w-full px-16 justify-between items-center border-e bg-gray-100 border-black-900">
+<div class="fixed top-0
+        @auth
+            left-16
+       @endauth
+     right-0 w-full px-16 justify-between items-center border-e bg-gray-100 border-black-900">
     <nav class="flex justify-between items-center h-10 -translate-x-10">
         <div class="border-gray-600">
             <a href="/" class="">
                 <img style="width: 25px;" src="{{ Vite::asset('resources/images/logo.png') }}" alt="">
             </a>
         </div>
+        @auth
         <x-breadcrumbs class="-translate-x-full" :sectionName="$sectionName" :pageName="$pageName"></x-breadcrumbs>
-        {{--        <x-links class="space-x-6 font-bold"></x-links>--}}
         <div class="flex right-0 top-0">
             <input type="checkbox" id="search-toggle" class="absolute sr-only peer" checked>
             <label for="search-toggle" class="cursor-pointer translate-x-80 peer-checked:translate-x-0">
@@ -21,12 +25,11 @@
                 </x-forms.form>
             </div>
         </div>
-        @auth
+
             <x-right-nav-main></x-right-nav-main>
         @endauth
         @guest
             <x-right-nav></x-right-nav>
         @endguest
-
     </nav>
 </div>
