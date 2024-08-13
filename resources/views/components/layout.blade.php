@@ -27,12 +27,17 @@
     </div>
     <div class="ml-16 w-full">
         <x-navbar :sectionName="$sectionName"  :pageName="$pageName"></x-navbar>
-        <main class="mt-20 px-20 pt-16">
+        <main class="mt-20 px-20
+        @guest()
+        pt-16
+        @endguest
+        mb-16">
             {{ $slot }}
         </main>
     </div>
 </div>
-<x-footer class="mt-10"></x-footer>
+<div class="flex-grow"></div>
+<x-footer></x-footer>
 
 
 </body>

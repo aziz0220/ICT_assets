@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout :sectionName="__('Results')" :pageName="__('')">
     <x-page-heading>Results</x-page-heading>
 
     <div class="space-y-6">
