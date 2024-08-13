@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-layout  :sectionName="__('Login')" :pageName="__('Login')">
     <form method="POST" action="{{ route('password.store') }}">
         @csrf
 
@@ -36,4 +36,4 @@
             </x-primary-button>
         </div>
     </form>
-</x-guest-layout>
+</x-layout>

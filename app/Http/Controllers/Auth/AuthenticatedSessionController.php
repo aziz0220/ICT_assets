@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
@@ -27,8 +28,12 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-
-        return redirect()->intended(route('dashboard', absolute: false));
+        $roleName = Auth::user()->getRoleNames()->first();
+//        if ($roleName === null) {
+//            Log::debug('User without role attempted access.', ['user_id' => Auth::user()->id]);
+//            Auth::logout();
+//        }
+        return redirect()->intended(route('dashboard.index', absolute: false));
     }
 
     /**

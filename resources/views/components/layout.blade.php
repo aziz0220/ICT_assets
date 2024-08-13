@@ -14,8 +14,8 @@
     <title>{{ config('app.name', 'ICT Register') }}</title>
     @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
-<body class="bg-ash-gray/40 text-black/80 h-screen bg-cover bg-center" style="background-image: url({{Vite::asset('resources/images/background1.jpeg')}})">
-
+<body class="bg-ash-gray/40 text-black/80 h-screen bg-cover bg-center min-h-screen flex flex-col" style="background-image: url({{Vite::asset('resources/images/background1.jpeg')}})">
+<x-background></x-background>
 <div class="flex">
     <div class="fixed h-full">
 {{--    <x-sidebar-dynamic></x-sidebar-dynamic>--}}
@@ -25,7 +25,6 @@
         <x-sidebar></x-sidebar>
         @endif
     </div>
-
     <div class="ml-16 w-full">
         <x-navbar :sectionName="$sectionName"  :pageName="$pageName"></x-navbar>
         <main class="mt-20 px-20 pt-16">
@@ -33,7 +32,8 @@
         </main>
     </div>
 </div>
-<x-footer class="mt-10 "></x-footer>
+<x-footer class="mt-10"></x-footer>
+
 
 </body>
 

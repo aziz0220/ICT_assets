@@ -17,7 +17,7 @@ class RoleMiddleware
      */
     public function handle($request, Closure $next): Response
     {
-        if ( Auth::user() && !Auth::user()->getRoleNames()->first) {
+        if ( Auth::user() &&  Auth::user()->getRoleNames()->first() === null) {
             Log::debug('User without role attempted access.', ['user_id' => Auth::user()->id]);
             Auth::logout();
             return redirect()->route('login')->with('error', 'Your account is is not registered. Please contact administrator.');

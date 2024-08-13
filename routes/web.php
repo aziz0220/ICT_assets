@@ -25,9 +25,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\Api;
 
-//require __DIR__.'/auth.php';
+require __DIR__.'/auth.php';
 
-Auth::routes();
+//Auth::routes();
 
 Route::post('/assets/bulk-action', [AssetController::class, 'bulkAction'])->name('assets.bulk-action');
 
