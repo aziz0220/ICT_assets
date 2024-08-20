@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Asset;
 use App\Models\AssetManager;
 use App\Models\ExecutiveManagement;
 use App\Models\Office;
@@ -21,9 +22,10 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = User::latest()->paginate(10);
+        $perPage = $request->input('per_page', 10);
+        $data = User::latest()->paginate($perPage, ['*'], 'users_page');
         return view('users.index',compact('data'));
     }
 
@@ -134,6 +136,24 @@ class UserController extends Controller
 
         return redirect()->route('user.index')
             ->with('success','User updated successfully');
+    }
+
+    public function bulkAction(Request $request)
+    {
+        $action = $request->input('action');
+        $assetIds = explode(',', $request->input('selected_users'));
+
+        switch ($action) {
+            case 'delete':
+                foreach ($assetIds as $id) {
+                    User::destroy($id);
+                }
+                break;
+            default:
+                return back()->with('error', 'Invalid action selected');
+        }
+
+        return back()->with('success', 'Bulk action performed successfully');
     }
 
     /**

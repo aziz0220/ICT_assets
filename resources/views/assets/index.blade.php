@@ -22,7 +22,7 @@
         }
     </script>
 
-    <x-tabs :assets="$assets" :requests="$requests" :changes="$changes" :assigned="$assigned" :approvedReq="$approvedReq" :approvedChange="$approvedChange"  ></x-tabs>
+    <x-tabs :assets="$assets" :requests="$requests" :changes="$changes" :assigned="$assigned" :approvedReq="$approvedReq" :approvedChange="$approvedChange"></x-tabs>
     <x-alerts.alert></x-alerts.alert>
     <x-assets-actions></x-assets-actions>
     <x-assets-registered :assets="$assets"></x-assets-registered>

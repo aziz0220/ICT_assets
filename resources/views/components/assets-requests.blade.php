@@ -138,40 +138,7 @@
             </tbody>
         </table>
             </div>
-        <div class="rounded-b-lg border-t border-gray-200 px-4 py-2">
-            <ol class="flex justify-end gap-1 text-xs font-medium">
-                <!-- Previous Page Link -->
-                @if ($assets->onFirstPage())
-                    <li class="disabled"><span class="inline-flex size-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 rtl:rotate-180">&laquo;</span></li>
-                @else
-                    <li><a href="{{ $assets->appends(['per_page' => request('per_page')])->previousPageUrl() }}" class="inline-flex size-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 rtl:rotate-180">&laquo;</a></li>
-                @endif
-                <!-- Pagination Elements -->
-                @foreach ($assets->appends(['per_page' => request('per_page')])->elements as $element)
-                    <!-- "Three Dots" Separator -->
-                    @if (is_string($element))
-                        <li class="disabled"><span class="inline-flex size-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 rtl:rotate-180">{{ $element }}</span></li>
-                    @endif
-
-                    <!-- Array Of Links -->
-                    @if (is_array($element))
-                        @foreach ($element as $page => $url)
-                            @if ($page == $assets->currentPage())
-                                <li class="active"><span class="inline-flex size-8 items-center justify-center rounded border-blue-600 bg-blue-600 text-center leading-8 text-white">{{ $page }}</span></li>
-                            @else
-                                <li><a href="{{ $url }}" class="block size-8 rounded border border-gray-100 bg-white text-center leading-8 text-gray-900">{{ $page }}</a></li>
-                            @endif
-                        @endforeach
-                    @endif
-                @endforeach
-                <!-- Next Page Link -->
-                @if ($assets->hasMorePages())
-                    <li><a href="{{ $assets->appends(['per_page' => request('per_page')])->nextPageUrl() }}" class="inline-flex size-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 rtl:rotate-180">&raquo;</a></li>
-                @else
-                    <li class="disabled"><span class="inline-flex size-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 rtl:rotate-180">&raquo;</span></li>
-                @endif
-            </ol>
-        </div>
+            <x-table-pagination :firstPage="$requests->onFirstPage()" :previous="$requests->appends(['per_page' => request('per_page')])->previousPageUrl()" :pages="$requests->links()->elements" :current="$requests->currentPage()" :more="$requests->hasMorePages()" :next="$requests->appends(['per_page' => request('per_page')])->nextPageUrl()"></x-table-pagination>
     </div>
     @endif
 
@@ -498,7 +465,6 @@
                         });
                     });
                 </script>
-
         <table class="table table-striped table-hover min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
             <thead class="ltr:text-left rtl:text-right">
             <tr>

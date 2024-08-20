@@ -316,16 +316,7 @@
                         $asset = Asset::assignAsset($id);
                     }
                     break;
-//                case 'export':
-//                    // Handle bulk export
-//                    return Excel::download(new ExportAsset, 'assets.xlsx');
-//                    break;
-//                case 'print':
-//                    // Handle bulk print
-//                    return Excel::download(new ExportAsset, 'assets.xlsx');
-//                    break;
                 case 'delete':
-                    // Handle bulk delete
                     foreach ($assetIds as $id) {
                         Asset::destroy($id);
                     }

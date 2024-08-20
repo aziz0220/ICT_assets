@@ -21,7 +21,6 @@
         });
     });
 </script>
-
 <div id="assigned" class="tab-content" style="display:none;">
     @role('Staff')
     @if($assigned->isNotEmpty())
@@ -167,36 +166,7 @@
             @endforeach
         </table>
         </div>
-            <div class="rounded-b-lg border-t border-gray-200 px-4 py-2">
-                <ol class="flex justify-end gap-1 text-xs font-medium">
-                    @if ($assigned->onFirstPage())
-                        <li class="disabled"><span class="inline-flex size-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 rtl:rotate-180">&laquo;</span></li>
-                    @else
-                        <li><a href="{{ $assigned->previousPageUrl() }}" class="inline-flex size-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 rtl:rotate-180">&laquo;</a></li>
-                    @endif
-
-                    <!-- Pagination Elements -->
-                    @foreach ($assigned->links()->elements as $element)
-                        @if (is_string($element))
-                            <li class="disabled"><span class="inline-flex size-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 rtl:rotate-180">{{ $element }}</span></li>
-                        @endif
-                        @if (is_array($element))
-                            @foreach ($element as $page => $url)
-                                @if ($page == $assigned->currentPage())
-                                    <li class="active"><span class="inline-flex size-8 items-center justify-center rounded border-blue-600 bg-blue-600 text-center leading-8 text-white">{{ $page }}</span></li>
-                                @else
-                                    <li><a href="{{ $url }}" class="block size-8 rounded border border-gray-100 bg-white text-center leading-8 text-gray-900">{{ $page }}</a></li>
-                                @endif
-                            @endforeach
-                        @endif
-                    @endforeach
-                    @if ($assigned->hasMorePages())
-                        <li><a href="{{ $assigned->nextPageUrl() }}" class="inline-flex size-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 rtl:rotate-180">&raquo;</a></li>
-                    @else
-                        <li class="disabled"><span class="inline-flex size-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 rtl:rotate-180">&raquo;</span></li>
-                    @endif
-                </ol>
-            </div>
+            <x-table-pagination :table:="$assigned" :firstPage="$assigned->onFirstPage()" :previous="$assigned->appends(['per_page' => request('per_page')])->previousPageUrl()" :pages="$assigned->links()->elements" :current="$assigned->currentPage()" :more="$assigned->hasMorePages()" :next="$assigned->appends(['per_page' => request('per_page')])->nextPageUrl()"></x-table-pagination>
         </div>
         <!-- Report Problem Modal -->
         <div class="modal fade" id="reportProblemModal" tabindex="-1" aria-labelledby="reportProblemModalLabel" aria-hidden="true">

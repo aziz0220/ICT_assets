@@ -1,4 +1,8 @@
 <x-layout :sectionName="Auth::user()->getRoleNames()->first()" :pageName="__('Dashboard')">
+   @role('System Admin')
+    <x-stat-carts></x-stat-carts>
+   @endrole
+
    @role('Asset Manager|Staff|Head Office')
     <x-stats-card :totalAssets="$totalAssets" :pendingProblems="$pendingProblems" :pendingMaintenances="$pendingMaintenances"></x-stats-card>
     <x-action-table :totalAssets="$totalAssets" :pendingProblems="$pendingProblems" :pendingMaintenances="$pendingMaintenances"></x-action-table>

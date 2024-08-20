@@ -30,6 +30,9 @@ require __DIR__.'/auth.php';
 //Auth::routes();
 
 Route::post('/assets/bulk-action', [AssetController::class, 'bulkAction'])->name('assets.bulk-action');
+Route::post('/users/bulk-action', [UserController::class, 'bulkAction'])->name('users.bulk-action');
+
+
 
 Route::resource('/',WelcomeController::class);
 
@@ -73,7 +76,6 @@ Route::middleware(['auth','role.check'])->group(function () {
         Route::delete('asset_maintenances/{id}', [AssetMaintenanceController::class, 'destroy'])->name('asset_maintenances.destroy');
 
     });
-
     Route::middleware(['role:System Admin'])->group(function(){
         Route::resource('/role', RoleController::class);
         Route::resource('/permission', PermissionController::class);
@@ -89,7 +91,6 @@ Route::middleware(['auth','role.check'])->group(function () {
         Route::get('/staff/{staff}/edit-office', [OfficeController::class, 'editStaffOffice'])->name('staff.editOffice');
         Route::put('/staff/{staff}/update-office', [OfficeController::class, 'updateStaffOffice'])->name('staff.updateOffice');
     });
-
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

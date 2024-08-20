@@ -1,5 +1,5 @@
 @props(['requests','changes','assets','assigned','approvedChange','approvedReq'])
-<div class="flex items-center justify-center w-full -translate-y-24">
+<div class="flex items-center justify-center w-full -translate-y-8">
     <div class="hidden sm:block">
         <div class="border-b border-gray-200">
             <nav class="-mb-px flex gap-6" aria-label="Tabs">
