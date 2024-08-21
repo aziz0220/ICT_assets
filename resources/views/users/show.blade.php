@@ -8,17 +8,9 @@
                 src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
                 class="absolute inset-0 h-full w-full object-cover"
             />
-            <div class="relative bg-gradient-to-t from-gray-900/50 to-gray-900/25 pt-32 sm:pt-48 lg:pt-64">
-                <div class="p-4 sm:p-6">
-                    <a href="#">
-                        <h3 class="mt-0.5 text-lg text-white">{{ $user->name }}</h3>
-                    </a>
-                </div>
-            </div>
         </article>
 </div>
     <div class="flex justify-center">
-
         <a
             class="w-16 h-16 text-indigo-600 bg-indigo-50 rounded-full duration-150 hover:bg-indigo-100 active:bg-indigo-200 flex items-center justify-center translate-x-1/2 -translate-y-1/2"
             title="Back"
