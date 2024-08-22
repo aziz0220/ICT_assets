@@ -1,6 +1,6 @@
 <x-layout :sectionName="Auth::user()->getRoleNames()->first()" :pageName="__('Dashboard')">
    @role('System Admin')
-    <x-stat-carts></x-stat-carts>
+    <x-stat-carts :offices="$offices"></x-stat-carts>
    @endrole
 
    @role('Asset Manager|Staff|Head Office')

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Traits\HasRoles;
@@ -15,9 +16,10 @@ class PermissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $permissions = Permission::orderBy('id', 'DESC')->paginate(5);
+        $perPage = $request->input('per_page', 10);
+        $permissions = Permission::orderBy('id', 'DESC')->paginate($perPage, ['*'], 'users_page');
         return view('permissions.index', compact('permissions')); // Assuming a permissions index view
     }
 
@@ -92,6 +94,24 @@ class PermissionController extends Controller
 
         return redirect()->route('permission.index')
             ->with('success', 'Permission updated successfully');
+    }
+
+    public function bulkAction(Request $request)
+    {
+        $action = $request->input('action');
+        $assetIds = explode(',', $request->input('selected_items'));
+
+        switch ($action) {
+            case 'delete':
+                foreach ($assetIds as $id) {
+                    User::destroy($id);
+                }
+                break;
+            default:
+                return back()->with('error', 'Invalid action selected');
+        }
+
+        return back()->with('success', 'Bulk action performed successfully');
     }
 
     /**

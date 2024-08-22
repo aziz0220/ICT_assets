@@ -16,10 +16,11 @@ class StaffController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $staff = Staff::with('office','user')->where('is_blocked', false)->latest()->paginate(10);
-        $blocked = Staff::with('office','user')->where('is_blocked', true)->latest()->paginate(10);
+        $perPage = $request->input('per_page', 10);
+        $staff = Staff::with('office','user')->latest()->paginate($perPage, ['*'], 'staff_page');
+        $blocked = Staff::with('office','user')->where('is_blocked', true)->latest()->paginate($perPage, ['*'], 'staff_page');
         return view('staff.index', compact('staff','blocked'));
     }
 
@@ -159,6 +160,26 @@ class StaffController extends Controller
         $staff->save();
 
         return back()->with('success', 'Staff member unblocked successfully!');
+    }
+
+
+
+    public function bulkAction(Request $request)
+    {
+        $action = $request->input('action');
+        $assetIds = explode(',', $request->input('selected_items'));
+
+        switch ($action) {
+            case 'delete':
+                foreach ($assetIds as $id) {
+                    User::destroy($id);
+                }
+                break;
+            default:
+                return back()->with('error', 'Invalid action selected');
+        }
+
+        return back()->with('success', 'Bulk action performed successfully');
     }
 
     public function setHead (int $id, Office $office_id) {

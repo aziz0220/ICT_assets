@@ -1,3 +1,4 @@
+@props(['offices', 'staff', 'assetmanagers', 'roles', 'permissions', 'users'] )
 <div class="mt-4">
     <div class="flex flex-wrap -mx-6">
         <div class="w-full px-6 sm:w-1/2 xl:w-1/3">
@@ -27,8 +28,8 @@
                 </div>
 
                 <div class="mx-5">
-                    <h4 class="text-2xl font-semibold text-gray-700">8,282</h4>
-                    <div class="text-gray-500">New Users</div>
+                    <h4 class="text-2xl font-semibold text-gray-700">{{$offices}}</h4>
+                    <div class="text-gray-500">Offices</div>
                 </div>
             </div>
         </div>

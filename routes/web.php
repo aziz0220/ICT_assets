@@ -30,9 +30,11 @@ require __DIR__.'/auth.php';
 //Auth::routes();
 
 Route::post('/assets/bulk-action', [AssetController::class, 'bulkAction'])->name('assets.bulk-action');
-Route::post('/users/bulk-action', [UserController::class, 'bulkAction'])->name('users.bulk-action');
-
-
+Route::post('/user/bulk-action', [UserController::class, 'bulkAction'])->name('user.bulk-action');
+Route::post('/permission/bulk-action', [PermissionController::class, 'bulkAction'])->name('permission.bulk-action');
+Route::post('/role/bulk-action', [RoleController::class, 'bulkAction'])->name('role.bulk-action');
+Route::post('/staff/bulk-action', [StaffController::class, 'bulkAction'])->name('staff.bulk-action');
+Route::post('/offices/bulk-action', [OfficeController::class, 'bulkAction'])->name('offices.bulk-action');
 
 Route::resource('/',WelcomeController::class);
 

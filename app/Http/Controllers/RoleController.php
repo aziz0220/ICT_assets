@@ -102,6 +102,25 @@ class RoleController extends Controller
             ->with('success', 'Role updated successfully');
     }
 
+
+    public function bulkAction(Request $request)
+    {
+        $action = $request->input('action');
+        $assetIds = explode(',', $request->input('selected_items'));
+
+        switch ($action) {
+            case 'delete':
+                foreach ($assetIds as $id) {
+                    User::destroy($id);
+                }
+                break;
+            default:
+                return back()->with('error', 'Invalid action selected');
+        }
+
+        return back()->with('success', 'Bulk action performed successfully');
+    }
+
     /**
      * Remove the specified resource from storage.
      */

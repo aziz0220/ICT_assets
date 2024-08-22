@@ -24,9 +24,10 @@ class OfficeController extends Controller
         'approve_maintenance',
         'approve_problem'
     ];
-    public function index()
+    public function index(Request $request)
     {
-        $offices = Office::with('headOffice.user')->paginate(5);
+        $perPage = $request->input('per_page', 10);
+        $offices = Office::with('headOffice.user')->paginate($perPage, ['*'], 'staff_page');
         return view('offices.index', compact('offices'));
     }
 
@@ -179,4 +180,23 @@ class OfficeController extends Controller
         $staff->save();
         return redirect()->route('staff.show', $staff)->with('success', 'Staff office updated successfully.');
     }
+
+    public function bulkAction(Request $request)
+    {
+        $action = $request->input('action');
+        $assetIds = explode(',', $request->input('selected_items'));
+
+        switch ($action) {
+            case 'delete':
+                foreach ($assetIds as $id) {
+                    User::destroy($id);
+                }
+                break;
+            default:
+                return back()->with('error', 'Invalid action selected');
+        }
+
+        return back()->with('success', 'Bulk action performed successfully');
+    }
+
 }

@@ -141,7 +141,7 @@ class UserController extends Controller
     public function bulkAction(Request $request)
     {
         $action = $request->input('action');
-        $assetIds = explode(',', $request->input('selected_users'));
+        $assetIds = explode(',', $request->input('selected_items'));
 
         switch ($action) {
             case 'delete':
