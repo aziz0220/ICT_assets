@@ -12,7 +12,7 @@ class Asset extends Model
     use SoftDeletes;
 
     public $table = 'assets';
-    protected $fillable = ['asset_name', 'purchased_date','end_of_life','warrant','quantity','is_registered','vendor_id','status_id','category_id','standard_id','created_by'];
+    protected $fillable = ['asset_name', 'purchased_date','end_of_life','warrant','quantity','is_registered','head_approval','vendor_id','status_id','category_id','standard_id','created_by','office_id'];
     protected $guarded = [
         'created_at',
         'updated_at',

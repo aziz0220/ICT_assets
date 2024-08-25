@@ -1,12 +1,12 @@
 <section x-data="{ open: false }">
-    <div class="py-12">
+    <div class="flex justify-center place-items-center">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <button @click="open = !open" class="bg-gray-500 text-white px-4 py-2 rounded">
-                <span x-show="!open">Show Details ▼</span>
-                <span x-show="open">Hide Details ▲</span>
+            <button @click="open = !open" class="text-gray-500 bg-gray-100 border-gray-50 hover:text-blue-600 hover:bg-gray-100 px-4 py-2 rounded-full ">
+                <span x-show="!open" title="Show Details">▼</span>
+                <span x-show="open" title="Hide Details">▲</span>
             </button>
-            <div x-show="open" x-cloak class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-4">
-                <div class="p-6 bg-white border-b border-gray-200">
+            <div x-show="open" x-cloak class="overflow-hidden shadow-sm sm:rounded-lg mt-4">
+                <div class="p-6 border-b border-gray-50">
                     @role('Staff|Asset Manager|Head Office')
                     @if($pendingProblems->isNotEmpty())
                         <h3 class="font-bold text-xl mt-8">Pending Asset Problems</h3>

@@ -66,7 +66,7 @@
                 <table class="table table-striped table-hover min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                     <thead class="ltr:text-left rtl:text-right">
                         <tr>
-                            <th class="sticky inset-y-0 start-0 bg-white px-4 py-2">
+                            <th class=" inset-y-0 start-0 bg-white px-4 py-2">
                                 <label for="SelectAll" class="sr-only">Select All</label>
                                 <input type="checkbox" id="SelectAll" class="size-5 rounded border-gray-300" onclick="toggleSelectAll()" />
                             </th>
@@ -82,7 +82,7 @@
                     <tbody class="divide-y divide-gray-200">
                     @foreach ($approvedReq as $req)
                         <tr class="odd:bg-gray-50">
-                            <td class="sticky inset-y-0 start-0 bg-white px-4 py-2">
+                            <td class=" inset-y-0 start-0 bg-white px-4 py-2">
                                 <label class="sr-only" for="Row {{$req->id}}">Row {{$req->id}}</label>
                                 <input class="size-5 rounded border-gray-300 asset-checkbox" type="checkbox" id="Row {{$req->id}}" value="{{$req->id}}" />
                             </td>
@@ -228,7 +228,7 @@
                 <table class="table table-striped table-hover min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                     <thead class="ltr:text-left rtl:text-right">
             <tr>
-                <th class="sticky inset-y-0 start-0 bg-white px-4 py-2">
+                <th class=" inset-y-0 start-0 bg-white px-4 py-2">
                     <label for="SelectAll" class="sr-only">Select All</label>
                     <input type="checkbox" id="SelectAll" class="size-5 rounded border-gray-300" onclick="toggleSelectAll()" />
                 </th>
@@ -244,7 +244,7 @@
             @foreach ($approvedChange as $req)
 
                 <tr class="odd:bg-gray-50">
-                    <td class="sticky inset-y-0 start-0 bg-white px-4 py-2">
+                    <td class=" inset-y-0 start-0 bg-white px-4 py-2">
                         <label class="sr-only" for="Row {{$req->id}}">Row {{$req->id}}</label>
                         <input class="size-5 rounded border-gray-300 asset-checkbox" type="checkbox" id="Row {{$req->id}}" value="{{$req->id}}" />
                     </td>

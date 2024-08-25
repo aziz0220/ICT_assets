@@ -48,10 +48,36 @@
                 </div>
                 <div class="col-span-full">
                     <label for="quantity" class="block text-sm font-medium leading-6 text-gray-900">Quantity</label>
-                    <div class="mt-2">
-                        <input type="number" name="quantity" id="quantity" autocomplete="quantity" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    <div class="mt-2" x-data="{ productQuantity: 1 }">
+                        <div class="flex items-center rounded border border-gray-200 dark:border-gray-800">
+                            <button
+                                type="button"
+                                x-on:click="productQuantity--"
+                                :disabled="productQuantity === 0"
+                                class="size-10 leading-10 text-gray-600 transition hover:opacity-75 dark:text-gray-300"
+                            >
+                                &minus;
+                            </button>
+
+                            <input
+                                type="number"
+                                id="quantity"
+                                name="quantity"
+                                x-model="productQuantity"
+                                class="h-10 w-16 border-transparent text-center [-moz-appearance:_textfield] sm:text-sm dark:bg-gray-900 dark:text-white [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
+                            />
+
+                            <button
+                                type="button"
+                                x-on:click="productQuantity++"
+                                class="size-10 leading-10 text-gray-600 transition hover:opacity-75 dark:text-gray-300"
+                            >
+                                &plus;
+                            </button>
+                        </div>
                     </div>
                 </div>
+
 
                 <div class="sm:col-span-2 sm:col-start-1">
                     <label for="vendor" class="block text-sm font-medium leading-6 text-gray-900">Vendor</label>
