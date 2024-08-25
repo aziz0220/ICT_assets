@@ -9,6 +9,8 @@ class SearchController extends Controller
 {
     public function __invoke()
     {
+
+
         $assets = Asset::query()
             ->with(['vendor','category','status','standard','staff','staff.user','office'])
             ->where('asset_name','LIKE','%'.\request('q').'%')

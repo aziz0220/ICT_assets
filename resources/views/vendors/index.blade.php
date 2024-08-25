@@ -1,9 +1,5 @@
 <x-layout :sectionName="__('Manage')" :pageName="__('Vendors')">
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Vendors') }}
-        </h2>
-    </x-slot>
+
 
 
     @if (session('success'))
@@ -44,4 +40,4 @@
     </table>
 
     <a href="{{ route('vendor.create') }}" class="btn btn-primary">Create New Vendor</a>
-</x-layout>>
+</x-layout>

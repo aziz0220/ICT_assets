@@ -9,8 +9,9 @@
 
    @role('Asset Manager|Staff|Head Office')
     <x-stats-card :totalAssets="$totalAssets" :pendingProblems="$pendingProblems" :pendingMaintenances="$pendingMaintenances"></x-stats-card>
-    <x-action-table :totalAssets="$totalAssets" :pendingProblems="$pendingProblems" :pendingMaintenances="$pendingMaintenances"></x-action-table>
-
+    @if($pendingMaintenances->isNotEmpty() || $pendingProblems->isNotEmpty())
+        <x-action-table :totalAssets="$totalAssets" :pendingProblems="$pendingProblems" :pendingMaintenances="$pendingMaintenances"></x-action-table>
+    @endif
     @if($pendingMaintenances->isNotEmpty())
     <section>
         <x-section-heading>Pending Maintenances</x-section-heading>
@@ -21,6 +22,8 @@
         </div>
     </section>
     @endif
+    @if($pendingMaintenances->isNotEmpty())
+
     <section>
         <x-section-heading>Recent Problems</x-section-heading>
         <div class="mt-6 space-y-6">
@@ -29,13 +32,16 @@
             @endforeach
         </div>
     </section>
+    @endif
+    @role('Asset Manager')
     <section>
         <x-section-heading>Vendors</x-section-heading>
         <div class="mt-6 space-x-1">
             @foreach($vendors as $vendor)
-                <x-tag :asset="$vendor->vendor_name" size="base"/>
+                <x-tag :asset="$vendor->vendor_name" :href="route('vendor.show', $vendor->id) " size="base"/>
             @endforeach
         </div>
     </section>
+    @endrole
     @endrole
 </x-layout>

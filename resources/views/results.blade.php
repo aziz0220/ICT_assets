@@ -1,9 +1,10 @@
 <x-layout :sectionName="__('Results')" :pageName="__('')">
     <x-page-heading>Results</x-page-heading>
 
-    <div class="space-y-6">
+    <div class="space-y-6 grid-cols-3 ">
         @foreach($assets as $asset)
             <x-wide-card :$asset />
+
         @endforeach
     </div>
 </x-layout>
