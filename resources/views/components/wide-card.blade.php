@@ -18,9 +18,9 @@
     </div>
 
     <div>
-        <x-tag :asset="$asset->category->category_name" size="base" />
-        <x-tag :asset="$asset->status->status_name" size="base" />
-        <x-tag :asset="$asset->standard->item_name" size="base" />
-        <x-tag :asset="$asset->vendor->vendor_name" size="base" />
+        <x-tag :asset="$asset->category->category_name" :href="route('asset-category.show', $asset->category->id)" size="base" />
+        <x-tag :asset="$asset->status->status_name" :href="route('asset-status.show', $asset->status->id)" size="base" />
+        <x-tag :asset="$asset->standard->item_name" :href="route('asset-standard.show', $asset->standard->id)" size="base" />
+        <x-tag :asset="$asset->vendor->vendor_name" :href="route('vendor.show', $asset->vendor->id)" size="base" />
     </div>
 </x-panel>

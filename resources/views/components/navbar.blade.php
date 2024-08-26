@@ -20,7 +20,7 @@
                 </svg>
             </label>
             <div class="absolute top-0 w-1/4 block -translate-x-8 peer-checked:hidden">
-                <x-forms.form action="/search" class="top-0 w-full text-xs xl:text-sm">
+                <x-forms.form action="search" class="top-0 w-full text-xs xl:text-sm">
                     <x-forms.input :label="false" name="q" placeholder="Search..." />
                 </x-forms.form>
             </div>

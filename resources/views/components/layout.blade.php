@@ -39,7 +39,6 @@
 <div class="flex-grow"></div>
 <x-footer></x-footer>
 
-
 </body>
 
 </html>
