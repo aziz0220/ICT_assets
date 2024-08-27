@@ -1,5 +1,9 @@
 # ICT Asset Register System
 
+<p align="center">
+  <img src="public/img.png" width="600" alt="Landing Page">
+</p>
+
 ## Overview
 
 The ICT Asset Register System is a comprehensive solution designed for The Open University of Tanzania (OUT) to track, manage, and optimize all ICT assets within the organization. This system aims to streamline asset management processes, fostering greater efficiency, cost-effectiveness, compliance, and security throughout the enterprise infrastructure.
@@ -16,6 +20,12 @@ The ICT Asset Register System is a comprehensive solution designed for The Open 
 - Depreciation Calculation
 - Asset Lifecycle Management
 - Custom Report Generation
+
+  <img src="public/img1.png" width="300" alt="Admin Dashboard">
+  <img src="public/img2.png" width="300" alt="Manage Users">
+  <img src="public/img3.png" width="300" alt="Show User">
+  <img src="public/img4.png" width="300" alt="Edit User">
+
 
 ## User Roles
 
