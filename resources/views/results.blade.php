@@ -3,7 +3,7 @@
     @role('Staff|Head Office|Executive Manager')
     <div class="grid grid-cols-3 gap-4">
             @foreach($assets as $asset)
-                <x-gradient-card :name="$asset->name" />
+                <x-gradient-card :name="$asset->asset_name" :number="$asset->category->category_name" :date="$asset->end_of_life" :tag="$asset->warrant" :href="route('assets.show', $asset->id)" />
             @endforeach
     </div>
     @endrole

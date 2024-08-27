@@ -38,7 +38,7 @@ Route::post('/offices/bulk-action', [OfficeController::class, 'bulkAction'])->na
 
 Route::resource('/',WelcomeController::class);
 
-Route::get('/search', SearchController::class)->name('search');
+Route::get('search', SearchController::class)->name('search');
 
 Route::middleware(['auth','role.check'])->group(function () {
     Route::resource('/dashboard',DashboardController::class);

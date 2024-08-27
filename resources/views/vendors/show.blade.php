@@ -19,4 +19,4 @@
         <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this vendor?')">Delete</button>
     </form>
     @endcan
-</x-layout>>
+</x-layout>

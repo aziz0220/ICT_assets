@@ -15,3 +15,5 @@ Artisan::command('schedule:publish', function () {
 })->describe('Publish scheduled content');
 
 Schedule::job(new PublishScheduledContent)->everyMinute();
+
+Schedule::command('notifications:send-maintenance')->daily();
