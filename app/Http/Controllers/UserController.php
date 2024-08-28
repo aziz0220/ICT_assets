@@ -142,7 +142,7 @@ class UserController extends Controller
     {
         $action = $request->input('action');
         $assetIds = explode(',', $request->input('selected_items'));
-
+        Log::debug($assetIds);
         switch ($action) {
             case 'delete':
                 foreach ($assetIds as $id) {

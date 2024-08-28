@@ -32,6 +32,7 @@
         pt-16
         @endguest
         mb-16">
+            <x-alerts.alert></x-alerts.alert>
             {{ $slot }}
         </main>
     </div>

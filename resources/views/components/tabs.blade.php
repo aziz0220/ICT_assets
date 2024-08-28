@@ -83,9 +83,15 @@
 
                 <a
                     id="nav-approved"
-                    class="nav-item cursor-pointer inline-flex shrink-0 items-center gap-2 border-b-2 border-transparent px-1 pb-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 @if(!$approvedReq->isNotEmpty() && $approvedChange->isNotEmpty()) cursor-not-allowed @endif"
+                    class="nav-item cursor-pointer inline-flex shrink-0 items-center gap-2 border-b-2 border-transparent px-1 pb-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 @if(!$approvedReq->isNotEmpty() && $approvedChange->isNotEmpty()) cursor-not-allowed @endif
+                    @role('Asset Manager')
+                        cursor-not-allowed
+                    @endrole
+                    "
                     @if($approvedReq->isNotEmpty() || $approvedChange->isNotEmpty())
-                        onclick="showSection('approved')"
+                        @unless(auth()->user()->hasRole('Asset Manager'))
+                            onclick="showSection('approved')"
+                        @endunless
                     @endif
                 >
                     <svg
@@ -112,9 +118,14 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Initialize the default section
-        const selectElement = document.getElementById('Tab');
-        if (selectElement) {
-            showSection(selectElement.value);
+        const storedTab = localStorage.getItem('selectedTab');
+        if (storedTab) {
+            showSection(storedTab);
+        } else {
+            const selectElement = document.getElementById('Tab');
+            if (selectElement) {
+                showSection(selectElement.value);
+            }
         }
     });
 
@@ -129,13 +140,16 @@
 
         // Remove active class from all tabs
         document.querySelectorAll('.nav-item').forEach(tab => {
-            tab.classList.remove('border-indigo-500', 'text-indigo-600','hover:text-indigo-900','text-sky-600');
+            tab.classList.remove('border-indigo-500', 'text-indigo-600', 'hover:text-indigo-900', 'text-sky-600');
             tab.classList.add('border-transparent', 'text-gray-500', 'hover:border-gray-300', 'hover:text-gray-700');
         });
 
         // Add active class to the selected tab
         document.querySelector(`#nav-${section}`).classList.remove('border-transparent', 'text-gray-500', 'hover:border-gray-300', 'hover:text-gray-700', 'text-sky-600');
-        document.querySelector(`#nav-${section}`).classList.add('border-indigo-500', 'text-indigo-600','hover:text-indigo-900');
+        document.querySelector(`#nav-${section}`).classList.add('border-indigo-500', 'text-indigo-600', 'hover:text-indigo-900');
+
+        // Store the selected tab in local storage
+        localStorage.setItem('selectedTab', section);
 
         updateSelectedOptionStyling();
     }

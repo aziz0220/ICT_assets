@@ -62,4 +62,49 @@ class Asset extends Model
         return $this->hasMany(AssetMaintenance::class);
     }
 
+    public function registerAsset()
+    {
+        if ($this->head_approval == 1 && $this->is_registered == 0) {
+            $this->is_registered = 1;
+            $this->save();
+        } else {
+            session()->flash('error', 'Asset cannot be registered. Conditions not met.');
+            return false;
+        }
+    }
+
+    public function unregisterAsset()
+    {
+        if ($this->head_approval == 1 && $this->is_registered == 1) {
+            $this->is_registered = false;
+            $this->save();
+        } else {
+            session()->flash('error', 'Asset cannot be unregistered. Conditions not met.');
+            return false;
+        }
+    }
+
+
+    public function approveNewRequest()
+    {
+        if ($this->is_registered == 0 && $this->head_approval == 0) {
+            $this->head_approval = 1;
+            $this->save();
+        } else {
+            session()->flash('error', 'Asset cannot be approved. Conditions not met.');
+            return false;
+        }
+    }
+
+    public function disapproveNewRequest()
+    {
+        if ($this->is_registered == 0 && $this->head_approval == 1) {
+            $this->head_approval = 0;
+            $this->save();
+        } else {
+            session()->flash('error', 'Asset cannot be disapproved. Conditions not met.');
+            return false;
+        }
+    }
+
 }

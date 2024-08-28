@@ -6,7 +6,6 @@
         <x-office-chart :users="$users" :roles="$roles" :admins="$admins" :assetManagers="$assetManagers" :executives="$executives" :staff="$staff" :unroledUsers="$unroledUsers" :officesStaffCount="$officesStaffCount" :unasignedStaff="$unasignedStaff"></x-office-chart>
     </div>
     @endrole
-
    @role('Asset Manager|Staff|Head Office')
     <x-stats-card :totalAssets="$totalAssets" :pendingProblems="$pendingProblems" :pendingMaintenances="$pendingMaintenances"></x-stats-card>
     @if($pendingMaintenances->isNotEmpty() || $pendingProblems->isNotEmpty())
@@ -23,7 +22,6 @@
     </section>
     @endif
     @if($pendingMaintenances->isNotEmpty())
-
     <section>
         <x-section-heading>Recent Problems</x-section-heading>
         <div class="mt-6 space-y-6">
@@ -34,13 +32,14 @@
     </section>
     @endif
     @role('Asset Manager')
-    <section>
-        <x-section-heading>Vendors</x-section-heading>
-        <div class="mt-6 space-x-1">
+    <section class="bg-gradient-to-r from-transparent via-blue-100 to-transparent pb-3 ">
+        <x-section-heading>Top Vendors</x-section-heading>
+        <div class="mt-6 flex space-x-6 justify-center items-center px-12">
             @foreach($vendors as $vendor)
                 <x-tag :asset="$vendor->vendor_name" :href="route('vendor.show', $vendor->id) " size="base"/>
             @endforeach
         </div>
+        <x-section-ending></x-section-ending>
     </section>
     @endrole
     @endrole

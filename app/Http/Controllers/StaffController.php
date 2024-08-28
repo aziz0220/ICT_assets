@@ -19,7 +19,7 @@ class StaffController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->input('per_page', 10);
-        $staff = Staff::with('office','user')->latest()->paginate($perPage, ['*'], 'staff_page');
+        $staff = Staff::with('user', 'office')->where('is_blocked', '=', '0')->get(); // Ensure 'user' and 'office' relationships are loaded
         $blocked = Staff::with('office','user')->where('is_blocked', true)->latest()->paginate($perPage, ['*'], 'staff_page');
         return view('staff.index', compact('staff','blocked'));
     }

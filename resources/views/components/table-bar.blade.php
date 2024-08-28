@@ -1,10 +1,40 @@
-@props(['class', ''])
+@props(['class'])
 <div class="flex space-x-4 h-14" >
     <form id="bulk-action-form" method="POST" action="{{ route($class . '.bulk-action') }}">
         @csrf
         <input type="hidden" name="selected_items" id="selected_items">
         <input type="hidden" name="action" id="action">
         <div class="inline-flex overflow-hidden rounded-md border bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
+            @can(['approve_new_asset',
+                'approve_edit_asset',
+                'approve_maintenance',
+                'approve_problem'])
+                <button
+                    type="button"
+                    class="inline-block border-e p-3 text-gray-700 hover:bg-gray-50 focus:relative dark:border-e-gray-800 dark:text-gray-200 dark:hover:bg-gray-800"
+                    title="Approve Request"
+                    onclick="setActionAndSubmit('approve')"
+                    disabled
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                </button>
+            @endcan
+            @can('Register-New-Asset')
+            <button
+                type="button"
+                class="h-full inline-block p-3 text-gray-700 hover:bg-gray-50 focus:relative dark:text-gray-200 dark:hover:bg-gray-800"
+                title="Register"
+                onclick="setActionAndSubmit('register')"
+                disabled
+                >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 3.75V16.5L12 14.25 7.5 16.5V3.75m9 0H18A2.25 2.25 0 0 1 20.25 6v12A2.25 2.25 0 0 1 18 20.25H6A2.25 2.25 0 0 1 3.75 18V6A2.25 2.25 0 0 1 6 3.75h1.5m9 0h-9" />
+                </svg>
+
+            </button>
+            @endcan
             <button
                 type="button"
                 class="h-full inline-block p-3 text-gray-700 hover:bg-gray-50 focus:relative dark:text-gray-200 dark:hover:bg-gray-800"
@@ -27,6 +57,7 @@
             <option value="100" {{ request('per_page') == 100 ? 'selected' : '' }}>100</option>
         </select>
     </form>
+    @role('System Admin')
     <div class="inline-flex overflow-hidden rounded-md border bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
         <a
             type="button"
@@ -39,15 +70,9 @@
             </svg>
         </a>
     </div>
+    @endrole
 </div>
 <script>
-    function setActionAndSubmit(action) {
-        document.getElementById('action').value = action;
-        const selectedUsers = Array.from(document.querySelectorAll('.class-checkbox:checked')).map(cb => cb.value);
-        document.getElementById('selected_items').value = selectedUsers.join(',');
-        document.getElementById('bulk-action-form').submit();
-    }
-
     function toggleSelectAll() {
         const selectAllCheckbox = document.getElementById('SelectAll');
         const checkboxes = document.querySelectorAll('.class-checkbox');
@@ -72,4 +97,11 @@
             checkbox.addEventListener('change', toggleBulkActionButtons);
         });
     });
+
+    function setActionAndSubmit(action) {
+        document.getElementById('action').value = action;
+        const selectedItems = Array.from(document.querySelectorAll('.class-checkbox:checked')).map(cb => cb.value);
+        document.getElementById('selected_items').value = selectedItems.join(',');
+        document.getElementById('bulk-action-form').submit();
+    }
 </script>

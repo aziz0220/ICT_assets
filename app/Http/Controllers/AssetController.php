@@ -250,10 +250,10 @@
         }
 
 
-        public function assignStaff($id){
+        public function assignStaff($id) {
             $asset = Asset::findOrFail($id);
-            $staff = Staff::with('user')->where('is_blocked','=','0')->get();
-            return view('assets.staff',compact('asset','staff'));
+            $staff = Staff::with('user')->where('is_blocked', '=', '0')->get(); // Ensure 'user' relationship is loaded
+            return view('assets.staff', compact('asset', 'staff'));
         }
 
 
@@ -292,36 +292,37 @@
         public function bulkAction(Request $request)
         {
             $action = $request->input('action');
-            $assetIds = explode(',', $request->input('selected_assets'));
+            $assetIds = explode(',', $request->input('selected_items'));
 
             switch ($action) {
-                case 'edit':
-                    // Handle bulk edit
+                case 'register':
                     foreach ($assetIds as $id) {
-                        // Edit logic
+                        $asset = Asset::findOrFail($id);
+                        $asset->registerAsset();
+                    }
+                    break;
+                case 'unregister':
+                    foreach ($assetIds as $id) {
+                        $asset = Asset::findOrFail($id);
+                        $asset->unregisterAsset();
                     }
                     break;
                 case 'approve':
-                    // Handle bulk approve
                     foreach ($assetIds as $id) {
-                        $asset = Asset::approveNewRequest($id);
+                        $asset = Asset::findOrFail($id);
+                        $asset->approveNewRequest();
                     }
                     break;
                 case 'disapprove':
-                    // Handle bulk disapprove
                     foreach ($assetIds as $id) {
-                        $asset = Asset::disapproveNewRequest($id);
-                    }
-                    break;
-                case 'assign':
-                    // Handle bulk assign
-                    foreach ($assetIds as $id) {
-                        $asset = Asset::assignAsset($id);
+                        $asset = Asset::findOrFail($id);
+                        $asset->disapproveNewRequest();
                     }
                     break;
                 case 'delete':
                     foreach ($assetIds as $id) {
-                        Asset::destroy($id);
+                        $asset = Asset::findOrFail($id);
+                        $asset->destroy($id);
                     }
                     break;
                 default:
@@ -330,15 +331,6 @@
 
             return back()->with('success', 'Bulk action performed successfully');
         }
-
-
-
-
-
-
-
-
-
 
         // Additional Asset functionalities
 

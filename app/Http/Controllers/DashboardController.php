@@ -40,8 +40,7 @@ class DashboardController extends Controller
 
         // Fetch the count of unassigned users
         if(auth()->user()->hasRole('Asset Manager')) {
-            $vendors = Vendor::all();
-        }
+            $vendors = Vendor::paginate(5);        }
 
  return view('dashboard', compact('officesStaffCount','roles','admins','assetManagers','executives','users','staff','unroledUsers' , 'unasignedStaff', 'pendingProblems', 'pendingMaintenances','totalAssets','vendors','offices','users'));
     }

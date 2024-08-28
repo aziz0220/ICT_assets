@@ -36,7 +36,7 @@ The ICT Asset Register System is a comprehensive solution designed for The Open 
 
 ## Technologies Used
 
-- Backend Framework: Laravel
+- Backend Framework: LARAVEL v11.14.0  plugin v1.0.5
 - Database: PostgreSQL/MariaDB
 - Frontend: Responsive Web Design (following WCAG guidelines)
 - Server: Ubuntu 22.04
@@ -46,33 +46,46 @@ The ICT Asset Register System is a comprehensive solution designed for The Open 
 
 1. Clone the repository
 
-git clone https://github.com/your-repo/ict-asset-register.git
+```bash
+git clone https://git.out.ac.tz/isda/ict_register.git
+```
 
 2. Navigate to the project directory
 
+```bash
 cd ict-asset-register
+```
 
 3. Install dependencies
 
+```bash
 composer install
 npm install
+```
 
 4. Copy the .env.example file to .env and configure your environment variables
 
+```
 cp .env.example .env
+```
 
 5. Generate application key
 
+```bash
 php artisan key:generate
+```
 
 6. Run migrations and seed the database
 
+```bash
 php artisan migrate --seed
+```
 
 7. Start the development server
 
+```bash
 php artisan serve
-
+```
 
 ## Usage
 
