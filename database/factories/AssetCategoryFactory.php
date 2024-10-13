@@ -13,8 +13,16 @@ class AssetCategoryFactory extends Factory{
     public function definition(): array
     {
         return [
-            'category_name' => $this->faker->word,
+            'category_name' => $this->faker->randomElement([
+                'Software',
+                'Hardware',
+                'Networking Equipment',
+                'Servers',
+                'Printers',
+                'Projectors'
+            ]),
             'created_by' => $this->faker->randomElement(User::pluck('id')->toArray()),
         ];
     }
 }
+

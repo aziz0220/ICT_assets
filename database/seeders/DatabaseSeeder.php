@@ -163,8 +163,8 @@ class DatabaseSeeder extends Seeder
         $assetManagerRole = Role::create(['name' => 'Asset Manager']);
         $systemAdminRole = Role::create(['name' => 'System Admin']);
         $executiveRole = Role::create(['name' => 'Executive Manager']);
-        $creatorRole = Role::create(['name' => 'creator']);
-        $publisherRole = Role::create(['name' => 'publisher']);
+//        $creatorRole = Role::create(['name' => 'creator']);
+//        $publisherRole = Role::create(['name' => 'publisher']);
         $admin = Role::create(['name' => 'admin']);
 
         //Sync Permissions to Roles
@@ -173,9 +173,8 @@ class DatabaseSeeder extends Seeder
         $assetManagerRole->syncPermissions($this->assetManagerPermissions);
         $systemAdminRole->syncPermissions($this->systemAdminPermissions);
         $executiveRole->syncPermissions($this->executiveManagerPermissions);
-        $publisherRole->syncPermissions($this->publisherPermissions);
-        $creatorRole->syncPermissions($this->creatorPermissions);
-
+//        $publisherRole->syncPermissions($this->publisherPermissions);
+//        $creatorRole->syncPermissions($this->creatorPermissions);
         $admin->givePermissionTo(Permission::all());
 
         //Assigning Roles:

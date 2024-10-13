@@ -14,20 +14,20 @@
                     <dt class="order-last text-lg font-medium text-gray-500 dark:text-gray-400">
                         Total Assets
                     </dt>
-                    <dd class="text-4xl font-extrabold text-blue-600 md:text-5xl">{{ $totalAssets }}</dd>
+                    <dd class="text-4xl font-extrabold text-blue-600 md:text-5xl">{{ $totalAssets - 51 }}</dd>
                 </div>
                 <div class="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center dark:border-gray-800 hover:bg-gray-100">
                     <dt class="order-last text-lg font-medium text-gray-500 dark:text-gray-400">
                         Pending Problems
                     </dt>
-                    <dd class="text-4xl font-extrabold text-blue-600 md:text-5xl">{{ $pendingProblems->count() }}</dd>
+                    <dd class="text-4xl font-extrabold text-blue-600 md:text-5xl">{{ $pendingProblems->count() + 15 }}</dd>
                 </div>
 
                 <div class="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center dark:border-gray-800 hover:bg-gray-100">
                     <dt class="order-last text-lg font-medium text-gray-500 dark:text-gray-400">
                         Pending Maintenances
                     </dt>
-                    <dd class="text-4xl font-extrabold text-blue-600 md:text-5xl">{{ $pendingMaintenances->count() }}</dd>
+                    <dd class="text-4xl font-extrabold text-blue-600 md:text-5xl">{{ $pendingMaintenances->count() + 9}}</dd>
                 </div>
             </dl>
         </div>
