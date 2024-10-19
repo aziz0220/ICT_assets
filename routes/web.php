@@ -84,6 +84,8 @@ Route::middleware(['auth','role.check'])->group(function () {
         Route::resource('/staff',StaffController::class);
         Route::get('/staff/block/{staff}',[StaffController::class,'block'])->name('staff.block');
         Route::get('/staff/unblock/{staff}',[StaffController::class,'unblock'])->name('staff.unblock');
+        Route::get('/staff/sethead/{staff}',[StaffController::class,'setHead'])->name('staff.sethead');
+        Route::get('/staff/unsethead/{staff}',[StaffController::class,'unSetHead'])->name('staff.unsethead');
         Route::resource('/user',UserController::class);
         Route::resource('/offices',OfficeController::class);
         Route::post('/offices/{office}/set-head', [OfficeController::class, 'setHead'])->name('offices.setHead');

@@ -19,9 +19,9 @@ class StaffController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->input('per_page', 10);
-        $staff = Staff::with('user', 'office')->where('is_blocked', '=', '0')->get(); // Ensure 'user' and 'office' relationships are loaded
-        $blocked = Staff::with('office','user')->where('is_blocked', true)->latest()->paginate($perPage, ['*'], 'staff_page');
-        return view('staff.index', compact('staff','blocked'));
+        $staff = Staff::with('user', 'office')->latest()->paginate($perPage, ['*'], 'staff_page');
+//        $blocked = Staff::with('office','user')->where('is_blocked', true)->latest()->paginate($perPage, ['*'], 'staff_page');
+        return view('staff.index', compact('staff'));
     }
 
     /**
@@ -30,7 +30,8 @@ class StaffController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {          $offices = Office::all();
+    {
+        $offices = Office::all();
         return view('staff.create', compact('offices')); // Assuming a staff create view
     }
 
@@ -56,12 +57,12 @@ class StaffController extends Controller
             'password' => $input['password'],
 
         ]);
-
-        $user->assignRole('Staff');
         $staff = Staff::create([
             'user_id' => $user->id,
             'office_id' => $input['office_id'],
         ]);
+        $user->assignRole('Staff');
+
         return redirect()->route('staff.index')
             ->with('success', 'Staff member created successfully!');
     }
@@ -75,7 +76,7 @@ class StaffController extends Controller
     public function show(int $id)
     {
         $staff = Staff::findOrFail($id);
-        return view('staff.show', compact('staff')); // Assuming a staff show view
+        return view('staff.show', compact('staff'));
     }
 
     /**
@@ -106,11 +107,12 @@ class StaffController extends Controller
             'email' => 'required|email',
             'office_id' => 'required|integer',
         ]);
-
         // Update User with validated data
-        $staff->user->update($validatedData);
-
-        // Update Staff (optional, if additional staff-specific fields need update)
+        $staff->user->update([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+        ]);
+        // Update Staff with validated data
         $staff->update(['office_id' => $validatedData['office_id']]);
 
         return redirect()->route('staff.index')
@@ -127,10 +129,10 @@ class StaffController extends Controller
     public function destroy(int $id)
     {
         $staff = Staff::findOrFail($id);
+        $user_id = $staff->user_id;
         $staff->delete();
-        $user = User::findOrFail($staff->user_id);
+        $user = User::findOrFail($user_id);
         $user->removeRole('Staff');
-
         $user->delete();
         return redirect()->route('staff.index')
             ->with('success', 'Staff member deleted successfully!');
@@ -167,36 +169,78 @@ class StaffController extends Controller
     public function bulkAction(Request $request)
     {
         $action = $request->input('action');
-        $assetIds = explode(',', $request->input('selected_items'));
+        $staffIds = explode(',', $request->input('selected_items'));
 
         switch ($action) {
             case 'delete':
-                foreach ($assetIds as $id) {
-                    User::destroy($id);
+                foreach ($staffIds as $id) {
+                    Staff::destroy($id);
+                }
+                break;
+            case 'block':
+                foreach ($staffIds as $id) {
+                    Staff::block($id);
+                }
+                break;
+            case 'unblock':
+                foreach ($staffIds as $id) {
+                    Staff::unblock($id);
                 }
                 break;
             default:
                 return back()->with('error', 'Invalid action selected');
         }
-
         return back()->with('success', 'Bulk action performed successfully');
     }
 
-    public function setHead (int $id, Office $office_id) {
-        $office = Office::findOrFail($office_id);
+    public function setHead (int $id) {
         $staff = Staff::findOrFail($id);
-        if ($office->head_office_id == $id) {
-
-
-
+        if($staff){
+        if($staff->user->hasRole('Staff')) {
+            if ($staff->office->head_id) {
+                if ($staff->office->head_id == $id) {
+                    return back()->with('error', 'Staff member is already head of office!');
+             }
+                return back()->with('error', 'Office already has a head!');
+            }
+            $staff->user->removeRole('Staff');
+            $staff->user->assignRole('Head Office');
+            $staff->office->head_id = $staff->id;
+            $staff->office->save();
+            return redirect()->route('staff.index')
+                ->with('success', 'Head of office set successfully!');
         }
-
-        $staff->is_head = true;
-        $staff->save();
-        return redirect()->route('staff.index')
-            ->with('success', 'Head of office set successfully!');
+        else if($staff->user->hasRole('Head Office')){
+            return back()->with('error', 'Already a head of office!');
+        }
+        return back()->with('error', 'System Internal Fail!');
+    }
+    else
+    {
+        return back()->with('error', 'Staff member not found!');
+    }
     }
 
+    public function unSetHead (int $id)
+    {
+        $staff = Staff::findOrFail($id);
 
-
+        if ($staff->user->hasRole('Head Office')) {
+            if (!$staff->office->head_id) {
+                if ($staff->office->head_id != $id) {
+                    return back()->with('error', 'Staff member is not head of office!');
+                }
+                return back()->with('error', 'Office has no head!');
+            }
+            $staff->user->removeRole('Head Office');
+            $staff->user->assignRole('Staff');
+            $staff->office->head_id = null;
+            $staff->office->save();
+            return redirect()->route('staff.index')
+                ->with('success', 'Head of office set successfully!');
+        } else if ($staff->user->hasRole('Staff')) {
+            return back()->with('error', 'This is not a head of office!');
+        }
+        return back()->with('error', 'System Internal Fail!');
+    }
 }

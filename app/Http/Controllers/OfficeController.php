@@ -28,6 +28,7 @@ class OfficeController extends Controller
     {
         $perPage = $request->input('per_page', 10);
         $offices = Office::with('headOffice.user')->paginate($perPage, ['*'], 'staff_page');
+        $staff = Staff::with('user')->where('office_id', '')->get();
         return view('offices.index', compact('offices'));
     }
 
@@ -36,10 +37,17 @@ class OfficeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('offices.create');
+        if ($request->expectsJson()) {
+            return response()->json([
+                'html' => view('offices.partials.add_new_row')->render(),
+            ]);
+        }
+
+        return view('offices.partials.add_new_row');
     }
+
 
     /**
      * Store a newly created office in storage.
@@ -49,15 +57,20 @@ class OfficeController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'location' => 'required|string|max:255',
         ]);
 
-        Office::create($request->all());
-
+        $office = Office::create($validated);
+        if ($request->expectsJson()) {
+            return response()->json([
+                'html' => view('offices.partials.office_row', compact('office'))->render(),
+            ]);
+        }
         return redirect()->route('offices.index')->with('success', 'Office created successfully.');
     }
+
 
     /**
      * Display the specified office.
@@ -79,6 +92,10 @@ class OfficeController extends Controller
      */
     public function edit(Office $office)
     {
+        if (request()->expectsJson()) {
+            return view('offices.partials.edit_office_row', compact('office'));
+        }
+
         $staff = Staff::with('user')->where('office_id', $office->id)->get();
         return view('offices.edit', compact('office', 'staff'));
     }
@@ -103,6 +120,13 @@ class OfficeController extends Controller
             $this->setHead($request, $office);
         }
         $office->update($request->all());
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'html' => view('offices.partials.office_row', compact('office'))->render()
+            ]);
+        }
+
         return redirect()->route('offices.index')->with('success', 'Office updated successfully.');
     }
 
@@ -185,17 +209,15 @@ class OfficeController extends Controller
     {
         $action = $request->input('action');
         $assetIds = explode(',', $request->input('selected_items'));
-
         switch ($action) {
             case 'delete':
                 foreach ($assetIds as $id) {
-                    User::destroy($id);
+                    Office::destroy($id);
                 }
                 break;
             default:
                 return back()->with('error', 'Invalid action selected');
         }
-
         return back()->with('success', 'Bulk action performed successfully');
     }
 

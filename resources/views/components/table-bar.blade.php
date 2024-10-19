@@ -1,5 +1,5 @@
 @props(['class'])
-<div class="flex space-x-4 h-14" >
+<div class="flex space-x-4 h-14 items-center bg-white/50">
     <form id="bulk-action-form" method="POST" action="{{ route($class . '.bulk-action') }}">
         @csrf
         <input type="hidden" name="selected_items" id="selected_items">
@@ -32,12 +32,11 @@
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 3.75V16.5L12 14.25 7.5 16.5V3.75m9 0H18A2.25 2.25 0 0 1 20.25 6v12A2.25 2.25 0 0 1 18 20.25H6A2.25 2.25 0 0 1 3.75 18V6A2.25 2.25 0 0 1 6 3.75h1.5m9 0h-9" />
                 </svg>
-
             </button>
             @endcan
             <button
                 type="button"
-                class="h-full inline-block p-3 text-gray-700 hover:bg-gray-50 focus:relative dark:text-gray-200 dark:hover:bg-gray-800"
+                class="h-full p-3 text-gray-700 hover:bg-gray-50 focus:relative dark:text-gray-200 dark:hover:bg-gray-800"
                 title="Delete"
                 onclick="setActionAndSubmit('delete')"
                 disabled
@@ -48,29 +47,50 @@
             </button>
         </div>
     </form>
-    <form id="pagination-form" method="GET" action="{{ route($class . '.index') }}" class="">
+
+    <form id="pagination-form" method="GET" action="{{ route($class . '.index') }}">
         {{--<label for="pagination-number" class="mr-2">Items per page</label>--}}
-        <select title="Items per page" class="w-full h-full text-gray-600 bg-white border rounded-lg shadow-sm outline-none appearance-none focus:ring-offset-2 focus:ring-indigo-600 focus:ring-2" id="pagination-number" name="per_page" onchange="document.getElementById('pagination-form').submit()">
+        <div class="overflow-hidden rounded-full border bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
+        <select title="Items per page" class="rounded-full border" id="pagination-number" name="per_page" onchange="document.getElementById('pagination-form').submit()">
             <option value="10" {{ request('per_page') == 10 ? 'selected' : '' }}>10</option>
             <option value="25" {{ request('per_page') == 25 ? 'selected' : '' }}>25</option>
             <option value="50" {{ request('per_page') == 50 ? 'selected' : '' }}>50</option>
             <option value="100" {{ request('per_page') == 100 ? 'selected' : '' }}>100</option>
         </select>
+        </div>
     </form>
     @role('System Admin')
-    <div class="inline-flex overflow-hidden rounded-md border bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
+    <div class=" inline-flex overflow-hidden rounded-md border bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900" style="margin-left: auto">
         <a
             type="button"
             class="inline-block p-3 text-gray-700 hover:bg-gray-50 focus:relative dark:text-gray-200 dark:hover:bg-gray-800"
             title="Create new {{$class}}"
-            href="{{ route($class . '.create') }}"
+            hx-get="{{ route('offices.create') }}"
+        hx-target="#office-table-body"
+        hx-swap="afterbegin"
         >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-            </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
         </a>
+
     </div>
     @endrole
+
+{{--    @role('System Admin')--}}
+{{--    <div class=" inline-flex overflow-hidden rounded-md border bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900" style="margin-left: auto">--}}
+{{--        <a--}}
+{{--            type="button"--}}
+{{--            class="inline-block p-3 text-gray-700 hover:bg-gray-50 focus:relative dark:text-gray-200 dark:hover:bg-gray-800"--}}
+{{--            title="Create new {{$class}}"--}}
+{{--            href="{{ route($class . '.create') }}"--}}
+{{--        >--}}
+{{--            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">--}}
+{{--                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />--}}
+{{--            </svg>--}}
+{{--        </a>--}}
+{{--    </div>--}}
+{{--    @endrole--}}
 </div>
 <script>
     function toggleSelectAll() {

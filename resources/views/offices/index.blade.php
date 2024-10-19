@@ -1,5 +1,4 @@
 <x-layout :sectionName="__('Manage')" :pageName="__('Offices')">
-
     @if ($message = Session::get('success'))
         <div class="alert alert-success my-2">
             <p>{{ $message }}</p>
@@ -28,9 +27,9 @@
                     <th class="px-6 py-3 border-b border-gray-200 bg-gray-50"></th>
                 </tr>
                 </thead>
-                <tbody class="bg-white">
-                @foreach ($offices as $office)
-                    <tr class="odd:bg-gray-50">
+                <tbody class="bg-white" id="office-table-body">
+                    @foreach ($offices as $office)
+                    <tr class="odd:bg-gray-50" hx-get="{{ route('offices.edit', $office->id) }}" hx-trigger="dblclick" hx-target="this" hx-swap="this">
                         <td class="inset-y-0 start-0 bg-white px-4 py-2">
                             <label class="sr-only" for="Row {{ $office->id }}">Row {{ $office->id }}</label>
                             <input class="size-5 rounded border-gray-300 class-checkbox" type="checkbox" id="Row {{ $office->id }}" value="{{ $office->id }}" />
@@ -70,5 +69,4 @@
             <x-table-pagination :firstPage="$offices->onFirstPage()" :previous="$offices->appends(['per_page' => request('per_page')])->previousPageUrl()" :pages="$offices->links()->elements" :current="$offices->currentPage()" :more="$offices->hasMorePages()" :next="$offices->appends(['per_page' => request('per_page')])->nextPageUrl()"></x-table-pagination>
         </div>
     </div>
-
 </x-layout>

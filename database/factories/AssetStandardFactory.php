@@ -14,7 +14,7 @@ class AssetStandardFactory extends Factory{
     public function definition(): array
     {
         return [
-            'item_name' => $this->faker->randomElement(['ISO 9001', 'ISO 27001', 'ISO 45001']),
+            'item_name' => $this->faker->randomElement(['ISO 19770-1', 'ISO/IEC 19770-5', 'ISO/IEC 19770-1']),
             'category_id' =>$this->faker->randomElement(AssetCategory::pluck('id')->toArray()),
             'created_by' => $this->faker->randomElement(User::pluck('id')->toArray()),
         ];

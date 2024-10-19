@@ -2,18 +2,28 @@
 
 namespace Tests\Feature;
 
-// use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\SystemAdmin;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Spatie\Permission\Models\Role;
 
 class ExampleTest extends TestCase
 {
-    /**
-     * A basic test example.
-     */
+    use RefreshDatabase;
+
     public function test_the_application_returns_a_successful_response(): void
     {
-        $response = $this->get('/');
+        // Create the role if it doesn't exist
+        $role = Role::firstOrCreate(['name' => 'System Admin']);
 
-        $response->assertStatus(200);
+        // Create the user and assign the role
+        $user = SystemAdmin::factory()->create();
+        $user->assignRole($role);
+
+        // Act as the user
+        $this->actingAs($user);
+
+        // Check that the user has the role
+        $this->assertTrue($user->hasRole('System Admin'));
     }
 }

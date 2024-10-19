@@ -4,6 +4,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@vx.x.x/dist/alpine.min.js" defer></script>
+<script src="https://unpkg.com/htmx.org@1.6.1"></script>
 <html  lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
@@ -14,8 +15,11 @@
     <title>{{ config('app.name', 'ICT Register') }}</title>
     @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
-<body class="bg-ash-gray/40 text-black/80 h-screen bg-cover bg-center min-h-screen flex flex-col" style="background-image: url({{Vite::asset('resources/images/background1.jpeg')}})">
-<x-background></x-background>
+<body class="text-black/80 h-screen min-h-screen flex flex-col"
+      style="background-attachment: fixed;"
+{{--      style="background-image: url({{Vite::asset('resources/images/background1.jpeg')}})"--}}
+>
+<x-background> </x-background>
 <div class="flex">
     <div class="fixed h-full">
 {{--    <x-sidebar-dynamic></x-sidebar-dynamic>--}}
