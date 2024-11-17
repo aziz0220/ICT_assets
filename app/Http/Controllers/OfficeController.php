@@ -147,13 +147,23 @@ class OfficeController extends Controller
         $request->validate([
             'staff_id' => 'required|exists:staff,id',
         ]);
+
         $staff = Staff::find($request->staff_id);
+
+        // Check if the staff has the role 'Staff' and remove it
+        if ($staff->user->hasRole('Staff')) {
+            $staff->user->removeRole('Staff');
+            $staff->user->assignRole('Head Office');
+        }
+
+        // Associate the staff with the office as head
         $office->headOffice()->associate($staff);
-        $staff->user->removeRole('Staff');
-        $staff->user->assignRole('Head Office');
         $office->save();
-        return redirect()->route('offices.show', $office)->with('success', 'Head office updated successfully.');
+
+        return redirect()->route('offices.show', $office)
+            ->with('success', 'Head office updated successfully.');
     }
+
 
     public function removeHead(Office $office)
     {
@@ -181,29 +191,65 @@ class OfficeController extends Controller
             'staff_id' => 'required|exists:staff,id',
         ]);
         $staff = Staff::find($request->staff_id);
-        $staff->office()->associate($office);
 
-        $staff->save();
+//        if ($staff->user->hasRole('Head Office')) {
+//            return redirect()->route('offices.show', $office)->with('error', 'Head office cannot be assigned to an office.');
+//        }
+//
+        if ($staff->office_id !== null) {
+            return redirect()->route('offices.show', $office)->with('error', 'Staff is already assigned to another office.');
+        }
+
+
+//        $staff->office_id = $office->id;
+////
+////        $staff->office()->associate($office);
+////        $staff->save();
+
+        // Ensure success message is returned
         return redirect()->route('offices.show', $office)->with('success', 'Staff assigned to office successfully.');
     }
 
-// Method to edit staff office
-    public function editStaffOffice(Request $request, Staff $staff)
-    {
-        $offices = Office::all();
-        return view('staff.editoffice', compact('staff', 'offices'));
-    }
 
-// Method to update staff office
-    public function updateStaffOffice(Request $request, Staff $staff)
+// Method to edit office staff
+public function editStaffOffice(Request $request, Office $office)
+{
+    $staff = Staff::with('user')->get();
+    //consider fixing the view
+    return view('offices.editstaff', compact('office', 'staff'));
+}
+
+// Method to update office staff
+    public function updateOfficeStaff(Request $request, Office $office)
     {
         $request->validate([
-            'office_id' => 'nullable|exists:offices,id',
+            'staff_ids' => 'required|array',
+            'staff_ids.*' => 'exists:staff,id',
         ]);
-        $staff->office()->associate($request->office_id);
-        $staff->save();
-        return redirect()->route('staff.show', $staff)->with('success', 'Staff office updated successfully.');
+
+        $staffIds = $request->staff_ids;
+
+        // Remove staff not in the provided list
+        $office->staff()->whereNotIn('id', $staffIds)->update(['office_id' => null]);
+        // Add each staff ID to the office
+        foreach ($staffIds as $staffId) {
+            $staff = Staff::find($staffId);
+            if ($staff->user->hasRole('Head Office')) {
+                return redirect()->route('offices.show', $office)
+                    ->with('error', 'Cannot assign Head Office staff to an office.');
+            }
+            if ($staff->office_id && $staff->office_id !== $office->id) {
+                return redirect()->route('offices.show', $office)
+                    ->with('error', 'Some staff are already assigned to another office.');
+            }
+            // Reassign staff to the office
+            $staff->office()->associate($office);
+            $staff->save();
+        }
+        return redirect()->route('offices.show', $office)->with('success', 'Office staff updated successfully.');
     }
+
+
 
     public function bulkAction(Request $request)
     {

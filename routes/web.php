@@ -93,7 +93,7 @@ Route::middleware(['auth','role.check'])->group(function () {
         Route::get('/offices/{office}/assign-staff', [OfficeController::class, 'assignStaffForm'])->name('offices.assignStaffForm');
         Route::post('/offices/{office}/assign-staff', [OfficeController::class, 'assignStaff'])->name('offices.assignStaff');
         Route::get('/staff/{staff}/edit-office', [OfficeController::class, 'editStaffOffice'])->name('staff.editOffice');
-        Route::put('/staff/{staff}/update-office', [OfficeController::class, 'updateStaffOffice'])->name('staff.updateOffice');
+        Route::put('/staff/{staff}/update-office', [OfficeController::class, 'updateOfficeStaff'])->name('offices.updateOfficeStaff');
     });
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

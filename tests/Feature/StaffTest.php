@@ -191,22 +191,33 @@ class StaffTest extends TestCase
 
     /** @test */
 
-    public function it_can_set_head_office(){
+    public function it_can_set_head_office()
+    {
         // Simulate a logged-in user
-        // Create the role if it doesn't exist
         $adminRole = Role::firstOrCreate(['name' => 'System Admin']);
         $staffRole = Role::firstOrCreate(['name' => 'Staff']);
         $headrole = Role::firstOrCreate(['name' => 'Head Office']);
+
         // Create the user and assign the role
         $user = SystemAdmin::factory()->create();
         $user->assignRole($adminRole);
+
         // Act as the user
         $this->actingAs($user);
-        Office::factory()->create();
-        $this->assertTrue($user->hasRole('System Admin'));
-        $staff= Staff::factory()->create();
+
+        // Create an office
+        $office = Office::factory()->create();
+
+        // Create a staff member and associate it with the office
+        $staff = Staff::factory()->create([
+            'office_id' => $office->id,
+        ]);
         $staff->user->assignRole($staffRole);
+
+        // Make a request to set the staff member as the head of the office
         $response = $this->get(route('staff.sethead', $staff->id));
+
+        // Assert that the staff member has been set as the head
         $response->assertRedirect(route('staff.index'));
         $response->assertSessionHas('success', 'Head of office set successfully!');
         $this->assertTrue($staff->user->hasRole('Head Office'));
@@ -215,6 +226,7 @@ class StaffTest extends TestCase
             'head_id' => $staff->id,
         ]);
     }
+
 
 
     /** @test */
@@ -230,17 +242,19 @@ class StaffTest extends TestCase
         $user->assignRole($adminRole);
         // Act as the user
         $this->actingAs($user);
-        Office::factory()->create();
+        $office=Office::factory()->create();
         $this->assertTrue($user->hasRole('System Admin'));
-        $staff= Staff::factory()->create();
+        $staff = Staff::factory()->create([
+            'office_id' => $office->id,
+        ]);
         $staff->user->assignRole($staffRole);
         $response = $this->get(route('staff.unsethead', $staff->id));
         $response->assertSessionHas('error', 'This is not a head of office!');
         $response1 =$this->get(route('staff.sethead', $staff->id));
         $response1->assertRedirect(route('staff.index'));
         $response1->assertSessionHas('success', 'Head of office set successfully!');
-//        $staff->user->removeRole($staffRole);
-//        $staff->user->assignRole($headrole);
+////        $staff->user->removeRole($staffRole);
+////        $staff->user->assignRole($headrole);
         $response = $this->get(route('staff.unsethead', $staff->id));
         $response->assertRedirect(route('staff.index'));
         $response->assertSessionHas('success', 'Head of office set successfully!');
@@ -250,6 +264,8 @@ class StaffTest extends TestCase
             'head_id' => null,
         ]);
     }
+
+
 
 
 
